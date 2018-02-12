@@ -28,9 +28,7 @@ pipeline {
 
         stage('Show results.') {
             steps {
-              script{
                 sh "echo ${update_retval}"
-              }
             }
         }
 
