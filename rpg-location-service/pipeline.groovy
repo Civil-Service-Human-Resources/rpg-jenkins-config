@@ -11,6 +11,7 @@ pipeline {
                 sh "echo deploy job started "
                 sh "echo dockerTag: ${params.dockerTag}"
                 sh "echo environmentTag: ${params.environment}"
+                sh "ls -ls ${WORKSPACE}"
             }
         }
 
