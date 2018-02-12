@@ -5,8 +5,7 @@ DOCKER_TAG=${1}
 DEPLOY_ENV=${2}
 
 CONTAINER_DEFINITION=$(cat <<EOF
-{
-        "containerDefinitions": [
+        
           {
             "name": "location-service",
             "image": "cshr-docker-rpg.bintray.io/rpg/location-service:${DOCKER_TAG}",
@@ -20,12 +19,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
                 }
             ]
           }
-        ],
-        "family": "${DEPLOY_ENV}-location-service"
-}
 EOF
 )
 
-echo ${CONTAINER_DEFINITION}
-
-aws ecs register-task-definition --family ${DEPLOY_ENV}-location-service --container-definitions ${CONTAINER_DEFINITION}
+aws ecs register-task-definition --family ${DEPLOY_ENV}-location-service --container-definitions "${CONTAINER_DEFINITION}"

@@ -16,8 +16,18 @@ pipeline {
 
         stage('Update the task definition') {
             steps {
-                sh "./deploy.sh ${params.dockerTag} ${params.environment}"
+                def update_retval = sh(script:"./deploy.sh ${params.dockerTag} ${params.environment}", returnStdout: true)
             }
         }
+
+        stage('Update the service') {
+            steps {
+                def update_output = readJSON text: ${update_retval}
+                def arn = update_output['taskDefinition']['taskDefinitionArn']
+                sh "./update-service.sh ${arn} ${params.environment}"
+            }
+        }
+
+
     }
 }

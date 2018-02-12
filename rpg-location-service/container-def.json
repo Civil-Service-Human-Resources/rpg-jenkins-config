@@ -1,5 +1,4 @@
-{
-        "containerDefinitions": [
+        [
           {
             "name": "location-service",
             "image": "cshr-docker-rpg.bintray.io/rpg/location-service:${DOCKER_TAG}",
@@ -13,6 +12,5 @@
                 }
             ]
           }
-        ],
-        "family": "family"
-}
+        ]
+
