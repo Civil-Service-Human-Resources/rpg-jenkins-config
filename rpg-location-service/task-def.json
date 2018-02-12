@@ -1,0 +1,16 @@
+[
+  {
+    "name": "location-service",
+    "image": "cshrrpg/location-service:latest",
+    "memory": 256,
+    "essential": true,
+    "hostname": "location-service",
+    "portMappings": [
+        {
+            "containerPort": 8080,
+            "hostPort": 82
+        }
+    ]
+  }
+
+]
