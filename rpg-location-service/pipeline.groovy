@@ -1,3 +1,5 @@
+def update_retval = 'NA'
+
 pipeline {
     agent any
     environment {
@@ -28,7 +30,7 @@ pipeline {
 
         stage('Show results.') {
             steps {
-                sh "echo ${update_retval}"
+                sh "echo update_retval: ${update_retval}"
             }
         }
 
