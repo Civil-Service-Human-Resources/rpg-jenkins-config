@@ -16,7 +16,7 @@ pipeline {
 
         stage('Update the task definition') {
             steps {
-                def update_retval = sh(script:"./deploy.sh ${params.dockerTag} ${params.environment}", returnStdout: true)
+                def update_retval = sh script:"./deploy.sh ${params.dockerTag} ${params.environment}", returnStdout: true
             }
         }
 
