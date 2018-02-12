@@ -7,8 +7,8 @@ pipeline {
     stages {
         stage('Deploy') {
             steps {
-                sh 'echo deploy job started '
-                sh 'echo ${params.dockerTag}'
+                sh "echo deploy job started "
+                sh "echo ${params.dockerTag}"
             }
         }
     }
