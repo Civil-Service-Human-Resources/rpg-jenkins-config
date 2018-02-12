@@ -1,0 +1,18 @@
+{
+        "containerDefinitions": [
+          {
+            "name": "location-service",
+            "image": "cshr-docker-rpg.bintray.io/rpg/location-service:${DOCKER_TAG}",
+            "memory": 256,
+            "essential": true,
+            "hostname": "location-service",
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 82
+                }
+            ]
+          }
+        ],
+        "family": "family"
+}
