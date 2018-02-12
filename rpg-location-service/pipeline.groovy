@@ -26,10 +26,18 @@ pipeline {
             }
         }
 
+        stage('Show results.') {
+            steps {
+              script{
+                sh "echo ${update_retval}"
+              }
+            }
+        }
+
         stage('Update the service') {
             steps {
               script {
-                def update_output = readJSON text: ${update_retval}
+                def update_output = readJSON text: "${update_retval}"
                 def arn = update_output['taskDefinition']['taskDefinitionArn']
                 sh "${env.WORKING_DIR}/update-service.sh ${arn} ${params.environment}"
               }
