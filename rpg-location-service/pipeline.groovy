@@ -30,7 +30,7 @@ pipeline {
 
         stage('Show results.') {
             steps {
-                sh "echo update_retval: ${update_retval}"
+                echo "${update_retval}"
             }
         }
 
