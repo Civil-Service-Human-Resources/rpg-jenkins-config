@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+      WORKING_DIR=env.WORKSPACE+'/rpg-location-service'
+    }
     parameters {
       string(defaultValue: 'latest', description: '', name: 'dockerTag')
       string(defaultValue: 'dev', description: '', name: 'environment')
@@ -11,14 +14,13 @@ pipeline {
                 sh "echo deploy job started "
                 sh "echo dockerTag: ${params.dockerTag}"
                 sh "echo environmentTag: ${params.environment}"
-                sh "ls -ls ${WORKSPACE}"
             }
         }
 
         stage('Update the task definition') {
             steps {
               script{
-                def update_retval = sh script:"deploy.sh ${params.dockerTag} ${params.environment}", returnStdout: true
+                def update_retval = sh script:"${env.WORKING_DIR}/deploy.sh ${params.dockerTag} ${params.environment}", returnStdout: true
               }
             }
         }
@@ -28,7 +30,7 @@ pipeline {
               script {
                 def update_output = readJSON text: ${update_retval}
                 def arn = update_output['taskDefinition']['taskDefinitionArn']
-                sh "update-service.sh ${arn} ${params.environment}"
+                sh "${env.WORKING_DIR}/update-service.sh ${arn} ${params.environment}"
               }
             }
         }
