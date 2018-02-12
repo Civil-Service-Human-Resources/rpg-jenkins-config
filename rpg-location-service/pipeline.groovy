@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-      WORKING_DIR=${WORKSPACE}+'/rpg-location-service'
+      WORKING_DIR='${WORKSPACE}'+'/rpg-location-service'
     }
     parameters {
       string(defaultValue: 'latest', description: '', name: 'dockerTag')
