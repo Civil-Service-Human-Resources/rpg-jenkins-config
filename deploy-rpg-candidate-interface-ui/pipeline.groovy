@@ -20,5 +20,29 @@ pipeline {
             }
         }
 
+        stage('Update the task definition') {
+            steps {
+              script{
+                update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment}", returnStdout: true
+              }
+            }
+        }
+
+        stage('Show results.') {
+            steps {
+                echo "${update_retval}"
+            }
+        }
+
+        stage('Update the service') {
+            steps {
+              script {
+                def update_output = readJSON text: "${update_retval}"
+                def arn = update_output['taskDefinition']['taskDefinitionArn']
+                sh "${env.WORKING_DIR}/update-service.sh ${arn} ${params.environment}"
+              }
+            }
+        }
+
     }
 }
