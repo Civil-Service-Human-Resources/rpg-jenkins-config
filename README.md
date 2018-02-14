@@ -8,7 +8,7 @@ Ideally we have a single entry point in Jenkins (or AN Other) that will take req
 
 Format of folders should be as follows:
 
-deploy-<name of github>
+deploy-\<name of github>
 
 so
 
