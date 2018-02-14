@@ -5,10 +5,10 @@ DOCKER_TAG=${1}
 DEPLOY_ENV=${2}
 
 CONTAINER_DEFINITION=$(cat <<EOF
-        
+
           {
             "name": "location-service",
-            "image": "cshr-docker-rpg.bintray.io/rpg/location-service:${DOCKER_TAG}",
+            "image": "cshr-docker-rpg.bintray.io/location-service:${DOCKER_TAG}",
             "memory": 256,
             "essential": true,
             "hostname": "location-service",
