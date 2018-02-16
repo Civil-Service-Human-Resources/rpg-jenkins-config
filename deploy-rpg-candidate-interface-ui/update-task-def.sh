@@ -21,7 +21,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
     "environment": [
       {
         "name": "API_URL",
-        "value": "http://api"
+        "value": "http://candidate-interface-api.${DEPLOY_ENV}.cshr-gov.uk"
       },
       {
         "name": "API_PORT",
