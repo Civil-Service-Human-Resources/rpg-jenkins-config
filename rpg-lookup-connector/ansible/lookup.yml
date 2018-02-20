@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env_to}}-efs-connector-stack"
+        "tag:Environment": "{{env_to}}"
+    register: ec2_remote_facts_output
+
+  - name: Debug the ec2_remote_facts
+    debug: var=ec2_remote_facts_output.instances[0].public_ip_address
