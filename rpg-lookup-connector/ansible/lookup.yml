@@ -1,3 +1,6 @@
+# Simple ansible script to lookup the IP of the EFS connector instance per environment
+# usage:
+# ansible-playbook lookup.yml --extra-vars "env_to=dev"
 ---
 - hosts: localhost
 
@@ -11,4 +14,5 @@
     register: ec2_remote_facts_output
 
   - name: Debug the ec2_remote_facts
-    debug: var=ec2_remote_facts_output.instances[0].public_ip_address
+    debug: 
+      msg: "{{env_to}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
