@@ -65,10 +65,12 @@
     when: item.state == 'directory'
 
 
-  - name: move forked plugins to package
+  - name: copy forked plugin files to package directory
     copy:
-      src: "{{item}}"
-      dest: "{{path_mu_plugins}}"
+      src: "{{item.src}}"
+      dest: "{{path_plugins}}/{{item.path}}"
       mode: 0644
     with_filetree:
-    - "{{package_src}}/third-party-plugins-forked/*.php"
+    - "{{package_src}}/third-party-plugins-forked/"
+    when: item.state == 'file'
+    no_log: true
