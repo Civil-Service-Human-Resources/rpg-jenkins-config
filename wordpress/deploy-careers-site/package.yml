@@ -63,7 +63,7 @@
     with_filetree:
     - "{{package_src}}/third-party-plugins-forked/"
     when: item.state == 'directory'
-
+    no_log: true
 
   - name: copy forked plugin files to package directory
     copy:
@@ -72,5 +72,24 @@
       mode: 0644
     with_filetree:
     - "{{package_src}}/third-party-plugins-forked/"
+    when: item.state == 'file'
+    no_log: true
+
+  - name: create standard plugins directories in package plugins directory
+    file:
+      path: "{{path_plugins}}/{{item.path}}"
+      state: directory
+    with_filetree:
+    - "{{package_src}}/third-party-plugins/"
+    when: item.state == 'directory'
+    no_log: true
+
+  - name: copy plugin files to package directory
+    copy:
+      src: "{{item.src}}"
+      dest: "{{path_plugins}}/{{item.path}}"
+      mode: 0644
+    with_filetree:
+    - "{{package_src}}/third-party-plugins/"
     when: item.state == 'file'
     no_log: true
