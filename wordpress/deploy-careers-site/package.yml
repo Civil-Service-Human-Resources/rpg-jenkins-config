@@ -2,6 +2,9 @@
 # release package.
 # TODO:
 # Feed in the git release branch identifier
+# Copy the result to bintray?
+# rename the zip appropriately
+# add details to release txt
 ---
 - hosts: localhost
   vars:
@@ -40,7 +43,6 @@
     file:
       path: "{{package_dest}}/release_note.txt"
       state: touch
-      mode: 0755
 
   - name: checkout the release branch
     git:
@@ -52,7 +54,6 @@
     copy:
       src: "{{item}}"
       dest: "{{path_mu_plugins}}"
-      mode: 0644
     with_fileglob:
     - "{{package_src}}/mu-plugins/*.php"
 
@@ -69,7 +70,6 @@
     copy:
       src: "{{item.src}}"
       dest: "{{path_plugins}}/{{item.path}}"
-      mode: 0644
     with_filetree:
     - "{{package_src}}/third-party-plugins-forked/"
     when: item.state == 'file'
@@ -88,8 +88,36 @@
     copy:
       src: "{{item.src}}"
       dest: "{{path_plugins}}/{{item.path}}"
-      mode: 0644
     with_filetree:
     - "{{package_src}}/third-party-plugins/"
     when: item.state == 'file'
     no_log: true
+
+  - name: create themes directory in package
+    file:
+      path: "{{path_themes}}/{{item.path}}"
+      state: directory
+    with_filetree:
+    - "{{package_src}}/theme/"
+    when: item.state == 'directory'
+    no_log: true
+
+  - name: copy theme directory to package
+    copy:
+      src: "{{item.src}}"
+      dest: "{{path_themes}}/{{item.path}}"
+    with_filetree:
+    - "{{package_src}}/theme/"
+    when: item.state == 'file'
+    no_log: true
+
+  - name: copy wp-config to root of package
+    copy:
+      src: "{{package_src}}/wp-config/wp-config.php"
+      dest: "{{package_dest}}/"
+
+  - name: create a zip
+    archive:
+      path: "{{package_dest}}/"
+      dest: "./release.zip"
+      format: zip
