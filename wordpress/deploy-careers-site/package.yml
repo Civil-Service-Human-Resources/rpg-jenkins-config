@@ -1,0 +1,74 @@
+# Given a release branch identifier, grab the contents and create a
+# release package.
+# TODO:
+# Feed in the git release branch identifier
+---
+- hosts: localhost
+  vars:
+    git_repo: git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git
+    git_branch: release
+    package_dest: ./deployment
+    package_src: ./source
+    package_folders:
+    - mu-plugins
+    - themes
+    - plugins
+    - sql
+
+    path_wp_content: "{{package_dest}}/wp-content"
+    path_mu_plugins: "{{path_wp_content}}/mu-plugins"
+    path_plugins: "{{path_wp_content}}/plugins"
+    path_themes: "{{path_wp_content}}/themes"
+    path_sql: "{{path_wp_content}}/sql"
+
+  tasks:
+
+  - name: create the source directory
+    file:
+      path: "{{package_src}}"
+      state: directory
+      mode: 0755
+
+  - name: create the deployment directory
+    file:
+      path: "{{package_dest}}/wp-content/{{item}}"
+      state: directory
+      mode: 0755
+    with_items: "{{package_folders}}"
+
+  - name: create a release note file
+    file:
+      path: "{{package_dest}}/release_note.txt"
+      state: touch
+      mode: 0755
+
+  - name: checkout the release branch
+    git:
+      repo: "git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git"
+      dest: "{{package_src}}"
+      version: "{{git_branch}}"
+
+  - name: move mu-plugins to package
+    copy:
+      src: "{{item}}"
+      dest: "{{path_mu_plugins}}"
+      mode: 0644
+    with_fileglob:
+    - "{{package_src}}/mu-plugins/*.php"
+
+  - name: create forked plugins directories in package plugins directory
+    file:
+      path: "{{path_plugins}}/{{item.path}}"
+      state: directory
+    with_filetree:
+    - "{{package_src}}/third-party-plugins-forked/"
+    when: item.state == 'directory'
+
+
+  - name: move forked plugins to package
+    copy:
+      src: "{{item}}"
+      dest: "{{path_mu_plugins}}"
+      mode: 0644
+    with_filetree:
+    - "{{package_src}}/third-party-plugins-forked/*.php"

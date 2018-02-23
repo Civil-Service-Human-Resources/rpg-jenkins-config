@@ -1,0 +1,70 @@
+##
+# Find the EFS Connector instance, and install tools on it.
+# This needs work due to ssh config
+
+# Verified with ansible 2.4.3
+
+---
+- hosts: localhost
+
+  tasks:
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+
+# Remote hosts
+- hosts: efs_hosts
+  vars:
+
+  tasks:
+
+  - name: install php
+    yum:
+      name: php
+      state: latest
+    become: true
+
+  - name: install php
+    yum:
+      name: php-mysql
+      state: latest
+    become: true
+
+  - name: install mysql
+    yum:
+      name: mysql
+      state: latest
+    become: true
+
+#https://make.wordpress.org/cli/handbook/installing/
+  - name: install the wordpress cli
+    shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+  - name: check it works
+    shell: php wp-cli.phar --info
+
+  - name: move it and chmod
+    shell: chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    become: true
+
+  - name: check it still works
+    environment:
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: cshr2017
+      WORDPRESS_DB_HOST: careers-site-db.dev.cshr-gov.uk
+      WORDPRESS_TABLE_PREFIX: wp_
+    shell: cd /data && wp --path=/data plugin list
