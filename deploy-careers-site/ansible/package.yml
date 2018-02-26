@@ -71,6 +71,8 @@
       path: "{{package_src}}"
       state: directory
       mode: 0755
+    tags:
+    - setup
 
   - name: create the deployment directory
     file:
@@ -78,12 +80,20 @@
       state: directory
       mode: 0755
     with_items: "{{package_folders}}"
+    tags:
+    - setup
+
+
 
   - name: checkout the release branch
     git:
       repo: "git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git"
       dest: "{{package_src}}"
       version: "{{git_branch}}"
+    tags:
+    - setup
+    - git_checkout
+
 
 
 #  _____  _             _
@@ -223,7 +233,7 @@
   - name: create a zip
     archive:
       path: "{{package_dest}}/"
-      dest: "./career-site_release_{{sysdate}}.zip"
+      dest: "../career-site_release_{{sysdate}}.zip"
       format: zip
     tags:
     - zip
