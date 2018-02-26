@@ -22,8 +22,8 @@ pipeline {
 
         stage('Git clone the branch') {
           steps {
-            sh "mkdir -p ${WORKING_DIR}/ansible/source"
-            dir("./deploy-careers-site/ansible/source") {
+            sh "mkdir -p ${WORKING_DIR}/source"
+            dir("./deploy-careers-site/source") {
               git(
                 url: 'git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git',
                 credentialsId: "${params.credentials_id}",
