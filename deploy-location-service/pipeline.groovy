@@ -3,7 +3,7 @@ def update_retval = 'NA'
 pipeline {
     agent any
     environment {
-      WORKING_DIR='${WORKSPACE}'+'/location-service'
+      WORKING_DIR='${WORKSPACE}'+'/deploy-location-service'
       AWS_DEFAULT_REGION='eu-west-1'
     }
     parameters {
