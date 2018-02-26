@@ -16,7 +16,7 @@ pipeline {
                 sh "echo deploy job started "
                 sh "echo dockerTag: ${params.branch_name}"
                 sh "echo environmentTag: ${params.built_by}"
-                sh "ls -ls ${WORKING_DIR}"
+                sh "ls -lsR ${WORKING_DIR}"
             }
         }
 
