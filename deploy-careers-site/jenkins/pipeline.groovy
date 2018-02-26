@@ -24,8 +24,8 @@ pipeline {
             sh "mkdir -p ${WORKING_DIR}/ansible/source"
             git(
                url: 'git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git',
-               credentialsId: ${params.credentials_id},
-               branch: ${params.branch_name}
+               credentialsId: "${params.credentials_id}",
+               branch: "${params.branch_name}"
             )
           }
         }
