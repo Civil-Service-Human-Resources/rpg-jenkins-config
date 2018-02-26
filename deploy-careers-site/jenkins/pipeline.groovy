@@ -28,6 +28,7 @@ pipeline {
                credentialsId: "${params.credentials_id}",
                branch: "${params.branch_name}"
             )
+            sh "ls -lsR ${WORKING_DIR}"
           }
         }
 
