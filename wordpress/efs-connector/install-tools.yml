@@ -60,11 +60,10 @@
     shell: chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
     become: true
 
-  - name: check it still works
     environment:
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: cshr2017
-      WORDPRESS_DB_HOST: careers-site-db.dev.cshr-gov.uk
-      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DB_NAME: "{{wordpress_db_name}}"
+      WORDPRESS_DB_USER: "{{wordpress_db_user}}"
+      WORDPRESS_DB_PASSWORD: "{{wordpress_db_password}}"
+      WORDPRESS_DB_HOST: "{{wordpress_db_host}}"
+      WORDPRESS_TABLE_PREFIX: "{{wordpress_table_prefix}}"
     shell: cd /data && wp --path=/data plugin list
