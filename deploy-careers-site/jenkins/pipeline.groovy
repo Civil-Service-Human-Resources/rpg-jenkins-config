@@ -7,7 +7,7 @@ pipeline {
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
-      string(defaultValue: '', description: '', name: 'credentials_id')
+      string(defaultValue: '56b71375-4750-4c89-8851-a3ad4c52c5ab', description: '', name: 'credentials_id')
     }
 
     stages {

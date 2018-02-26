@@ -19,6 +19,7 @@
     base_dir: ./
     package_dest: "{{base_dir}}/deployment"
     package_src: "{{base_dir}}/source"
+    package_artifact: "{{base_dir}}/zip"
     package_folders:
     - mu-plugins
     - themes
@@ -84,7 +85,13 @@
     tags:
     - setup
 
-
+  - name: create the zip directory
+    file:
+      path: "{{package_artifact}}/"
+      state: directory
+      mode: 0755
+    tags:
+    - setup
 
   - name: checkout the release branch
     git:
@@ -234,7 +241,7 @@
   - name: create a zip
     archive:
       path: "{{package_dest}}/"
-      dest: "../career-site_release_{{sysdate}}.zip"
+      dest: "{{package_artifact}}/career-site_release_{{sysdate}}.zip"
       format: zip
     tags:
     - zip
