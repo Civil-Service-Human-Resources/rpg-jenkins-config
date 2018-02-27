@@ -24,13 +24,12 @@
     - mu-plugins
     - themes
     - plugins
-    - sql
 
     path_wp_content: "{{package_dest}}/wp-content"
     path_mu_plugins: "{{path_wp_content}}/mu-plugins"
     path_plugins: "{{path_wp_content}}/plugins"
     path_themes: "{{path_wp_content}}/themes"
-    path_sql: "{{path_wp_content}}/sql"
+    path_sql: "{{package_dest}}/db-scripts"
 
   tasks:
 
@@ -190,6 +189,27 @@
     copy:
       src: "{{package_src}}/wp-config/wp-config.php"
       dest: "{{package_dest}}/"
+
+
+#   _____       _
+#  / ____|     | |
+# | (___   __ _| |
+#  \___ \ / _` | |
+#  ____) | (_| | |
+# |_____/ \__, |_|
+#            | |
+#            |_|
+
+  - name: create the db-scripts folder
+    file:
+      path: "{{path_sql}}/"
+      state: directory
+
+  - name: copy sql files to package
+    copy:
+      src: "{{package_src}}/db-scripts/*.sql"
+      dest: "{{package_dest}}/db-scripts/"
+
 
 
 #  _____      _                                   _

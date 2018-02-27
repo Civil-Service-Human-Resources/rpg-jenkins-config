@@ -1,0 +1,9 @@
+# Given a release branch identifier, grab the contents and create a
+# release package.
+# TODO:
+# Feed in the git release branch identifier
+# Copy the result to bintray?
+# rename the zip appropriately
+# add details to release txt
+---
+- hosts: localhost
