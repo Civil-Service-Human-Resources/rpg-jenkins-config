@@ -207,8 +207,11 @@
 
   - name: copy sql files to package
     copy:
-      src: "{{package_src}}/db-scripts/*.sql"
+      src: "{{item}}"
       dest: "{{package_dest}}/db-scripts/"
+    with_fileglob:
+    - "{{package_src}}/db-scripts/*"
+
 
 
 
