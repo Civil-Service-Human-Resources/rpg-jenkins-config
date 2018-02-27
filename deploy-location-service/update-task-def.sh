@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Create the container definition
+# TODO:
+# Remove API key from script
+
 DOCKER_TAG=${1}
 DEPLOY_ENV=${2}
 
@@ -17,7 +20,13 @@ CONTAINER_DEFINITION=$(cat <<EOF
                     "containerPort": 8080,
                     "hostPort": 82
                 }
-            ]
+            ],
+            "environment": [
+              {
+                "name": "LOCATION_SERVICE_GOOGLE_SERVICE_API_KEY",
+                "value": "AIzaSyDw51wA5CgK-bf0eIyPY_-e8qMh5fu-Vsc"
+              }
+
           }
 EOF
 )
