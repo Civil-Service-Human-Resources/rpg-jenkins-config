@@ -7,9 +7,11 @@
   vars_prompt:
   - name: "env"
     prompt: "Enter the environment"
+    private: no
 
   - name: "db_user"
     prompt: "Enter the DB username"
+    private: no
 
   - name: "db_password"
     prompt: "Enter the DB password"
@@ -17,6 +19,25 @@
 
   tasks:
 
+  - name: set fact for env
+    set_fact:
+      env: "{{env}}"
+    tags:
+    - setup
+
+
+
+  - name: set fact for user
+    set_fact:
+      db_user: "{{db_user}}"
+    tags:
+    - setup
+
+  - name: set fact for password
+    set_fact:
+      db_password: "{{db_password}}"
+    tags:
+    - setup
 
   - name: Get the environment details
     ec2_instance_facts:
@@ -24,15 +45,24 @@
         "tag:Name": "{{env}}-efs-connector-stack"
         "tag:Environment": "{{env}}"
     register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
 
   - name: Debug the ec2_remote_facts
     debug:
       msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
 
   - name: Register the host
     add_host:
       hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
       groupname: efs_hosts
+    tags:
+    - setup
+    - search
 
 - hosts: efs_hosts
 
@@ -63,7 +93,7 @@
 ## Until we make RDS private, the security groups are a problem for trying to access from EFS jump.
 
   - name: dump the mysql schema
-    shell: mysqldump -a -u {{hostvars['localhost']['db_user']}} -p {{hostvars['localhost']['db_password']}} -h careers-site-db.{{hostvars['localhost']['env']}}.cshr-gov.uk -B wordpress > /tmp/{{hostvars['localhost']['env']}}_dump.sql
+    shell: mysqldump -a -u {{hostvars['localhost']['db_user']}} -p{{hostvars['localhost']['db_password']}} -h careers-site-db.{{hostvars['localhost']['env']}}.cshr-gov.uk -B wordpress > /tmp/{{hostvars['localhost']['env']}}_dump.sql
     tags:
     - db
 
