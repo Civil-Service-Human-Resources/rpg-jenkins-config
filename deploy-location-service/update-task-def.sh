@@ -26,7 +26,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
                 "name": "LOCATION_SERVICE_GOOGLE_SERVICE_API_KEY",
                 "value": "AIzaSyDw51wA5CgK-bf0eIyPY_-e8qMh5fu-Vsc"
               }
-
+            ]
           }
 EOF
 )
