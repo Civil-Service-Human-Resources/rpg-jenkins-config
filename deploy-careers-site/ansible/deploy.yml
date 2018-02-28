@@ -75,10 +75,10 @@
   tasks:
   
   - name: unzip the archive on the host
-  	unarchive:
-    	src: "{{zip_location}}"
-    	dest: /data
-    	
+    unarchive:
+      src: "{{zip_location}}"
+      dest: /data
+    
   #- name: run the db update script
 #  	shell:
   	
