@@ -1,9 +1,89 @@
-# Given a release branch identifier, grab the contents and create a
-# release package.
-# TODO:
-# Feed in the git release branch identifier
-# Copy the result to bintray?
-# rename the zip appropriately
-# add details to release txt
+##
+# copy the deployable file to the host and unzip it
+#
 ---
 - hosts: localhost
+
+  vars_prompt:
+  - name: "env"
+    prompt: "Enter the environment"
+    private: no
+
+  - name: "db_user"
+    prompt: "Enter the DB username"
+    private: no
+
+  - name: "db_password"
+    prompt: "Enter the DB password"
+    private: yes
+    
+  - name: "zip_location"
+  	prompt: "Enter the location of the deployable zip"
+  	private: no
+  
+
+  tasks:
+
+  - name: set fact for env
+    set_fact:
+      env: "{{env}}"
+    tags:
+    - setup
+
+
+
+  - name: set fact for user
+    set_fact:
+      db_user: "{{db_user}}"
+    tags:
+    - setup
+
+  - name: set fact for password
+    set_fact:
+      db_password: "{{db_password}}"
+    tags:
+    - setup
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+- hosts: efs_hosts
+
+
+  tasks:
+  
+  - name: unzip the archive on the host
+  	unarchive:
+    	src: "{{zip_location}}"
+    	dest: /data
+    	
+  #- name: run the db update script
+#  	shell:
+  	
+   
+
+  		
+  	
+  	
