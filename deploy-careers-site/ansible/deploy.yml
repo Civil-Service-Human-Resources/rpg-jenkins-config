@@ -1,5 +1,11 @@
 ##
-# copy the deployable file to the host and unzip it
+# deploy.yml
+##
+# This script:
+# - deploys the zip and unzips it
+# - activates plugins and theme
+# - runs any sql scripts and downloads the resulting log files
+# -  restart ECS service
 #
 ---
 - hosts: localhost
@@ -130,8 +136,9 @@
     tags:
     - db
 
-
-  #- name: run the file to activate plugins - any with status of inactive
+# TODO: change this to run a script, rather than a command from ansible.
+# Will we ever want to activate a different theme?
+  
   - name: run the file to activate theme
     shell: cd /data && wp theme activate rpgcareers
     tags:
