@@ -57,9 +57,10 @@
     shell: php wp-cli.phar --info
 
   - name: move it and chmod
-    shell: chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    shell: chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
     become: true
 
+  - name: run it
     environment:
       WORDPRESS_DB_NAME: "{{wordpress_db_name}}"
       WORDPRESS_DB_USER: "{{wordpress_db_user}}"

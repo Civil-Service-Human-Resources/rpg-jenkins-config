@@ -74,7 +74,7 @@
   - name: Copy the file from host to local
     fetch:
       src: /tmp/wpress.tgz
-      dest: ./download/wpress.tgz
+      dest: ./download/{{hostvars['localhost']['env']}}-wpress.tgz
       #flat: yes
 
   - name: remove the tar from host

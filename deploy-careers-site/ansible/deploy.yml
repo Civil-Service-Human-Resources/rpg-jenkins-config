@@ -16,13 +16,22 @@
   - name: "db_password"
     prompt: "Enter the DB password"
     private: yes
-    
+
   - name: "zip_location"
-  	prompt: "Enter the location of the deployable zip"
-  	private: no
-  
+    prompt: "Enter the location of the deployable zip"
+    private: no
+
 
   tasks:
+
+  - name: stop wordpress service
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 0
+    tags:
+    - stop-ecs
+
 
   - name: set fact for env
     set_fact:
@@ -41,6 +50,12 @@
   - name: set fact for password
     set_fact:
       db_password: "{{db_password}}"
+    tags:
+    - setup
+
+  - name: set fact for zip location
+    set_fact:
+      zip_location: "{{zip_location}}"
     tags:
     - setup
 
@@ -71,19 +86,78 @@
 
 - hosts: efs_hosts
 
-
   tasks:
-  
+
   - name: unzip the archive on the host
     unarchive:
       src: "{{zip_location}}"
       dest: /data
-    
-  #- name: run the db update script
-#  	shell:
-  	
-   
+    become: true
+    tags:
+    - zip
 
-  		
-  	
-  	
+  - name: change ownership to ec2-user
+    shell: chown -R ec2-user:ec2-user /data
+    become: true
+    tags:
+    - zip
+
+  - name: change wp-config so container can rewrite
+    shell: chmod 777 /data/wp-config.php
+    become: true
+    tags:
+    - zip
+
+
+  - name: run the sql update script
+    shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
+    tags:
+    - db
+
+  - name: create a log folder
+    file:
+      path: "./download/logs/"
+      state: directory
+    tags:
+    - db
+
+  - name: copy the log files back locally
+    fetch:
+      src: "{{item}}"
+      dest: "./download/logs/"
+    with_fileglob:
+    - "/data/db-scripts/*.log"
+    tags:
+    - db
+
+
+  #- name: run the file to activate plugins - any with status of inactive
+  - name: run the file to activate theme
+    shell: cd /data && wp theme activate rpgcareers
+    tags:
+    - activate
+    - activate-theme
+
+  - name: run script to activate inactive plugins
+    shell: |
+      cd /data
+      inactive_plugins=$(wp plugin list 2>&1 | grep inactive | cut -d '|' -f 2)
+      for plugin in "${inactive_plugins}"; do
+        wp plugin activate ${plugin}
+      done
+    tags:
+    - activate  
+    - activate-plugins
+
+
+
+- hosts: localhost
+  tasks:
+
+  - name: restart wordpress
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 1
+    tags:
+    - start-ecs

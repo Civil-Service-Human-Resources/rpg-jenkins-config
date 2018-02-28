@@ -185,10 +185,14 @@
     when: item.state == 'file'
     no_log: true
 
-  - name: copy wp-config to root of package
+  - name: copy files to root of directroy
     copy:
-      src: "{{package_src}}/wp-config/wp-config.php"
+      src: "{{item}}"
       dest: "{{package_dest}}/"
+    with_items:
+    - "{{package_src}}/wp-config/wp-config.php"
+    - ./wp_activate_theme.sh
+    - ./wp_activate_plugins.sh
 
 
 #   _____       _
@@ -211,6 +215,12 @@
       dest: "{{package_dest}}/db-scripts/"
     with_fileglob:
     - "{{package_src}}/db-scripts/*"
+
+  - name: copy the run sql script to the package
+    copy:
+      src: "./run_sql.sh"
+      dest: "{{package_dest}}/db-scripts/"
+      mode: 0755
 
 
 
