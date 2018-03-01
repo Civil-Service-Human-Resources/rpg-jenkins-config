@@ -1,6 +1,7 @@
 ##
 # Grab a tar of the content on the develop Wordpress
 # Dump the mysql and copy back locally
+# 
 ---
 - hosts: localhost
 
