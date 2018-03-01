@@ -46,10 +46,7 @@ pipeline {
             steps {
               dir("./deploy-careers-site/zip/") {
                 withCredentials([usernameColonPassword(credentialsId: '${params.bintray_credentials_id}', variable: 'USERPASS')]) {
-                  sh '''
-                    file_name=$(ls -1)
-                    curl -T ${file_name} -u $USERPASS https://api.bintray.com/content/rpg/careers-site/zip/1/${file_name}
-                  '''
+                  sh "file_name=$(ls -1) && curl -T ${file_name} -u $USERPASS https://api.bintray.com/content/rpg/careers-site/zip/1/${file_name}"          '''
               }
             }
         }
