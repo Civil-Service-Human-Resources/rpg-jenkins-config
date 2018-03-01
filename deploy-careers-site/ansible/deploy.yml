@@ -6,7 +6,7 @@
 # - activates plugins and theme
 # - runs any sql scripts and downloads the resulting log files
 # -  restart ECS service
-#
+# ansible-playbook deploy.yml --extra-vars "env=test" --extra-vars "db_user=root" --extra-vars "db_password=password" --extra-vars "zip_location=./zip/career-site_release_2018-03-01_12-52-47.zip"
 ---
 - hosts: localhost
 
@@ -37,7 +37,6 @@
       --desired-count 0
     tags:
     - stop-ecs
-
 
   - name: set fact for env
     set_fact:
@@ -119,6 +118,12 @@
     shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
     tags:
     - db
+    
+  - name: create a zip of the logs
+    archive:
+      path: /data/db-scripts
+      format: zip
+      dest: /tmp/db_logs.zip
 
   - name: create a log folder
     file:
@@ -129,13 +134,35 @@
 
   - name: copy the log files back locally
     fetch:
-      src: "{{item}}"
+      src: "/tmp/db_logs.zip"
       dest: "./download/logs/"
-    with_fileglob:
-    - "/data/db-scripts/*.log"
     tags:
     - db
+  
 
+# We need to restart the container, 
+# so that the wp-config is overwritten, before
+# running the activation scripts.
+- hosts: localhost
+  tasks:
+
+  - name: restart wordpress
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 1
+    tags:
+    - start-ecs
+    
+  - name: pause for the container to start
+    pause:
+      seconds: 30
+    
+    
+- hosts: efs_hosts
+
+  tasks:    
+    
 # TODO: change this to run a script, rather than a command from ansible.
 # Will we ever want to activate a different theme?
   
@@ -155,16 +182,3 @@
     tags:
     - activate  
     - activate-plugins
-
-
-
-- hosts: localhost
-  tasks:
-
-  - name: restart wordpress
-    shell: |
-      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
-      --service {{env}}-careers-site \
-      --desired-count 1
-    tags:
-    - start-ecs
