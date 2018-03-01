@@ -192,7 +192,6 @@
     with_items:
     - "{{package_src}}/wp-config/wp-config.php"
     - ./wp_activate_theme.sh
-    - ./wp_activate_plugins.sh
 
 
 #   _____       _
