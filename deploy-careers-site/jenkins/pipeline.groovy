@@ -41,11 +41,13 @@ pipeline {
                 sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\" --skip-tags \"git_checkout\""
             }
         }
-        
+
         stage('Push the zip file to Bintray') {
-            //curl -T <FILE.EXT> -ujok-valtech:<API_KEY> https://api.bintray.com/content/rpg/careers-site/<YOUR_COOL_PACKAGE_NAME>/<VERSION_NAME>/<FILE_TARGET_PATH>
+            //curl -T <FILE.EXT> -ucshr:<API_KEY> https://api.bintray.com/content/rpg/careers-site/<YOUR_COOL_PACKAGE_NAME>/<VERSION_NAME>/<FILE_TARGET_PATH>
             steps {
-                
+              dir("${WORKING_DIR}/zip/") {
+                sh "ls -ls"
+              }
             }
         }
     }
