@@ -89,6 +89,7 @@
     - setup
     - search
 
+
 - hosts: efs_hosts
 
   tasks:
@@ -113,12 +114,17 @@
     tags:
     - zip
 
+  - name: change the wp-contant folder to be writable
+    shell: chmod 777 /data/wp-content
+    become: true
+    tags:
+    - zip
 
   - name: run the sql update script
     shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
     tags:
     - db
-    
+
   - name: create a zip of the logs
     archive:
       path: /data/db-scripts
@@ -138,9 +144,9 @@
       dest: "./download/logs/"
     tags:
     - db
-  
 
-# We need to restart the container, 
+
+# We need to restart the container,
 # so that the wp-config is overwritten, before
 # running the activation scripts.
 - hosts: localhost
@@ -153,19 +159,19 @@
       --desired-count 1
     tags:
     - start-ecs
-    
+
   - name: pause for the container to start
     pause:
-      seconds: 30
-    
-    
+      seconds: 60
+
+
 - hosts: efs_hosts
 
-  tasks:    
-    
+  tasks:
+
 # TODO: change this to run a script, rather than a command from ansible.
 # Will we ever want to activate a different theme?
-  
+
   - name: run the file to activate theme
     shell: cd /data && wp theme activate rpgcareers
     tags:
@@ -176,9 +182,14 @@
     shell: |
       cd /data
       inactive_plugins=$(wp plugin list 2>&1 | grep inactive | cut -d '|' -f 2)
-      for plugin in "${inactive_plugins}"; do
-        wp plugin activate ${plugin}
-      done
+      if [ -z "${inactive_plugins}" ]; then
+        echo "No plugins to activate"
+      else
+        for plugin in "${inactive_plugins}"; do
+          wp plugin activate ${plugin}
+        done
+      fi
+
     tags:
-    - activate  
+    - activate
     - activate-plugins

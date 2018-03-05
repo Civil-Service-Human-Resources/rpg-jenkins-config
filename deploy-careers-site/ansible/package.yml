@@ -193,6 +193,46 @@
     - "{{package_src}}/wp-config/wp-config.php"
     - ./wp_activate_theme.sh
 
+  - name: get the wordpress salts
+    shell: curl -s https://api.wordpress.org/secret-key/1.1/salt/
+    register: shell_salts
+    tags:
+    - salts
+
+  - name: debug the wordpress salts
+    debug:
+      msg: "{{shell_salts.stdout}}"
+    tags:
+    - salts
+
+# TODO: something more elegant to manipulate this file.
+  - name: remove the salt values
+    lineinfile:
+      path:  "{{package_dest}}/wp-config.php"
+      state: absent
+      line: "{{item}}"
+    with_items:
+    - "define('AUTH_KEY',							$_SERVER['WORDPRESS_AUTH_KEY']);"
+    - "define('SECURE_AUTH_KEY',					$_SERVER['WORDPRESS_SECURE_AUTH_KEY']);"
+    - "define('LOGGED_IN_KEY',						$_SERVER['WORDPRESS_LOGGED_IN_KEY']);"
+    - "define('NONCE_KEY',							$_SERVER['WORDPRESS_NONCE_KEY']);"
+    - "define('AUTH_SALT',							$_SERVER['WORDPRESS_AUTH_SALT']);"
+    - "define('SECURE_AUTH_SALT',					$_SERVER['WORDPRESS_SECURE_AUTH_SALT']);"
+    - "define('LOGGED_IN_SALT',					$_SERVER['WORDPRESS_LOGGED_IN_SALT']);"
+    - "define('NONCE_SALT',						$_SERVER['WORDPRESS_NONCE_SALT']);"
+    tags:
+    - salts
+    - salts-remove
+
+  - name: replace the salts in the file
+    blockinfile:
+      path: "{{package_dest}}/wp-config.php"
+      insertafter: "//SALT"
+      content: "{{shell_salts.stdout}}"
+    tags:
+    - salts
+
+
 
 #   _____       _
 #  / ____|     | |
@@ -275,5 +315,11 @@
       path: "{{package_dest}}/"
       dest: "{{package_artifact}}/career-site_release_{{sysdate}}.zip"
       format: zip
+    tags:
+    - zip
+
+  - name: output the location of the zip
+    debug:
+      msg: "{{package_artifact}}/career-site_release_{{sysdate}}.zip"
     tags:
     - zip

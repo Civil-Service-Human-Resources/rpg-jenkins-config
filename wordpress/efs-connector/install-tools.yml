@@ -61,10 +61,4 @@
     become: true
 
   - name: run it
-    environment:
-      WORDPRESS_DB_NAME: "{{wordpress_db_name}}"
-      WORDPRESS_DB_USER: "{{wordpress_db_user}}"
-      WORDPRESS_DB_PASSWORD: "{{wordpress_db_password}}"
-      WORDPRESS_DB_HOST: "{{wordpress_db_host}}"
-      WORDPRESS_TABLE_PREFIX: "{{wordpress_table_prefix}}"
     shell: cd /data && wp --path=/data plugin list
