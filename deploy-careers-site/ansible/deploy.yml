@@ -120,6 +120,12 @@
     tags:
     - zip
 
+  - name: change the mu-plugins folder to be writable
+    shell: chmod 777 /data/wp-content/mu-plugins
+    become: true
+    tags:
+    - zip
+
   - name: run the sql update script
     shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
     tags:

@@ -192,6 +192,7 @@
     with_items:
     - "{{package_src}}/wp-config/wp-config.php"
     - ./wp_activate_theme.sh
+    - "{{package_src}}/htaccess/.htaccess"
 
   - name: get the wordpress salts
     shell: curl -s https://api.wordpress.org/secret-key/1.1/salt/
