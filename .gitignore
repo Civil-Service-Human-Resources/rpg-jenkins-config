@@ -1,1 +1,4 @@
 *.retry
+deployment/
+source/
+*.zip
