@@ -25,10 +25,11 @@ pipeline {
 
         stage('Update the task definition') {
             steps {
-              withCredentials([usernamePassword(credentialsId: '${params.environment}-db_root', usernameVariable: 'user', passwordVariable: 'pass' )]
+              withCredentials([usernamePassword(credentialsId: '${params.environment}-db_root', usernameVariable: 'user', passwordVariable: 'pass' )]{
                 script{
                   update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass}", returnStdout: true
                 }
+              }
             }
         }
 
