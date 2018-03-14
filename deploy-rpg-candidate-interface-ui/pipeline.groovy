@@ -5,6 +5,7 @@ pipeline {
     environment {
       WORKING_DIR='${WORKSPACE}'+'/deploy-rpg-candidate-interface-ui'
       AWS_DEFAULT_REGION='eu-west-1'
+      COMMON_DIR='${WORKSPACE}'+'/common'
     }
     parameters {
       string(defaultValue: 'latest', description: '', name: 'dockerTag')
@@ -39,7 +40,7 @@ pipeline {
               script {
                 def update_output = readJSON text: "${update_retval}"
                 def arn = update_output['taskDefinition']['taskDefinitionArn']
-                sh "${env.WORKING_DIR}/update-service.sh ${arn} ${params.environment}"
+                sh "${env.COMMON_DIR}/update-service.sh ${arn} ${params.environment} candidate-interface-ui"
               }
             }
         }
