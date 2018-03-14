@@ -6,6 +6,12 @@ DEPLOY_ENV=${2}
 datasource_username=${3}
 datasource_password=${4}
 
+if [[ "${DEPLOY_ENV}" == "dev" ]]; then
+  spring_profiles_active=dev
+else
+  spring_profiles_active=prod
+fi
+
 
 CONTAINER_DEFINITION=$(cat <<EOF
   {
@@ -36,6 +42,10 @@ CONTAINER_DEFINITION=$(cat <<EOF
       {
         "name": "DATASOURCE_PASSWORD",
         "value": "${datasource_password}"
+      },
+      {
+        "name" : "SPRING_PROFILES_ACTIVE",
+        "value": "${spring_profiles_active}"
       }
 
     ]

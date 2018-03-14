@@ -10,8 +10,6 @@ pipeline {
     parameters {
       string(defaultValue: 'latest', description: 'The circle CI tag', name: 'dockerTag')
       string(defaultValue: 'dev', description: '', name: 'environment')
-      //string(description: 'CSHR database user name for the API', name: 'datasource_username')
-      //string(description: 'CSHR database password for the API', name: 'datasource_password')
     }
 
     stages {
@@ -25,7 +23,6 @@ pipeline {
 
         stage('Update the task definition') {
             steps {
-              //withCredentials([usernamePassword(credentialsId: ${params.environment} + '_db_root', usernameVariable: 'user', passwordVariable: 'pass' )]){
               withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                 script{
                   update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass}", returnStdout: true
