@@ -54,4 +54,4 @@ CONTAINER_DEFINITION=$(cat <<EOF
 EOF
 )
 
-aws ecs register-task-definition --family ${DEPLOY_ENV}-candidate-interface-ui --container-definitions "${CONTAINER_DEFINITION}"
+aws ecs register-task-definition --family ${DEPLOY_ENV}-candidate-interface-api --container-definitions "${CONTAINER_DEFINITION}"
