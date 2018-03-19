@@ -11,13 +11,13 @@ CONTAINER_DEFINITION=$(cat <<EOF
 
           {
             "name": "location-service",
-            "image": "cshr-docker-rpg.bintray.io/location-service:${DOCKER_TAG}",
+            "image": "cshrrpg.azurecr.io/location-service:${DOCKER_TAG}",
             "memory": 768,
             "essential": true,
             "hostname": "location-service",
             "portMappings": [
                 {
-                    "containerPort": 8080,
+                    "containerPort": 8989,
                     "hostPort": 82
                 }
             ],

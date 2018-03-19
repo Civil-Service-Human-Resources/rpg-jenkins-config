@@ -6,30 +6,29 @@ DEPLOY_ENV=${2}
 
 CONTAINER_DEFINITION=$(cat <<EOF
 
-  {
-    "name": "cshr-ui",
-    "image": "cshr-docker-rpg.bintray.io/rpg-candidate-interface-ui:${DOCKER_TAG}",
-    "memory": 128,
-    "essential": true,
-    "hostname": "ui",
-    "portMappings": [
+    {
+      "name": "cshr-ui",
+      "image": "cshrrpg.azurecr.io/rpg-candidate-interface-ui:${DOCKER_TAG}",
+      "memory": 128,
+      "essential": true,
+      "hostname": "ui",
+      "portMappings": [
+          {
+              "containerPort": 3000,
+              "hostPort": 81
+          }
+      ],
+      "environment": [
         {
-            "containerPort": 3000,
-            "hostPort": 81
+          "name": "API_URL",
+          "value": "https://candidate-interface-api.${DEPLOY_ENV}-internal.cshr-gov.uk"
+        },
+        {
+          "name": "API_PORT",
+          "value": "443"
         }
-    ],
-    "environment": [
-      {
-        "name": "API_URL",
-        "value": "http://candidate-interface-api.${DEPLOY_ENV}.cshr-gov.uk"
-      },
-      {
-        "name": "API_PORT",
-        "value": "80"
-      }
-    ]
-  }
-
+      ]
+    }
 EOF
 )
 
