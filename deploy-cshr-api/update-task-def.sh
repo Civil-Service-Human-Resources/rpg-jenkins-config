@@ -16,7 +16,7 @@ fi
 CONTAINER_DEFINITION=$(cat <<EOF
   {
     "name": "cshr-api",
-    "image": "cshr-docker-rpg.bintray.io/cshr-api:${DOCKER_TAG}",
+    "image": "cshrrpg.azurecr.io/cshr-api:${DOCKER_TAG}",
     "memory": 512,
     "essential": true,
     "hostname": "api",

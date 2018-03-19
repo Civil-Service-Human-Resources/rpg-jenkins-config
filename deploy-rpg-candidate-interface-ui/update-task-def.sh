@@ -8,7 +8,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
 
     {
       "name": "cshr-ui",
-      "image": "cshr-docker-rpg.bintray.io/rpg-candidate-interface-ui:${DOCKER_TAG}",
+      "image": "cshrrpg.azurecr.io/rpg-candidate-interface-ui:${DOCKER_TAG}",
       "memory": 128,
       "essential": true,
       "hostname": "ui",
