@@ -17,7 +17,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
             "hostname": "location-service",
             "portMappings": [
                 {
-                    "containerPort": 8080,
+                    "containerPort": 8989,
                     "hostPort": 82
                 }
             ],
