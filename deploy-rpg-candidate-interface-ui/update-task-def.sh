@@ -9,7 +9,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
     {
       "name": "cshr-ui",
       "image": "cshrrpg.azurecr.io/rpg-candidate-interface-ui:${DOCKER_TAG}",
-      "memory": 128,
+      "memory": 256,
       "essential": true,
       "hostname": "ui",
       "portMappings": [
