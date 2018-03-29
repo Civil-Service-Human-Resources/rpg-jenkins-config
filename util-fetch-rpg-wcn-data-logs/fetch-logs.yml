@@ -1,0 +1,66 @@
+# Simple ansible script to grab application logs for the WCN stub.
+# usage:
+# ansible-playbook lookup.yml --extra-vars "env=dev"
+---
+- hosts: localhost
+
+  tasks:
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
+
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name:  create the download dir if it doesnt exist
+    file:
+      path: download/{{env}}
+      state: directory
+
+  - name:  create the log directory
+    file:
+      path: logs/{{env}}
+      state: directory
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+- hosts: efs_hosts
+
+  tasks:
+
+  - name: zip the log directory
+    archive:
+      path: /app_logs
+      dest: /tmp/app_logs.zip
+      format: zip
+
+
+  - name: fetch the zip and unpack
+    fetch:
+      src: /tmp/app_logs.zip
+      dest: download/{{env}}/
+      flat: yes
+
+- hosts: localhost
+  tasks:
+
+  - name: unzip the file
+    shell: unzip download/{{env}}/app_logs.zip -d ./logs/{{env}}/
