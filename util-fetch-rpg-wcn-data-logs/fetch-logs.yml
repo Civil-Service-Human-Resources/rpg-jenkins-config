@@ -46,6 +46,12 @@
 
   tasks:
 
+  - name: remove any current zip
+    file:
+      path: /tmp/app_logs.zip
+      state: absent
+    become: true
+
   - name: zip the log directory
     archive:
       path: /app_logs
