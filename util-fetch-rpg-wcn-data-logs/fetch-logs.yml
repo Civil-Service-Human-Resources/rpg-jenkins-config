@@ -63,4 +63,4 @@
   tasks:
 
   - name: unzip the file
-    shell: unzip download/{{env}}/app_logs.zip -d ./logs/{{env}}/
+    shell: unzip -o download/{{env}}/app_logs.zip -d ./logs/{{env}}/
