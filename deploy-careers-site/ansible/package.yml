@@ -118,7 +118,7 @@
       src: "{{item}}"
       dest: "{{path_mu_plugins}}"
     with_fileglob:
-    - "{{package_src}}/mu-plugins/*.php"
+    - "{{package_src}}/mu-plugins/*.*"
 
   - name: create forked plugins directories in package plugins directory
     file:
