@@ -126,31 +126,6 @@
     tags:
     - zip
 
-  - name: run the sql update script
-    shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
-    tags:
-    - db
-
-  - name: create a zip of the logs
-    archive:
-      path: /data/db-scripts
-      format: zip
-      dest: /tmp/db_logs.zip
-
-  - name: create a log folder
-    file:
-      path: "./download/logs/"
-      state: directory
-    tags:
-    - db
-
-  - name: copy the log files back locally
-    fetch:
-      src: "/tmp/db_logs.zip"
-      dest: "./download/logs/"
-    tags:
-    - db
-
 
 # We need to restart the container,
 # so that the wp-config is overwritten, before
@@ -184,6 +159,24 @@
     - activate
     - activate-theme
 
+  - name: create a temporary mu-plugins directory
+    file:
+      path: ~/mu-plugins/
+      state: directory
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-dir
+
+  - name: copy the mu-plugins to temporary directory (plugins will not activate with mu plugins in place)
+    shell: mv /data/wp-content/mu-plugins/* ~/mu-plugins/
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-move-out
+
   - name: run script to activate inactive plugins
     shell: |
       cd /data
@@ -195,7 +188,59 @@
           wp plugin activate ${plugin}
         done
       fi
-
     tags:
     - activate
     - activate-plugins
+
+  - name: remove the "standard" plugins
+    shell: wp --path=/data plugin deactivate {{item}} && wp --path=/data plugin delete {{item}}
+    with_items:
+    - akismet
+    - hello
+
+  - name: copy the mu-plugins back to the mu directory
+    shell: mv ~/mu-plugins/* /data/wp-content/mu-plugins/
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-move-back
+
+  - name: update the home url
+    shell: wp --path=/data option update home 'https://careers-site."{{env}}".cshr-gov.uk'
+    tags:
+    - activate
+    - activate-url
+
+  - name: update the site url
+    shell:  wp --path=/data option update siteurl 'https://careers-site."{{env}}".cshr-gov.uk'
+    tags:
+    - activate
+    - activate-url
+
+  
+# run DB updates.  
+  - name: run the sql update script
+    shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
+    tags:
+    - db
+
+  - name: create a zip of the logs
+    archive:
+      path: /data/db-scripts
+      format: zip
+      dest: /tmp/db_logs.zip
+
+  - name: create a log folder
+    file:
+      path: "./download/logs/"
+      state: directory
+    tags:
+    - db
+
+  - name: copy the log files back locally
+    fetch:
+      src: "/tmp/db_logs.zip"
+      dest: "./download/logs/"
+    tags:
+    - db

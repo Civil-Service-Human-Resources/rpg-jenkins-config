@@ -1,0 +1,180 @@
+---
+##
+# basic install.  This creates an out of the box wordpress.
+# 1. stop the service
+# 2. backup current data dir
+# 3. drop the wordpress database
+# 4. restart the service to recreate DB
+
+- hosts: localhost
+  vars_prompt:
+  - name: "env"
+    prompt: "Enter the environment"
+    private: no
+
+  - name: "db_user"
+    prompt: "Enter the DB username"
+    private: no
+
+  - name: "db_password"
+    prompt: "Enter the DB password"
+    private: yes
+  tasks:
+
+  - name: stop wordpress service
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 0
+    tags:
+    - ecs-stop
+
+
+  - name: set fact for user
+    set_fact:
+      db_user: "{{db_user}}"
+    tags:
+    - setup
+
+  - name: set fact for password
+    set_fact:
+      db_password: "{{db_password}}"
+    tags:
+    - setup
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+##
+# Run mysql on the connector instance
+
+- hosts: efs_hosts
+  vars:
+    db_user: "{{db_user}}"
+    db_password: "{{db_password}}"
+    env: "{{env}}"
+
+  tasks:
+
+  - name: install php
+    yum:
+      name: php
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install php
+    yum:
+      name: php-mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install mysql
+    yum:
+      name: mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+#https://make.wordpress.org/cli/handbook/installing/
+  - name: install the wordpress cli
+    shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    tags:
+    - install-tools
+
+  - name: check it works
+    shell: php wp-cli.phar --info
+    tags:
+    - install-tools
+
+  - name: move it and chmod
+    shell: chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    become: true
+    tags:
+    - install-tools
+  
+  - name: copy the sql files to EFS connector
+    copy:
+      src: ./static/sql/sql_dump.sql
+      dest: /tmp/sql_dump.sql
+    tags:
+    - db-create
+
+  - name: run the sql dump file
+    shell: mysql -u {{db_user}} --password={{db_password}} -h careers-site-db.{{env}}.cshr-gov.uk --database wordpress < /tmp/sql_dump.sql
+    tags:
+    - db-create
+
+  - name: tar the current data dir and copy locally as backup
+    shell: tar cvfz /tmp/{{env}}_wpress_bkp.tgz /data
+    tags:
+    - backup
+
+  - name: copy the wpress backup locally
+    fetch:
+      src: /tmp/{{env}}_wpress_bkp.tgz
+      dest: ./download/{{env}}_wpress_bkp.tgz
+    tags:
+    - backup
+    
+  - name: remove all files in /data
+    shell: cd /data && rm -rf *
+    become: true
+    tags:
+    - backup
+
+  - name: change ownership of /data
+    shell: chown ec2-user:ec2-user /data
+    become: true
+
+- hosts: localhost
+  vars:
+    env: "{{env}}"
+  tasks:
+
+  - name: restart wordpress
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 1
+    tags:
+    - ecs-restart
+  
+  - name: pause for the container to start
+    pause:
+      seconds: 120
+
+#- hosts: efs_hosts
+#  tasks:
+#
+#  - name: remove the "standard" plugins
+#    shell: wp --path=/data plugin delete {{item}}
+#    with_items:
+#    - akismet
+#    - hello
