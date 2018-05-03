@@ -8,6 +8,9 @@
 # -  restart ECS service
 # ansible-playbook deploy.yml --extra-vars "env=test" --extra-vars "db_user=root" --extra-vars "db_password=password" --extra-vars "zip_location=./zip/career-site_release_2018-03-01_12-52-47.zip"
 ---
+
+- include: basic-install.yml db_user="{{db_user}}" db_password="{{db_password}}" env="{{env}}"
+
 - hosts: localhost
 
   vars_prompt:
@@ -150,8 +153,39 @@
 
   tasks:
 
-# TODO: change this to run a script, rather than a command from ansible.
-# Will we ever want to activate a different theme?
+  - name: install php
+    yum:
+      name: php
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install php-mysql
+    yum:
+      name: php-mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install mysql
+    yum:
+      name: mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install the wordpress cli
+    shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+  - name: check it works
+    shell: php wp-cli.phar --info
+
+  - name: move it and chmod
+    shell: chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    become: true
 
   - name: run the file to activate theme
     shell: cd /data && wp theme activate rpgcareers

@@ -21,7 +21,7 @@
     private: yes
   tasks:
 
-  - name: stop wordpress service
+  - name: stop wordpress service basic
     shell: |
       aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
       --service {{env}}-careers-site \
