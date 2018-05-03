@@ -17,7 +17,7 @@
   vars:
     git_repo: git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git
     git_branch: release
-    base_dir: ./
+    base_dir: .
     package_dest: "{{base_dir}}/deployment"
     package_src: "{{base_dir}}/source"
     package_artifact: "{{base_dir}}/zip"
