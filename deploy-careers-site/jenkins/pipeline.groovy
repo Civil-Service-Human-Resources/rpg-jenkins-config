@@ -52,7 +52,7 @@ pipeline {
 
         stage('deploy the zip file') {
             steps {
-                sh "ansible-playbook deploy.yml --extra-vars \"env=demo\" --extra-vars \"db_user=root\" --extra-vars \"db_password=cshr2017\" --extra-vars \"zip_location=${WORKING_DIR}/zip/${zip_file_name}\""
+                sh "ansible-playbook ./deploy-careers-site/ansible/deploy.yml --extra-vars \"env=demo\" --extra-vars \"db_user=root\" --extra-vars \"db_password=cshr2017\" --extra-vars \"zip_location=${WORKING_DIR}/zip/${zip_file_name}\""
             }
         }
 
