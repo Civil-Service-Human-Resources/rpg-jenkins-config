@@ -81,6 +81,14 @@
     tags:
     - setup
 
+  - name: create the source directory
+    file:
+      path: "{{package_dest}}"
+      state: directory
+      mode: 0755
+    tags:
+    - setup
+
   - name: remove everything from dest directory
     shell: cd {{package_dest}} && rm -rf *
     tags:
