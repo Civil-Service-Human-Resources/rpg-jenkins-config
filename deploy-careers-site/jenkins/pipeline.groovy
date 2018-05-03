@@ -37,7 +37,7 @@ pipeline {
 
         stage('Build deployment zip') {
             steps {
-                sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\" --skip-tags \"git_checkout\""
+                sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
             }
         }
 
