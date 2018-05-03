@@ -45,9 +45,14 @@ pipeline {
         stage('get the zip file name') {
             steps {
                 script{
-                  zip_file_name = sh "ls -1 ./deploy-careers-site/ansible/zip"
+                  zip_file_name = sh "ls -1 ./deploy-careers-site/zip"
                 }
-                
+            }
+        }
+
+        stage('deploy the zip file') {
+            steps {
+                sh "ansible-playbook deploy.yml --extra-vars "env=demo" --extra-vars "db_user=root" --extra-vars "db_password=cshr2017" --extra-vars "zip_location=${WORKING_DIR}/zip/${zip_file_name}"
             }
         }
 
