@@ -1,3 +1,5 @@
+def zip_file_name = 'NA'
+
 pipeline {
     agent any
     environment {
@@ -31,13 +33,21 @@ pipeline {
                 branch: "${params.branch_name}"
                 )
             }
-            sh "ls -lsR ${WORKING_DIR}"
           }
         }
 
         stage('Build deployment zip') {
             steps {
                 sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
+            }
+        }
+
+        stage('get the zip file name') {
+            steps {
+                script{
+                  zip_file_name = sh "ls -1 ./deploy-careers-site/ansible/zip"
+                }
+                
             }
         }
 
