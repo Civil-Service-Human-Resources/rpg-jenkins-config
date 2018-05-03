@@ -1,0 +1,1808 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: oasis-workflow\n"
+"POT-Creation-Date: 2018-01-07 05:00-0800\n"
+"PO-Revision-Date: 2018-01-07 05:00-0800\n"
+"Last-Translator: Oasis Workflow <support@oasisworkflow.com>\n"
+"Language-Team: \n"
+"Language: uk_UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-KeywordsList: __;_e;_c;__ngettext;esc_html__\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-ow-custom-statuses.php:91
+msgid "You are not allowed to create custom statuses."
+msgstr "Ви не можете створювати спеціальні статуси"
+
+#: includes/class-ow-custom-statuses.php:108
+#: includes/class-ow-custom-statuses.php:154
+msgid "Could not add status: "
+msgstr "Неможливо додати статус:"
+
+#: includes/class-ow-custom-statuses.php:136
+msgid "You are not allowed to edit/update the custom status."
+msgstr "Ви не можете редагувати/оновлювати спеціальний статус."
+
+#: includes/class-ow-custom-statuses.php:191
+msgid "You are not allowed to delete the custom status."
+msgstr "Ви не можете видалити спеціальний статус"
+
+#: includes/class-ow-custom-statuses.php:248
+#: includes/pages/ow-custom-statuses.php:70
+msgid "Name"
+msgstr "Ім'я"
+
+#: includes/class-ow-custom-statuses.php:249
+#: includes/pages/ow-custom-statuses.php:76
+msgid "Slug"
+msgstr "Слаг"
+
+#: includes/class-ow-custom-statuses.php:250
+#: includes/pages/ow-custom-statuses.php:82
+#: includes/pages/subpages/workflow-copy-popup.php:14
+msgid "Description"
+msgstr "Опис"
+
+#: includes/class-ow-email-settings.php:162
+msgid "From Name:"
+msgstr "Від імені:"
+
+#: includes/class-ow-email-settings.php:166
+msgid ""
+"(Name to be used for sending the workflow related emails. If left blank, the "
+"emails will be sent from the blog name.)"
+msgstr ""
+"(Ім'я що буде використано у полі (Від кого).  Якщо залишити пустим, буде "
+"використано адресу за замовчуванням.)"
+
+#: includes/class-ow-email-settings.php:170
+msgid "From Email:"
+msgstr "З адреси (email):"
+
+#: includes/class-ow-email-settings.php:174
+msgid ""
+"(Email address to be used for sending the workflow related emails. If left "
+"blank, the default email will be used.)"
+msgstr ""
+"(Email який буде використано для повідомлень про зв'язані з робочими "
+"процесами події. Якщо залишити пустим, буде використано адресу за "
+"замовчуванням.)"
+
+#: includes/class-ow-email-settings.php:180
+msgid "Check this box if you want to send emails when tasks are assigned."
+msgstr ""
+"Позначте цей бокс, якщо ви бажаєте відіслати повідомленя коли завдання "
+"призначено."
+
+#: includes/class-ow-email-settings.php:185
+msgid ""
+"Check this box if you want to send an email to the author when post/page is "
+"published."
+msgstr ""
+"Позначте цей бокс, якщо ви бажаєте відіслати повідомленя автору, коли "
+"матеріал буде опубліковано."
+
+#: includes/class-ow-email-settings.php:190
+msgid ""
+"Check this box if you want to send an alert email to the current assignees "
+"when a non-assignee updates the article outside the workflow."
+msgstr ""
+"Позначте цей бокс, якщо ви бажаєте відіслати повідомленя про завдання що "
+"очікують."
+
+#: includes/class-ow-email-settings.php:195
+msgid ""
+"Check this box if you want to send email to the author when the workflow is "
+"aborted/cancelled."
+msgstr ""
+"Позначте цей бокс, якщо ви бажаєте відіслати повідомленя автору, коли "
+"матеріал буде опубліковано."
+
+#: includes/class-ow-email-settings.php:200
+msgid ""
+"Check this box if you want to send email to the submitter when post/page is "
+"submitted to workflow."
+msgstr ""
+"Позначте цей бокс, якщо ви бажаєте відіслати повідомленя про завдання що "
+"очікують."
+
+#: includes/class-ow-email-settings.php:204
+msgid "Task reminder settings"
+msgstr "Налаштування нагадувань про задачі"
+
+#: includes/class-ow-email-settings.php:205
+msgid ""
+"(Applicable only if reminder email configuration is completed during "
+"workflow setup.)"
+msgstr ""
+"(Доступно тільки якщо лист з нагадуванням сконфігуровано в робочому процесі.)"
+
+#: includes/class-ow-email-settings.php:208
+msgid ""
+"Check this box if you want to send reminder emails about a pending task."
+msgstr ""
+"Позначте цей бокс, якщо ви бажаєте відіслати повідомленя про завдання що "
+"очікують."
+
+#: includes/class-ow-email-settings.php:214
+#: includes/class-ow-email-settings.php:222
+msgid " Send Reminder Email"
+msgstr "Відіслати лист з нагадуванням"
+
+#: includes/class-ow-email-settings.php:217
+msgid "day(s) before due date."
+msgstr "днів до дати призначення."
+
+#: includes/class-ow-email-settings.php:225
+msgid "day(s) after due date."
+msgstr "днів після дати призначення"
+
+#: includes/class-ow-email-settings.php:232
+#: includes/class-ow-workflow-settings.php:260
+#: includes/pages/subpages/connection-info-content.php:76
+#: includes/pages/subpages/reassign.php:90
+#: includes/pages/subpages/step-info-content.php:245
+#: includes/pages/subpages/workflow-create-popup.php:22
+#: includes/pages/workflow-create.php:297
+msgid "Save"
+msgstr "Зберегти"
+
+#: includes/class-ow-email.php:63
+msgid "Your article has been published."
+msgstr "Ваш матеріал опубліковано."
+
+#: includes/class-ow-email.php:67
+#, php-format
+msgid ""
+"<div>Hello %1$s,</div><p>Your article <a href=\"%2$s\" title=\"%3$s\">%3$s</"
+"a> has been published on <a href=\"%4$s\" title=\"%5$s\">%5$s</a></"
+"p><p>Thanks.</p>"
+msgstr ""
+"<div>Добрий день %1$s,</div><p>Ваш матеріал <a href=\"%2$s\" title=\"%3$s\">"
+"%3$s</a> опубліковано <a href=\"%4$s\" title=\"%5$s\">%5$s</a></p><p>Дякуємо."
+"</p>"
+
+#: includes/class-ow-email.php:220
+msgid "You have an assignment"
+msgstr "Ви маєте завдання"
+
+#: includes/class-ow-email.php:221
+msgid "You have an assignment related to post - "
+msgstr "Ви маєте завдання стосовно матеріалу -"
+
+#: includes/class-ow-email.php:283 includes/class-ow-inbox-service.php:132
+#: includes/class-ow-utility.php:909
+#: includes/class-ow-workflow-terminology-settings.php:213
+#: includes/pages/subpages/submit-step.php:39
+#: includes/pages/subpages/submit-workflow.php:35
+msgid "Priority"
+msgstr "Пріоритет"
+
+#: includes/class-ow-email.php:313 includes/class-ow-history-service.php:146
+#: includes/class-ow-history-service.php:622
+msgid "Sign off date"
+msgstr "Дата перегляду"
+
+#: includes/class-ow-email.php:316 includes/class-ow-inbox-service.php:131
+#: includes/class-ow-report-service.php:60 includes/class-ow-utility.php:905
+#: includes/class-ow-workflow-terminology-settings.php:172
+#: includes/pages/subpages/submit-step.php:38
+#: includes/pages/subpages/submit-workflow.php:33 oasiswf.php:434
+msgid "Due Date"
+msgstr "Дата призначення"
+
+#: includes/class-ow-email.php:331 includes/class-ow-process-flow.php:802
+msgid "Additionally,"
+msgstr "Додатково,"
+
+#: includes/class-ow-email.php:331 includes/class-ow-process-flow.php:802
+msgid "added the following comments"
+msgstr "додано коментар"
+
+#: includes/class-ow-email.php:390
+msgid "Article was updated outside the workflow."
+msgstr "Ви впевнені, що хочете скасувати процес"
+
+#: includes/class-ow-email.php:395 includes/class-ow-email.php:528
+msgid "Hello "
+msgstr "Вітаємо"
+
+#: includes/class-ow-email.php:400
+msgid ", who is not part of the current assignee list has updated the article "
+msgstr ", які не є частиною поточного списку Цесіонарій оновила статті"
+
+#: includes/class-ow-email.php:402
+msgid " outside the workflow."
+msgstr "за межами робочого процесу."
+
+#: includes/class-ow-email.php:431
+msgid "Task claimed"
+msgstr "Завдання заявлено"
+
+#: includes/class-ow-email.php:432
+msgid "Another user has claimed the task for the article \""
+msgstr "Інший користувач також запитує цей матеріал. "
+
+#: includes/class-ow-email.php:495
+msgid "Your article has been submitted."
+msgstr "Ваш матеріал відправлено."
+
+#: includes/class-ow-email.php:499
+#, php-format
+msgid ""
+"<div>Hello %1$s,</div><p>Your article <a href=\"%2$s\" title=\"%3$s\">%3$s</"
+"a> has been successfully submitted to the workflow.</p><p>Thanks.</p>"
+msgstr ""
+"<div>Добрий день %1$s,</div><p>Ваш матеріал <a href=\"%2$s\" title=\"%3$s\">"
+"%3$s</a>  додано у робочий процес.</p><p>Дякуємо.</p>"
+
+#: includes/class-ow-email.php:526
+msgid "Workflow has been aborted."
+msgstr "Ваш матеріал відправлено."
+
+#: includes/class-ow-email.php:531
+msgid "Your article "
+msgstr "Ваша стаття"
+
+#: includes/class-ow-email.php:533
+msgid " has been aborted from the workflow."
+msgstr "Ви не можете скасувати робочий процес."
+
+#: includes/class-ow-email.php:536
+msgid ""
+"If you have further questions regarding your article, please contact the "
+"administrator."
+msgstr ""
+"Якщо ви маєте додаткові запитання щодо вашої статті, будь ласка, зверніться "
+"до адміністратора."
+
+#: includes/class-ow-history-service.php:48
+msgid "You are not allowed to delete workflow history."
+msgstr "Ви не можете видаляти історію робочих процесів"
+
+#: includes/class-ow-history-service.php:132
+msgid "You are not allowed to download workflow history."
+msgstr "Ви не можете видаляти історію робочих процесів"
+
+#: includes/class-ow-history-service.php:141
+#: includes/class-ow-history-service.php:605
+#: includes/class-ow-report-service.php:110
+#: includes/class-ow-workflow-service.php:927
+#: includes/pages/subpages/workflow-copy-popup.php:6
+msgid "Title"
+msgstr "назва"
+
+#: includes/class-ow-history-service.php:142
+#: includes/class-ow-history-service.php:609
+msgid "Actor"
+msgstr "Виконавець"
+
+#: includes/class-ow-history-service.php:143
+msgid "Workflow (version)"
+msgstr "Робочий процес(версія)"
+
+#: includes/class-ow-history-service.php:144
+msgid "Step"
+msgstr "Крок"
+
+#: includes/class-ow-history-service.php:145
+msgid "Assigned Date"
+msgstr "Призначена дата"
+
+#: includes/class-ow-history-service.php:147
+#: includes/class-ow-history-service.php:623
+msgid "Result"
+msgstr "Результат"
+
+#: includes/class-ow-history-service.php:148
+#: includes/class-ow-history-service.php:624
+#: includes/class-ow-inbox-service.php:175
+msgid "Comments"
+msgstr "Коментарі"
+
+#: includes/class-ow-history-service.php:170
+#: includes/class-ow-history-service.php:205
+msgid "No comments found."
+msgstr "Зв'зків не знайднено."
+
+#: includes/class-ow-history-service.php:193
+#: includes/class-ow-process-flow.php:1612
+#: includes/pages/workflow-history.php:175
+msgid "No Action Taken"
+msgstr "Дію не виконано"
+
+#: includes/class-ow-history-service.php:196
+#: includes/class-ow-process-flow.php:1627
+#: includes/pages/workflow-history.php:178
+msgid "Workflow completed"
+msgstr "Модерацію завершено"
+
+#: includes/class-ow-history-service.php:271
+msgid "You are not allowed to view workflow history."
+msgstr "Ви не можете видаляти історію робочих процесів"
+
+#: includes/class-ow-history-service.php:612
+#: includes/class-ow-inbox-service.php:167
+#: includes/class-ow-report-service.php:77
+msgid "Workflow [Step]"
+msgstr "Модерація [Крок]"
+
+#: includes/class-ow-history-service.php:618
+msgid "Assigned date"
+msgstr "Призначена дата"
+
+#: includes/class-ow-inbox-service.php:138
+#: includes/class-ow-report-service.php:69
+msgid "Post/Page"
+msgstr "Матеріал"
+
+#: includes/class-ow-inbox-service.php:156
+#: includes/class-ow-report-service.php:111
+msgid "Type"
+msgstr "Тип"
+
+#: includes/class-ow-inbox-service.php:163
+#: includes/class-ow-report-service.php:112
+msgid "Author"
+msgstr "Автор"
+
+#: includes/class-ow-inbox-service.php:168
+msgid "Category"
+msgstr "Категорія"
+
+#: includes/class-ow-inbox-service.php:190
+msgid "Select a user to reassign the task."
+msgstr "Оберіть користувача щоб перенаправити задачу."
+
+#: includes/class-ow-process-flow.php:76 includes/class-ow-process-flow.php:147
+#: includes/class-ow-process-flow.php:227
+#: includes/class-ow-process-flow.php:285
+#: includes/class-ow-process-flow.php:346
+#: includes/class-ow-process-flow.php:661
+#: includes/class-ow-process-flow.php:751
+#: includes/class-ow-process-flow.php:2227
+#: includes/class-ow-process-flow.php:2275
+msgid "You are not allowed to create/edit post."
+msgstr "Ви не можете створювати/редагувати матеріали."
+
+#: includes/class-ow-process-flow.php:111
+#: includes/class-ow-process-flow.php:321
+#: includes/class-ow-process-flow.php:2409
+#: includes/class-ow-process-flow.php:2448
+msgid "No users found to assign the task."
+msgstr "Оберіть користувача щоб перенаправити задачу."
+
+#: includes/class-ow-process-flow.php:180
+#: includes/class-ow-process-flow.php:416
+msgid "Due date must be greater than the current date."
+msgstr "Дата закінчення має бути пізніше, ніж дата початку"
+
+#: includes/class-ow-process-flow.php:548
+msgid "You are not allowed to reassign tasks."
+msgstr "Ви не можете пренаправляти задачі."
+
+#: includes/class-ow-process-flow.php:799
+#, php-format
+msgid ""
+"<div>Hello %1$s,</div><p>The post <a href=\"%2$s\" title=\"%3$s\">%3$s</a> "
+"has been cancelled from the workflow.</p>"
+msgstr ""
+"<div>Добрий день %1$s,</div><p>По матеріалу <a href=\"%2$s\" title=\"%3$s\">"
+"%3$s</a> був скасований робочий процес.</p>"
+
+#: includes/class-ow-process-flow.php:806
+msgid "<p>Thanks.</p>"
+msgstr "<p>Дякуємо.</p>"
+
+#: includes/class-ow-process-flow.php:836
+#: includes/class-ow-process-flow.php:859
+msgid "You are not allowed to abort the workflow."
+msgstr "Ви не можете скасувати робочий процес."
+
+#: includes/class-ow-process-flow.php:1608
+msgid "Submitted"
+msgstr "Відправлено"
+
+#: includes/class-ow-process-flow.php:1610
+msgid "Aborted"
+msgstr "Скасовано"
+
+#: includes/class-ow-process-flow.php:1614
+msgid "Unclaimed"
+msgstr "Не заявлено"
+
+#: includes/class-ow-process-flow.php:1616
+msgid "Claimed"
+msgstr "Заявлено"
+
+#: includes/class-ow-process-flow.php:1618
+#: includes/class-ow-process-flow.php:1662
+msgid "Reassigned"
+msgstr "Перенаправлено"
+
+#: includes/class-ow-process-flow.php:1629
+msgid "Cancelled"
+msgstr "Скасовано"
+
+#: includes/class-ow-process-flow.php:1643
+#: includes/class-ow-process-flow.php:1679
+#: includes/pages/subpages/submit-step.php:51
+msgid "Approved"
+msgstr "Затверджено"
+
+#: includes/class-ow-process-flow.php:1645
+#: includes/class-ow-process-flow.php:1681
+msgid "Rejected"
+msgstr "Відхилено"
+
+#: includes/class-ow-process-flow.php:1648
+msgid "Completed"
+msgstr "Завершено"
+
+#: includes/class-ow-process-flow.php:1650
+#: includes/class-ow-process-flow.php:1686
+#: includes/pages/subpages/submit-step.php:52
+msgid "Unable to Complete"
+msgstr "Неможливо завершити"
+
+#: includes/class-ow-process-flow.php:1684
+#: includes/pages/subpages/submit-step.php:51
+msgid "Complete"
+msgstr "Завершити"
+
+#: includes/class-ow-process-flow.php:2407
+msgid "All steps are not defined.\\n Please check the workflow."
+msgstr "Усі кроки не налаштовані.\\nПревірте процес."
+
+#: includes/class-ow-process-flow.php:2408
+msgid "The selected workflow is not valid.\\n Please check this workflow."
+msgstr "Обраний робочий процес не валідний.\\nПеревірте цей процес."
+
+#: includes/class-ow-process-flow.php:2410
+#: includes/class-ow-process-flow.php:2453
+msgid "You can select multiple users only for review step. Selected step is"
+msgstr ""
+"Ви можете обрати декілька користувачів для перегляду кроку. Обраний крок це "
+
+#: includes/class-ow-process-flow.php:2411
+#: includes/class-ow-process-flow.php:2454
+msgid "step."
+msgstr "крок."
+
+#: includes/class-ow-process-flow.php:2412
+msgid "Please select a workflow."
+msgstr "Оберіть процес."
+
+#: includes/class-ow-process-flow.php:2413
+#: includes/class-ow-process-flow.php:2450
+msgid "Please select a step."
+msgstr "Оберіть крок"
+
+#: includes/class-ow-process-flow.php:2414
+msgid "This step is not defined."
+msgstr "Цей крок не налаштований."
+
+#: includes/class-ow-process-flow.php:2415
+#: includes/class-ow-process-flow.php:2451
+msgid "Please enter a due date."
+msgstr "Введіть заплановану дату.  "
+
+#: includes/class-ow-process-flow.php:2416
+#: includes/class-ow-process-flow.php:2452
+msgid "No assigned actor(s)."
+msgstr "Немає призначених віконавців"
+
+#: includes/class-ow-process-flow.php:2444
+#: includes/pages/workflow-inbox.php:122
+msgid "Claim"
+msgstr "Заявка"
+
+#: includes/class-ow-process-flow.php:2445
+msgid "Go to Workflow Inbox"
+msgstr "Перейти до вхідниих робочих процесів"
+
+#: includes/class-ow-process-flow.php:2446
+msgid ""
+"There are no further steps defined in the workflow.</br> Do you want to "
+"cancel the post/page from the workflow?"
+msgstr ""
+"Це перший крок робочого процесу.</br> Ви насправді бажаєте виключити "
+"матеріал з робочого процесу?"
+
+#: includes/class-ow-process-flow.php:2447
+msgid ""
+"This is the last step in the workflow. Are you sure to complete the workflow?"
+msgstr ""
+"Це останній крок у робочому процесі. Ви бажаєте завершити  та оприлюднити "
+"матеріал?"
+
+#: includes/class-ow-process-flow.php:2449
+msgid "Please select an action."
+msgstr "Оберіть дію."
+
+#: includes/class-ow-process-flow.php:2492
+msgid "Are you sure to terminate the workflow?"
+msgstr "Ви впевнені, що хочете скасувати процес"
+
+#: includes/class-ow-report-service.php:64
+msgid "Assigned User"
+msgstr "Призначена дата"
+
+#: includes/class-ow-report-service.php:82
+msgid "Status"
+msgstr "Статус"
+
+#: includes/class-ow-report-service.php:113
+msgid "Date"
+msgstr "Дата"
+
+#: includes/class-ow-settings-base.php:32
+msgid "License"
+msgstr "Ліцензія"
+
+#: includes/class-ow-settings-base.php:35
+msgid "Workflow"
+msgstr "Процес затвердження"
+
+#: includes/class-ow-settings-base.php:38
+msgid "Email"
+msgstr "Email"
+
+#: includes/class-ow-settings-base.php:41
+msgid "Workflow Terminology"
+msgstr "Термінологія процесів"
+
+#: includes/class-ow-settings-base.php:56
+#: includes/class-ow-settings-base.php:57
+msgid "Settings"
+msgstr "Налаштування"
+
+#: includes/class-ow-utility.php:332
+#, php-format
+msgid "Displaying %s-%s of %s"
+msgstr "Відображено %s-%s з %s"
+
+#: includes/class-ow-utility.php:471 includes/class-ow-utility.php:798
+#: includes/class-ow-utility.php:857
+msgid "Post Author"
+msgstr "Автор матеріалу"
+
+#: includes/class-ow-utility.php:721
+msgid "There's something wrong with your code..."
+msgstr "Щсь не так з вашим кодом..."
+
+#: includes/class-ow-utility.php:757
+msgid "Low"
+msgstr "Низький"
+
+#: includes/class-ow-utility.php:758
+msgid "Normal"
+msgstr "正常"
+
+#: includes/class-ow-utility.php:759
+msgid "High"
+msgstr "Високий"
+
+#: includes/class-ow-utility.php:760
+msgid "Urgent"
+msgstr "Терміново"
+
+#: includes/class-ow-utility.php:801
+msgid "Roles"
+msgstr "Роль"
+
+#: includes/class-ow-utility.php:834
+msgid "Users"
+msgstr "Юзери"
+
+#: includes/class-ow-utility.php:902
+#: includes/class-ow-workflow-terminology-settings.php:142 oasiswf.php:431
+msgid "Submit to Workflow"
+msgstr "На модерацію"
+
+#: includes/class-ow-utility.php:903
+#: includes/class-ow-workflow-terminology-settings.php:152
+#: includes/pages/subpages/submit-step.php:36 oasiswf.php:432
+msgid "Sign Off"
+msgstr "Продовжити процес"
+
+#: includes/class-ow-utility.php:904
+#: includes/class-ow-workflow-terminology-settings.php:162
+#: includes/pages/subpages/submit-step.php:37
+#: includes/pages/subpages/submit-workflow.php:32 oasiswf.php:433
+msgid "Assign Actor(s)"
+msgstr "Призначені особи"
+
+#: includes/class-ow-utility.php:906
+#: includes/class-ow-workflow-terminology-settings.php:182
+#: includes/pages/subpages/submit-workflow.php:34 oasiswf.php:435
+msgid "Publish Date"
+msgstr "Дата публікації"
+
+#: includes/class-ow-utility.php:907
+#: includes/class-ow-workflow-terminology-settings.php:192 oasiswf.php:436
+msgid "Abort Workflow"
+msgstr "Скасувати процес"
+
+#: includes/class-ow-utility.php:908
+#: includes/class-ow-workflow-terminology-settings.php:202 oasiswf.php:437
+msgid "Workflow History"
+msgstr "Історія"
+
+#: includes/class-ow-utility.php:955
+msgid "Learn More"
+msgstr "Дізнатись більше"
+
+#: includes/class-ow-workflow-service.php:45
+#: includes/class-ow-workflow-service.php:86
+#: includes/class-ow-workflow-service.php:264
+#: includes/class-ow-workflow-service.php:343
+#: includes/class-ow-workflow-service.php:453
+#: includes/class-ow-workflow-service.php:1049
+msgid "You are not allowed to create/edit workflows."
+msgstr "Вам не дозволено створювати/редагувати робочі процеси."
+
+#: includes/class-ow-workflow-service.php:932
+msgid "Version"
+msgstr "Версія"
+
+#: includes/class-ow-workflow-service.php:937
+msgid "Start Date"
+msgstr "Початкова дата"
+
+#: includes/class-ow-workflow-service.php:945
+msgid "End Date"
+msgstr "Кінцева дата"
+
+#: includes/class-ow-workflow-service.php:953
+msgid "Post/Pages in workflow"
+msgstr "Матеріали у процесі"
+
+#: includes/class-ow-workflow-service.php:958
+msgid "Is Valid?"
+msgstr "Валідний?"
+
+#: includes/class-ow-workflow-settings.php:108
+msgid "Please enter a numeric value for default due date."
+msgstr "Введіть числове значення(кількість) днів до завершення."
+
+#: includes/class-ow-workflow-settings.php:112
+msgid "Please enter the number of days for default due date."
+msgstr "Будьласка введіть кількість днів до завершення за замовчуванням."
+
+#: includes/class-ow-workflow-settings.php:181
+msgid "Activate Workflow process ?"
+msgstr "Активувати робочий процес?"
+
+#: includes/class-ow-workflow-settings.php:185
+msgid ""
+"(After you are done setting up your editorial workflow, make it available "
+"for use by activating the workflow process.)"
+msgstr ""
+"(Після завершення налаштування, зробіть процес доступним для використання, "
+"активуйте його.)"
+
+#: includes/class-ow-workflow-settings.php:194
+msgid "Set default Due date as CURRENT DATE + "
+msgstr "Встановити дату за замовчуванням як ПОТОЧНУ ДАТУ. CURRENT DATE + "
+
+#: includes/class-ow-workflow-settings.php:201
+msgid "day(s)."
+msgstr "дні(в)."
+
+#: includes/class-ow-workflow-settings.php:222
+msgid "Show Workflow options for the following post/page types:"
+msgstr "Показати опції процесу затвердження для поточного типу матеріалу:"
+
+#: includes/class-ow-workflow-settings.php:237
+msgid "Enable workflow task priority."
+msgstr "Увімкнути пріоритет завдання робочого процесу."
+
+#: includes/class-ow-workflow-settings.php:241
+msgid "(Allows user to specify priority when signing off the task.)"
+msgstr "(Дозволяє користувачу пріоритет при укладанні off завдання)."
+
+#: includes/class-ow-workflow-settings.php:251
+msgid "Hide Publish Date field on \"Submit to Workflow\"."
+msgstr "Ярлик для  поля \"Publish Date\" на \"Submit to Workflow\" поп-ап."
+
+#: includes/class-ow-workflow-terminology-settings.php:142
+#: includes/class-ow-workflow-terminology-settings.php:152
+#: includes/class-ow-workflow-terminology-settings.php:162
+#: includes/class-ow-workflow-terminology-settings.php:172
+#: includes/class-ow-workflow-terminology-settings.php:182
+#: includes/class-ow-workflow-terminology-settings.php:192
+#: includes/class-ow-workflow-terminology-settings.php:202
+#: includes/class-ow-workflow-terminology-settings.php:213
+msgid " Label"
+msgstr "Ярлик"
+
+#: includes/class-ow-workflow-terminology-settings.php:146
+msgid "Label for \"Submit to Workflow\" button/link."
+msgstr "Ярлик для кнопки/поля \"Submit to Workflow\" ."
+
+#: includes/class-ow-workflow-terminology-settings.php:156
+msgid "Label for \"Sign Off\" button/link."
+msgstr "Ярлик для кнопки/поля  \"Sign Off\"."
+
+#: includes/class-ow-workflow-terminology-settings.php:166
+msgid "Label for \"Assign Actor(s)\" field."
+msgstr "Ярлик для поля \"Assign Actor(s)\"."
+
+#: includes/class-ow-workflow-terminology-settings.php:176
+msgid "Label for \"Due Date\" field."
+msgstr "Ярлик для  поля \"Due Date\"."
+
+#: includes/class-ow-workflow-terminology-settings.php:186
+msgid "Label for \"Publish Date\" field on the \"Submit to Workflow\" popup."
+msgstr "Ярлик для  поля \"Publish Date\" на \"Submit to Workflow\" поп-ап."
+
+#: includes/class-ow-workflow-terminology-settings.php:196
+msgid "Label for \"Abort Workflow\" button/link."
+msgstr "Ярлик для кнопки/поля  \"Abort Workflow\" ."
+
+#: includes/class-ow-workflow-terminology-settings.php:206
+msgid "Label for \"Workflow History\" menu."
+msgstr "Ярлик для \"Історія процесів\" меню."
+
+#: includes/class-ow-workflow-terminology-settings.php:217
+msgid ""
+"Label for \"Priority\" field on the \"Submit to Workflow\" and \"Sign Off\" "
+"popup."
+msgstr "Ярлик для  поля \"Publish Date\" на \"Submit to Workflow\" поп-ап."
+
+#: includes/class-ow-workflow-validator.php:113
+msgid "Start date is required."
+msgstr "Початкова дата обов'язкова"
+
+#: includes/class-ow-workflow-validator.php:131
+msgid "End date should be greater than the start date."
+msgstr "Дата закінчення має бути пізніше, ніж дата початку"
+
+#: includes/class-ow-workflow-validator.php:190
+msgid "Missing \""
+msgstr "Загублено \""
+
+#: includes/class-ow-workflow-validator.php:192
+msgid "\" step information. Right click on the step to edit step information."
+msgstr "\" інформацію кроку. Правий клік для редагування інформації по кроку."
+
+#: includes/class-ow-workflow-validator.php:200
+msgid "No steps found."
+msgstr "Кроків не знайдено."
+
+#: includes/class-ow-workflow-validator.php:207
+msgid ""
+"The workflow doesn't have a valid exit path.\tItems in this workflow will "
+"never exit the workflow. Please provide a valid exit path."
+msgstr ""
+"Робочий процес не має правильниго шляху виходу.  Елементи цього процесу "
+"ніколи не вийдуть з робочого процесу. Вкажіть правильний шлях виходу."
+
+#: includes/class-ow-workflow-validator.php:212
+msgid ""
+"Multiple steps marked as first step. Workflow can have only one starting "
+"point."
+msgstr ""
+"Кілька кроків відзначені як перший крок. Робочий процес може мати тільки "
+"одну початкову точку."
+
+#: includes/class-ow-workflow-validator.php:217
+msgid "Starting step not found. Workflow should have a starting point."
+msgstr ""
+"Починаючий крок не знайдений. Робочий процес повинен мати початкову точку."
+
+#: includes/class-ow-workflow-validator.php:250
+msgid "No connections found."
+msgstr "Зв'зків не знайднено."
+
+#: includes/class-ow-workflow-validator.php:255
+msgid "Please provide failure path for all steps except the first one."
+msgstr "Вкажіть шлях відмови для всіх етапів, крім першого."
+
+#: includes/pages/about-us.php:5
+msgid "About this Plugin:"
+msgstr "Про цей плагін:"
+
+#: includes/pages/about-us.php:8
+msgid "Plugin webpage"
+msgstr "Сторінка плагіну"
+
+#: includes/pages/about-us.php:9
+msgid "FAQ"
+msgstr "FAQ"
+
+#: includes/pages/about-us.php:11
+msgid "Help us Improve:"
+msgstr "Допоможіть покращити:"
+
+#: includes/pages/about-us.php:13
+msgid "Ask a question"
+msgstr "Задати питання"
+
+#: includes/pages/about-us.php:14
+msgid "Rate"
+msgstr "Оцінити"
+
+#: includes/pages/about-us.php:14
+msgid "the plugin 5 stars on WordPress.org"
+msgstr "плагін 5 зірок на WordPress.org"
+
+#: includes/pages/about-us.php:15
+msgid "Like us"
+msgstr "Вподобайте нас"
+
+#: includes/pages/about-us.php:15 includes/pages/about-us.php:16
+msgid "on"
+msgstr "на"
+
+#: includes/pages/about-us.php:16
+msgid "Follow us"
+msgstr "Слідкуйте за нами"
+
+#: includes/pages/about-us.php:18
+msgid "Want to try the Pro version?"
+msgstr "Хочете спробувти ПРО-можливості?"
+
+#: includes/pages/about-us.php:22
+msgid "Even more features with Pro Add-ons:"
+msgstr "Відкрити більше можливостей у ПРО версії:"
+
+#: includes/pages/ow-custom-statuses.php:6 oasiswf.php:252 oasiswf.php:253
+msgid "Custom Statuses"
+msgstr "Особливі статуси"
+
+#: includes/pages/ow-custom-statuses.php:24
+#: includes/pages/workflow-create.php:328
+#: includes/pages/workflow-create.php:335 includes/pages/workflow-inbox.php:132
+msgid "Edit"
+msgstr "Редагувати"
+
+#: includes/pages/ow-custom-statuses.php:32
+msgid "Are you sure you want to delete the post status?"
+msgstr "Ви насправді бажаєте видалити статус матеріалу?"
+
+#: includes/pages/ow-custom-statuses.php:35
+#: includes/pages/workflow-create.php:329
+#: includes/pages/workflow-create.php:338
+msgid "Delete"
+msgstr "Видалити"
+
+#: includes/pages/ow-custom-statuses.php:72
+msgid "The name is used to identify the status. (Max: 20 characters)"
+msgstr "Назва що ідентифікує статус (Макс: 20символів)"
+
+#: includes/pages/ow-custom-statuses.php:78
+msgid ""
+"The slug is the unique ID for the status. It is usually all lowercase and "
+"contains only letters, numbers and hyphens."
+msgstr ""
+"Слаг - це унікальний ідентифікатор для статусу. Це, як правило, все в "
+"нижньому регістрі і містить тільки латинські літери, цифри і дефіс."
+
+#: includes/pages/ow-custom-statuses.php:84
+msgid ""
+"The description is primarily for administrative use, to give you some "
+"context on what the custom status is to be used for."
+msgstr ""
+"Опис в першу чергу для службового користування, щоб дати вам деякий контекст "
+"на те, як спеціальний статус повинен використовуватися."
+
+#: includes/pages/subpages/action-comments.php:67
+msgid "Editorial Comments On: "
+msgstr "Редакторські коментарі:"
+
+#: includes/pages/subpages/action-comments.php:92
+msgid "Signed off on"
+msgstr "Переглядається "
+
+#: includes/pages/subpages/action-comments.php:110
+msgid "Close"
+msgstr "Закрити"
+
+#: includes/pages/subpages/connection-info-content.php:2
+msgid "Connection Settings"
+msgstr "Налаштування зв'язку"
+
+#: includes/pages/subpages/connection-info-content.php:6
+msgid "Current Connection"
+msgstr "Поточний зв'язок"
+
+#: includes/pages/subpages/connection-info-content.php:7
+msgid "Source"
+msgstr "Джерело"
+
+#: includes/pages/subpages/connection-info-content.php:13
+msgid "Target"
+msgstr "Ціль"
+
+#: includes/pages/subpages/connection-info-content.php:23
+msgid "Post Status :"
+msgstr "Статус:"
+
+#: includes/pages/subpages/connection-info-content.php:57
+msgid "Path :"
+msgstr "Шлях"
+
+#: includes/pages/subpages/connection-info-content.php:79
+#: includes/pages/subpages/delete-history.php:24
+#: includes/pages/subpages/reassign.php:92
+#: includes/pages/subpages/step-info-content.php:247
+#: includes/pages/subpages/submit-step.php:168
+#: includes/pages/subpages/submit-workflow.php:192
+#: includes/pages/subpages/workflow-copy-popup.php:24
+#: includes/pages/subpages/workflow-create-popup.php:24
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: includes/pages/subpages/delete-history.php:2
+#: includes/pages/workflow-history.php:88
+msgid "Delete History"
+msgstr "Видалити історію"
+
+#: includes/pages/subpages/delete-history.php:5
+msgid ""
+"Workflow History for posts/pages that are currently active in a workflow "
+"will NOT be deleted."
+msgstr ""
+"Активні матеріали що перебувають у процесі затвердження не можуть бути "
+"видалені"
+
+#: includes/pages/subpages/delete-history.php:9
+msgid "Delete Workflow History for posts/pages which were last updated : "
+msgstr "Видалити історію для матеріалів що булі в останнє оновлені:"
+
+#: includes/pages/subpages/delete-history.php:12
+msgid "1 Month ago"
+msgstr "1 місяць назад"
+
+#: includes/pages/subpages/delete-history.php:13
+msgid "3 Months ago"
+msgstr "3 місяці назад"
+
+#: includes/pages/subpages/delete-history.php:14
+msgid "6 Months ago"
+msgstr "6 місяців назад"
+
+#: includes/pages/subpages/delete-history.php:15
+msgid "12 Months ago"
+msgstr "12 місяців назад"
+
+#: includes/pages/subpages/delete-history.php:16
+msgid "Since the beginning"
+msgstr "З початку"
+
+#: includes/pages/subpages/delete-history.php:22
+msgid "Delete Workflow History"
+msgstr "Видалити історію процесів"
+
+#: includes/pages/subpages/reassign.php:21
+#: includes/pages/workflow-inbox.php:145
+msgid "Reassign"
+msgstr "Пренаправити"
+
+#: includes/pages/subpages/reassign.php:29
+#: includes/pages/subpages/submit-step.php:122
+#: includes/pages/subpages/submit-workflow.php:124
+msgid "Available"
+msgstr "Доступно"
+
+#: includes/pages/subpages/reassign.php:36
+msgid "No users found to reassign"
+msgstr "не знайдено користувачів з такою роллю."
+
+#: includes/pages/subpages/reassign.php:69
+#: includes/pages/subpages/submit-step.php:134
+#: includes/pages/subpages/submit-workflow.php:133
+msgid "Assigned"
+msgstr "Призначено"
+
+#: includes/pages/subpages/reassign.php:82
+msgid "Comments:"
+msgstr "Коментарі:"
+
+#: includes/pages/subpages/step-info-content.php:23
+msgid "Step Information"
+msgstr "Інформація по кроку"
+
+#: includes/pages/subpages/step-info-content.php:26
+msgid "Step Name :"
+msgstr "Назва кроку"
+
+#: includes/pages/subpages/step-info-content.php:33
+msgid "Assignee(s) :"
+msgstr "Призначений(і):"
+
+#: includes/pages/subpages/step-info-content.php:59
+msgid "Assign to all? : "
+msgstr "Призначити усіх?:"
+
+#: includes/pages/subpages/step-info-content.php:61
+msgid ""
+"Check this box to assign the task to all the users in this step and hide the "
+"assignee list during the sign off process."
+msgstr "Призначити усіх та приховати список протягом усього процесу"
+
+#: includes/pages/subpages/step-info-content.php:79
+msgid "Is first step? : "
+msgstr "Перший крок?"
+
+#: includes/pages/subpages/step-info-content.php:86
+msgid "Post Status (on submit) : "
+msgstr "Повідомлення стану (представити):"
+
+#: includes/pages/subpages/step-info-content.php:87
+msgid "Post Status after submit to workflow."
+msgstr "На модерацію"
+
+#: includes/pages/subpages/step-info-content.php:108
+msgid "Review Settings: "
+msgstr "Рішення по модерації:"
+
+#: includes/pages/subpages/step-info-content.php:120
+msgid "Everyone should approve"
+msgstr "Геть усі повинні затвердити"
+
+#: includes/pages/subpages/step-info-content.php:126
+#, php-format
+msgid "More than 50% should approve"
+msgstr "Більше 50% should approve"
+
+#: includes/pages/subpages/step-info-content.php:132
+msgid "Anyone should approve"
+msgstr "Будь хто повинен затвердити"
+
+#: includes/pages/subpages/step-info-content.php:143
+#: includes/pages/subpages/step-info-content.php:149
+msgid "Assignment Email"
+msgstr "Призначений Email"
+
+#: includes/pages/subpages/step-info-content.php:144
+#: includes/pages/subpages/step-info-content.php:202
+msgid "Reminder Email"
+msgstr "Нагадувальний Email"
+
+#: includes/pages/subpages/step-info-content.php:152
+#: includes/pages/subpages/step-info-content.php:205
+msgid "Placeholder : "
+msgstr "Плейсхолдер:"
+
+#: includes/pages/subpages/step-info-content.php:160
+#: includes/pages/subpages/step-info-content.php:208
+msgid "--Select--"
+msgstr "--Обрати--"
+
+#: includes/pages/subpages/step-info-content.php:170
+#: includes/pages/subpages/step-info-content.php:218
+msgid "Add to subject"
+msgstr "Додати до теми"
+
+#: includes/pages/subpages/step-info-content.php:171
+#: includes/pages/subpages/step-info-content.php:219
+msgid "Add to message"
+msgstr "Додати до повідомлення"
+
+#: includes/pages/subpages/step-info-content.php:176
+#: includes/pages/subpages/step-info-content.php:225
+msgid "Email subject : "
+msgstr "Тема листа(Email subject):"
+
+#: includes/pages/subpages/step-info-content.php:193
+#: includes/pages/subpages/step-info-content.php:229
+msgid "Email message : "
+msgstr "Повідомлення:"
+
+#: includes/pages/subpages/submit-step.php:48
+msgid "Action : "
+msgstr "Дія:"
+
+#: includes/pages/subpages/submit-step.php:52
+msgid "Reject"
+msgstr "Відхилити"
+
+#: includes/pages/subpages/submit-step.php:58
+msgid "Publish"
+msgstr "Публікація"
+
+#: includes/pages/subpages/submit-step.php:70
+msgid "Immediately"
+msgstr "Негайно"
+
+#: includes/pages/subpages/submit-step.php:83
+#: includes/pages/subpages/submit-workflow.php:96
+msgid "Step : "
+msgstr "Крок:"
+
+#: includes/pages/subpages/submit-step.php:113
+#: includes/pages/subpages/submit-workflow.php:114
+msgid "Assign actor : "
+msgstr "Виконавець:"
+
+#: includes/pages/subpages/submit-step.php:147
+#: includes/pages/subpages/submit-workflow.php:152
+#: includes/pages/subpages/submit-workflow.php:173
+#: includes/pages/workflow-create.php:165
+#: includes/pages/workflow-create.php:192
+msgid "clear"
+msgstr "очистити"
+
+#: includes/pages/subpages/submit-step.php:155
+#: includes/pages/subpages/submit-workflow.php:182
+msgid "Comments : "
+msgstr "Коментар:"
+
+#: includes/pages/subpages/submit-workflow.php:39
+#: includes/pages/subpages/submit-workflow.php:190
+msgid "Submit"
+msgstr "Відправити"
+
+#: includes/pages/subpages/submit-workflow.php:43
+msgid "Workflow : "
+msgstr "Процес:"
+
+#: includes/pages/subpages/submit-workflow.php:144
+msgid "Specify a date for the assignment to be completed."
+msgstr "Вкажіть дату коли процес необхідно завершити."
+
+#: includes/pages/subpages/submit-workflow.php:163
+msgid "Specify a desired publish date for the post."
+msgstr "Вкажіть бажану дату публікації."
+
+#: includes/pages/subpages/workflow-copy-popup.php:2
+msgid "Copy Workflow"
+msgstr "Процес затвердження"
+
+#: includes/pages/subpages/workflow-copy-popup.php:22
+#: includes/pages/workflow-create.php:337
+msgid "Copy"
+msgstr "Копіювати"
+
+#: includes/pages/subpages/workflow-create-popup.php:2
+msgid "Create New Workflow"
+msgstr "Очистити процес"
+
+#: includes/pages/subpages/workflow-create-popup.php:6
+#: includes/pages/workflow-create.php:108
+msgid "Title : "
+msgstr "Заголовок:"
+
+#: includes/pages/subpages/workflow-create-popup.php:14
+#: includes/pages/workflow-create.php:127
+msgid "Description : "
+msgstr "Опис:"
+
+#: includes/pages/subscribe-form.php:4
+msgid ""
+"Thank you for choosing Oasis Workflow! We hope that our plugin helps you to "
+"automate and streamline your editorial process."
+msgstr ""
+"Дякуємо Вам за вибір Oasis Workflow! Ми сподіваємося, що наш плагін "
+"допомагає вам оптимізувати процес редакційний."
+
+#: includes/pages/subscribe-form.php:13
+msgid "Stay informed"
+msgstr "Будьте в курсі"
+
+#: includes/pages/subscribe-form.php:15
+msgid ""
+"Sign up for the our newsletter and get access to discounts, plugin updates, "
+"important announcements and more!"
+msgstr ""
+"Підпишіться на нашу розсилку і отримати доступ до знижки, плагін оновлення, "
+"важливі оголошення і багато іншого!"
+
+#: includes/pages/subscribe-form.php:17
+msgid "indicates required"
+msgstr "обов'язкові для заповнення"
+
+#: includes/pages/subscribe-form.php:19
+msgid "Email Address"
+msgstr "Електронна пошта"
+
+#: includes/pages/subscribe-form.php:23
+msgid "First Name"
+msgstr "Ім'я"
+
+#: includes/pages/subscribe-form.php:27
+msgid "Last Name"
+msgstr "Прізвище"
+
+#: includes/pages/subscribe-form.php:36
+msgid "Subscribe"
+msgstr "Підписатися"
+
+#: includes/pages/workflow-assignment-report.php:76
+msgid "No current assignments."
+msgstr "нема поточних завдань."
+
+#: includes/pages/workflow-create.php:53
+msgid "If you want to view how-to videos on Oasis Workflow "
+msgstr "Якщо ви хочете подивитися, як до відео на Oasis Workflow"
+
+#: includes/pages/workflow-create.php:55
+msgid "click here."
+msgstr "клікніть тут"
+
+#: includes/pages/workflow-create.php:64 includes/pages/workflow-create.php:98
+#: includes/pages/workflow-create.php:205
+msgid "Click to toggle"
+msgstr "Натисніть для зміни"
+
+#: includes/pages/workflow-create.php:67
+msgid "Processes"
+msgstr "Процеси"
+
+#: includes/pages/workflow-create.php:68
+msgid ""
+"Drag and Drop the processes into the Workflow Design Canvas to create new "
+"workflow steps."
+msgstr "Перетягніть процес у вікно дизайну"
+
+#: includes/pages/workflow-create.php:88
+msgid ""
+"Processes are not available, since there are items (post/pages) in the "
+"workflow.&nbsp;&nbsp;&nbsp;If you want to edit the workflow,&nbsp;&nbsp; "
+"please "
+msgstr ""
+"Процеси не доступні, так як є елементи (матеріали) в робочому процесі &nbsp;"
+"&nbsp;&nbsp; Якщо ви хочете змінити робочий процес, &nbsp;&nbsp;&nbsp; будь "
+"ласка"
+
+#: includes/pages/workflow-create.php:89
+msgid "save it as a new version"
+msgstr "зберегти як нову версію"
+
+#: includes/pages/workflow-create.php:100
+msgid "Workflow Info"
+msgstr "Інформація по процесу"
+
+#: includes/pages/workflow-create.php:147
+msgid "Start Date :"
+msgstr "Дата початку:"
+
+#: includes/pages/workflow-create.php:150
+msgid "Specify a date from which this workflow will become available for use."
+msgstr "Вкажіть дату початку."
+
+#: includes/pages/workflow-create.php:174
+msgid "End date :"
+msgstr "Дата закінчення:"
+
+#: includes/pages/workflow-create.php:176
+msgid ""
+"End date is not required. If not specified, the workflow is valid for ever.\n"
+"                                     \t\t\tSpecify an end date, if you want "
+"to retire the workflow."
+msgstr ""
+"Оберіть дату закінчення(не обов'язково), якщо не вказано - процес діятеме "
+"вічно. Після кінцевої дати - процес буде деактивовано. "
+
+#: includes/pages/workflow-create.php:207
+msgid "Workflow Applicable To"
+msgstr "Процес:"
+
+#: includes/pages/workflow-create.php:218
+msgid "new posts/pages"
+msgstr "нові пости/сторінки"
+
+#: includes/pages/workflow-create.php:225
+msgid "revised posts/pages"
+msgstr "переглянутий пости/сторінки"
+
+#: includes/pages/workflow-create.php:238
+msgid "Roles (who can submit to this workflow) :"
+msgstr "Ролі, (які можна представити цей робочий процес):"
+
+#: includes/pages/workflow-create.php:241
+#: includes/pages/workflow-create.php:263
+msgid " (applicable to all, if none specified)"
+msgstr "(можна застосувати до всіх, якщо жоден не вказано)"
+
+#: includes/pages/workflow-create.php:260
+msgid "Post Types :"
+msgstr "Типи записів"
+
+#: includes/pages/workflow-create.php:281
+msgid "Workflow Design Canvas"
+msgstr "Вікно дизайну процесів"
+
+#: includes/pages/workflow-create.php:290
+msgid "Save as new version"
+msgstr "Зберегти як нову версію"
+
+#: includes/pages/workflow-create.php:307
+msgid "Clear Workflow"
+msgstr "Очистити процес"
+
+#: includes/pages/workflow-create.php:327
+msgid "Conn Menu"
+msgstr "Conn меню"
+
+#: includes/pages/workflow-create.php:330
+#: includes/pages/workflow-create.php:340
+#: includes/pages/workflow-create.php:345
+msgid "Quit"
+msgstr "Вихід"
+
+#: includes/pages/workflow-create.php:333
+msgid "Step Menu"
+msgstr "Крок меню"
+
+#: includes/pages/workflow-create.php:344
+msgid "Paste"
+msgstr "Вставити"
+
+#: includes/pages/workflow-dashboard-widget.php:34
+#, php-format
+msgid ""
+"You currently have <a href=\"admin.php?page=oasiswf-inbox\">%s assignment(s)."
+"</a>"
+msgstr ""
+"Зараз у вас <a href=\"admin.php?page=oasiswf-inbox\">призначення %s.</a>"
+
+#: includes/pages/workflow-dashboard-widget.php:41
+#: includes/pages/workflow-inbox.php:214
+msgid "Hurray! No assignments."
+msgstr "Поточні завдання відсутні"
+
+#: includes/pages/workflow-dashboard-widget.php:51
+msgid "Tasks by Due Date"
+msgstr "Дата призначення"
+
+#: includes/pages/workflow-dashboard-widget.php:98
+msgid "Tasks by Priority"
+msgstr "Завдання за пріоритетом"
+
+#: includes/pages/workflow-history.php:31
+msgid "Workflow history deleted successfully."
+msgstr "Історію процесів видалено успішно."
+
+#: includes/pages/workflow-history.php:39
+msgid "No eligible workflow history found to delete."
+msgstr "Історія  відсутня"
+
+#: includes/pages/workflow-history.php:47
+msgid ""
+"There was an error while deleting the history. Try again OR contact your "
+"administrator."
+msgstr ""
+"Сталася помилка при видаленні історії. Спробуйте знову або зверніться до "
+"адміністратора."
+
+#: includes/pages/workflow-history.php:58
+msgid "View Post/Page Workflow History"
+msgstr "Показати історію процесів"
+
+#: includes/pages/workflow-history.php:74
+msgid "Filter"
+msgstr "Фільтр"
+
+#: includes/pages/workflow-history.php:81
+msgid "Download Workflow History Report"
+msgstr "Видалити історію процесів"
+
+#: includes/pages/workflow-history.php:205
+msgid "No workflow history data found."
+msgstr "Історія  відсутня"
+
+#: includes/pages/workflow-inbox.php:24 oasiswf.php:213 oasiswf.php:214
+msgid "Inbox"
+msgstr "Вхідні"
+
+#: includes/pages/workflow-inbox.php:36
+msgid "View inbox of "
+msgstr "Показати вхідні по"
+
+#: includes/pages/workflow-inbox.php:51
+msgid "Show"
+msgstr "Показати"
+
+#: includes/pages/workflow-inbox.php:135
+msgid "View"
+msgstr "Показати"
+
+#: includes/pages/workflow-inbox.php:157
+msgid "View History"
+msgstr "Показати історію"
+
+#: includes/pages/workflow-list.php:63 oasiswf.php:243 oasiswf.php:244
+msgid "Edit Workflows"
+msgstr "Редагувати процеси"
+
+#: includes/pages/workflow-list.php:180
+msgid "You don't have any workflows. Let's go "
+msgstr "У вас немає процесів"
+
+#: includes/pages/workflow-list.php:181
+msgid "create one"
+msgstr "створити один"
+
+#: includes/pages/workflow-reports.php:6
+msgid "Current Assignments"
+msgstr "Поточні завдання"
+
+#: includes/pages/workflow-reports.php:7
+msgid "Workflow Submissions"
+msgstr "Запити на затвердження"
+
+#: includes/pages/workflow-submission-report.php:41
+msgid "Not in Workflow"
+msgstr "Не в процесі"
+
+#: includes/pages/workflow-submission-report.php:43
+msgid "In Workflow"
+msgstr "У процесі"
+
+#: includes/pages/workflow-submission-report.php:87
+msgid "No Posts/Pages found in any workflows."
+msgstr "Не знайдено матеріалів у процесах"
+
+#: includes/pages/workflow-submission-report.php:101
+msgid "-- Select Action --"
+msgstr "--Оберіть дію--"
+
+#: includes/pages/workflow-submission-report.php:102
+msgid "Abort"
+msgstr "Перервати"
+
+#: js/lib/textedit/nicEdit.js:13
+msgid "Click to Bold"
+msgstr "Клікніть для жирного тексту"
+
+#: js/lib/textedit/nicEdit.js:14
+msgid "Click to Italic"
+msgstr "Клікніть для наклону"
+
+#: js/lib/textedit/nicEdit.js:15
+msgid "Click to Underline"
+msgstr "Клікніть для пікреслення"
+
+#: js/lib/textedit/nicEdit.js:16
+msgid "Left Align"
+msgstr "По лівому краю"
+
+#: js/lib/textedit/nicEdit.js:17
+msgid "Center Align"
+msgstr "По центру"
+
+#: js/lib/textedit/nicEdit.js:18
+msgid "Right Align"
+msgstr "По правому краю"
+
+#: js/lib/textedit/nicEdit.js:19
+msgid "Justify Align"
+msgstr "Рівновіддалений"
+
+#: js/lib/textedit/nicEdit.js:20
+msgid "Insert Ordered List"
+msgstr "Вставити нумерований список"
+
+#: js/lib/textedit/nicEdit.js:21
+msgid "Insert Unordered List"
+msgstr "Вставити не нумерований список"
+
+#: js/lib/textedit/nicEdit.js:22
+msgid "Click to Subscript"
+msgstr "Клікніть для підрядкового тексту"
+
+#: js/lib/textedit/nicEdit.js:23
+msgid "Click to Superscript"
+msgstr "Клікніть для надрядкового тексту"
+
+#: js/lib/textedit/nicEdit.js:24
+msgid "Click to Strike Through"
+msgstr "Клікніть для закреслення"
+
+#: js/lib/textedit/nicEdit.js:25
+msgid "Remove Formatting"
+msgstr "Видалити форматування"
+
+#: js/lib/textedit/nicEdit.js:26
+msgid "Indent Text"
+msgstr "Відступ тексту"
+
+#: js/lib/textedit/nicEdit.js:27
+msgid "Remove Indent"
+msgstr "Видалити відступ"
+
+#: js/lib/textedit/nicEdit.js:28
+msgid "Horizontal Rule"
+msgstr "Горизонтальна лінійка"
+
+#: js/lib/textedit/nicEdit.js:55
+msgid "Select Font Size"
+msgstr "Обрати розмір шрифту"
+
+#: js/lib/textedit/nicEdit.js:56
+msgid "Select Font Family"
+msgstr "Обрати Сімейство шрифту"
+
+#: js/lib/textedit/nicEdit.js:57
+msgid "Select Font Format"
+msgstr "Обрати формат шрифту"
+
+#: js/lib/textedit/nicEdit.js:76
+msgid "Change Text Color"
+msgstr "Змінити колір тексту"
+
+#: js/lib/textedit/nicEdit.js:77
+msgid "Change Background Color"
+msgstr "Змінити колір бекграунду"
+
+#: js/lib/textedit/nicEdit.js:96
+msgid "Save this content"
+msgstr "Зберегти цей контент"
+
+#: js/pages/acf-pro-validator.js:60
+msgid "validation_failed"
+msgstr "validation_failed"
+
+#: js/pages/acf-pro-validator.js:106
+msgid "validation_failed_1"
+msgstr "validation_failed_1"
+
+#: js/pages/acf-pro-validator.js:109
+msgid "validation_failed_2"
+msgstr "validation_failed_2"
+
+#: oasiswf.php:204 oasiswf.php:205
+msgid "Workflows"
+msgstr "Процес затвердження"
+
+#: oasiswf.php:233 oasiswf.php:234
+msgid "Reports"
+msgstr "Звіти"
+
+#: oasiswf.php:262 oasiswf.php:263 oasiswf.php:2122
+msgid "Stay Informed"
+msgstr "Будьте в курсі"
+
+#: oasiswf.php:656 oasiswf.php:1445
+msgid "first name"
+msgstr "Ім'я"
+
+#: oasiswf.php:657 oasiswf.php:1446
+msgid "last name"
+msgstr "Прізвище"
+
+#: oasiswf.php:658 oasiswf.php:1447
+msgid "post title"
+msgstr "назва матеріалу"
+
+#: oasiswf.php:659 oasiswf.php:1448
+msgid "category"
+msgstr "категорія"
+
+#: oasiswf.php:660 oasiswf.php:1449
+msgid "last modified date"
+msgstr "дата останнього оновлення"
+
+#: oasiswf.php:661
+msgid "post author"
+msgstr "Автор матеріалу"
+
+#: oasiswf.php:1119
+msgid "Welcome to Oasis Workflow"
+msgstr "Ласкаво просимо в Oasis Workflow"
+
+#: oasiswf.php:1121
+msgid "To get started with Oasis Workflow follow the steps listed below."
+msgstr "Щоб почати роботу з Oasis Workflow виконайте дії, перелічені нижче."
+
+#: oasiswf.php:1122
+msgid ""
+"To get started with Oasis Workflow go to the individual site and follow the "
+"steps listed below."
+msgstr ""
+"Щоб почати роботу з Oasis Workflow перейдіть на окремий сайт і дотримуйтесь "
+"інструкцій, наведених нижче."
+
+#: oasiswf.php:1123
+#, php-format
+msgid "1. Go to Workflows %s Edit Workflows."
+msgstr "1. Перейдіть на Робочі процеси %s Редагувати робочі процеси."
+
+#: oasiswf.php:1124
+msgid "2. Modify the \"Sample Workflow\" to suit your needs."
+msgstr "2. Змініть \"Sample Workflow\" відповідно до ваших потреб."
+
+#: oasiswf.php:1125
+#, php-format
+msgid ""
+"3. Activate the workflow process from Workflows %s Settings, Workflow tab."
+msgstr "3. Активувати робочий процес від Workflows %s у вкладці Налаштування."
+
+#: oasiswf.php:1434
+msgid "Success"
+msgstr "Успіх"
+
+#: oasiswf.php:1435
+msgid "Failure"
+msgstr "Невдача"
+
+#: oasiswf.php:1439
+msgid "In Progress"
+msgstr "У прогресі"
+
+#: oasiswf.php:1440
+msgid "In Review"
+msgstr "На перегляді"
+
+#: oasiswf.php:1441
+msgid "Ready to Publish"
+msgstr "Готове до публікації"
+
+#: oasiswf.php:1983
+msgid "Are you sure to abort the workflow?"
+msgstr "Ви впевнені що хочете припинити процес?"
+
+#: oasiswf.php:2010
+msgid "Do you really want to clear all the steps?"
+msgstr "Ви справді бажаєте видалити усі кроки?"
+
+#: oasiswf.php:2011
+msgid "This step is already defined. Do you really want to remove this step?"
+msgstr "Цей крок налаштовано. Ви справді бажаєте його видалити?"
+
+#: oasiswf.php:2012
+msgid "Please select Post Status."
+msgstr "Оберіть статус при успіху."
+
+#: oasiswf.php:2013
+msgid "The path between"
+msgstr "Шлях між"
+
+#: oasiswf.php:2014
+msgid "step and"
+msgstr "крок та"
+
+#: oasiswf.php:2015
+msgid "step is incorrect."
+msgstr "крок некоректний."
+
+#: oasiswf.php:2016
+msgid ""
+"To edit/delete the step, right click on the step to access the step menu."
+msgstr ""
+"Щоб редагувати/видалити крок, клікніть правою кнопкою миші, для доступу у "
+"меню кроку."
+
+#: oasiswf.php:2017
+msgid ""
+"To connect to another step drag a line from the \"dot\" to the next step."
+msgstr ""
+"Щоб приєднати інший крок протягріть лінію від точки, до наступного кроку."
+
+#: oasiswf.php:2018
+msgid "Post Status"
+msgstr "Статус:"
+
+#: oasiswf.php:2026
+msgid "You have unsaved changes."
+msgstr "У вас є незбережені зміни."
+
+#: oasiswf.php:2034
+msgid "Due date cannot be in the past."
+msgstr "Дата не може бути у минулому."
+
+#: oasiswf.php:2041
+msgid "Step name is required."
+msgstr "Назва кроку обов'язкова"
+
+#: oasiswf.php:2042
+msgid "Step name already exists. Please use a different name."
+msgstr "Така назва кроку вже є. Оберіть іншу назву"
+
+#: oasiswf.php:2043
+msgid "Please select assignee(s)."
+msgstr "Оберіть призначеного"
+
+#: oasiswf.php:2044
+msgid "Please select a placeholder."
+msgstr "Оберіть плейсхолдер."
+
+#: oasiswf.php:2085
+msgid "Workflow Tasks At a Glance"
+msgstr "Завдання робочого процесу з першого погляду"
+
+#~ msgid "Workflow(version)"
+#~ msgstr "Робочий процес(версія)"
+
+#~ msgid ""
+#~ "User '%s' has already been assigned this task. Please select another user."
+#~ msgstr ""
+#~ "User '%s' has already been assigned this task. Please select another user."
+
+#~ msgid "Please select a team."
+#~ msgstr "Оберіть крок"
+
+#~ msgid ""
+#~ "No users found for the given Team and Workflow assignee(s). Please check "
+#~ "the team."
+#~ msgstr ""
+#~ "Жодного користувача не знайдено для даної команди і робочий процес "
+#~ "assignee(s). Будь ласка, перевірте команди."
+
+#~ msgid ""
+#~ "No users found for the assigned Team and Workflow assignee(s). Please "
+#~ "contact the administrator."
+#~ msgstr ""
+#~ "Жодного користувача не знайшла призначеними команди і робочий процес "
+#~ "assignee(s). Будь ласка, зверніться до адміністратора."
+
+#~ msgid "No team assigned. Please contact the administrator."
+#~ msgstr "Жодна команда призначено. Будь ласка, зверніться до адміністратора."
+
+#~ msgid ""
+#~ "Set your review setting to dictate how and when item moves to the success "
+#~ "step:"
+#~ msgstr ""
+#~ "Визначте ваші налаштування процесу затвердження, коли і як матеріал "
+#~ "повинен рухатись до успішного кроку:"
+
+#~ msgid "Add-ons For Oasis Workflow"
+#~ msgstr "Ласкаво просимо в Oasis Workflow"
+
+#~ msgid "Browse All Add-ons"
+#~ msgstr "Browse All Add-ons"
+
+#~ msgid ""
+#~ "There was an error retrieving the Add-ons list from the server. Please "
+#~ "try again later."
+#~ msgstr ""
+#~ "Помилка під час отримання списку додаткові компоненти із сервера. Будь "
+#~ "ласка, спробуйте ще раз пізніше."
+
+#~ msgid "User"
+#~ msgstr "Користувач"
+
+#~ msgid "If you want to know more about creating/modifying workflows "
+#~ msgstr "Щоб дізнатись більше  "
+
+#~ msgid "watch this video."
+#~ msgstr "подивіться відео."
+
+#~ msgid ""
+#~ " You can also look up for more tutorial videos about Oasis Workflow on "
+#~ "YouTube."
+#~ msgstr "Більше відео про плагін"
+
+#~ msgid "Select a User: "
+#~ msgstr "Обрати користувача"
+
+#~ msgid "On Success"
+#~ msgstr "При успіху"
+
+#~ msgid "On Failure"
+#~ msgstr "При невдачі"
+
+#~ msgid "All"
+#~ msgstr "Усі"
+
+#~ msgid "Active"
+#~ msgstr "Активні"
+
+#~ msgid "Inactive"
+#~ msgstr "Не активні"
+
+#~ msgid ""
+#~ "There is an existing workflow with the same name. Please choose another "
+#~ "name."
+#~ msgstr "Процес з таким ім'ям вже існує. Оберіть інше."
+
+#~ msgid "Please select status on failure."
+#~ msgstr "Оберіть статус при невдачі."
+
+#~ msgid ""
+#~ "You may not make changes to this published content. You must first make a "
+#~ "revision and then submit your changes for approval."
+#~ msgstr ""
+#~ "Ви не можете внести зміну у цей опублікований матеріал. Ви повинні "
+#~ "створити нову ревізію, та затвердити по встановленому процесу."

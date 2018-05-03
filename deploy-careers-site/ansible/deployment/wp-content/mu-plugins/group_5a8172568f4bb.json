@@ -1,0 +1,43 @@
+{
+    "key": "group_5a8172568f4bb",
+    "title": "RPG Snippet",
+    "fields": [
+        {
+            "key": "field_5a817261e0705",
+            "label": "Snippet body",
+            "name": "snippet_body",
+            "type": "textarea",
+            "instructions": "(max 2000 chars)",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": 2000,
+            "rows": 20,
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "rpg-snippets"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "HTML snippets which can be used throughout the site",
+    "modified": 1523537736
+}
