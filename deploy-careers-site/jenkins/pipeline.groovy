@@ -45,7 +45,7 @@ pipeline {
         stage('get the zip file name') {
             steps {
                 script{
-                  zip_file_name = sh "ls -1 ./deploy-careers-site/zip"
+                  zip_file_name = sh script:"ls -1rt ./deploy-careers-site/zip | tail -1", returnStdout: true
                 }
             }
         }
