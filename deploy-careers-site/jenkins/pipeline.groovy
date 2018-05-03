@@ -41,14 +41,5 @@ pipeline {
             }
         }
 
-        stage('Push the zip file to Bintray') {
-            //curl -T <FILE.EXT> -ucshr:<API_KEY> https://api.bintray.com/content/rpg/careers-site/<YOUR_COOL_PACKAGE_NAME>/<VERSION_NAME>/<FILE_TARGET_PATH>
-            steps {
-              dir("./deploy-careers-site/zip/") {
-                withCredentials([usernameColonPassword(credentialsId: '${params.bintray_credentials_id}', variable: 'USERPASS')]) {
-                  sh "file_name=$(ls -1) && curl -T ${file_name} -u $USERPASS https://api.bintray.com/content/rpg/careers-site/zip/1/${file_name}"          '''
-              }
-            }
-        }
     }
 }
