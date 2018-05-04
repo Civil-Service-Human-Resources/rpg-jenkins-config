@@ -1,0 +1,102 @@
+# post deployment script reimports the DB and 
+# places in uploads folder inplace
+
+---
+
+- include: prompts.yml
+
+- hosts: localhost
+  tasks:
+  
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+  - name: stop wordpress service
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 0
+    tags:
+    - stop-ecs
+
+- hosts: efs_hosts
+  vars:
+    sql_directory: /data/db-scripts/post-deploy
+    sql_files:
+    - post-deploy-rpg-careers-baseline-build.sql
+    - post-deploy-users.sql
+    uploads_directory: /data/wp-content/uploads
+    site_url: careers-site.{{env}}.cshr-gov.uk
+
+  tasks:
+
+  - name: make a directory for post install files
+    file:
+      path: "{{sql_directory}}"
+      state: directory
+
+  - name: copy the sql files to the host
+    copy:
+      src: ./static/sql/{{item}}
+      dest: "{{sql_directory}}/{{item}}"
+    with_items: "{{sql_files}}"
+
+  - name: replace the URL in the sql file with 
+    replace:
+      path: "{{sql_directory}}/post-deploy-rpg-careers-baseline-build.sql"
+      regexp: 'CAREERS-SITE.URL'
+      replace: '{{site_url}}'
+    
+  - name: run the sql files
+    shell: mysql -u {{db_user}} --password={{db_password}} -h careers-site-db.{{env}}.cshr-gov.uk --database wordpress < {{sql_directory}}/{{item}} 2>&1 > {{sql_directory}}/{{item}}.log 
+    with_items: "{{sql_files}}"
+
+  - name: make sure the uploads folder exists
+    file:
+      path: "{{uploads_directory}}"
+      state: directory
+      mode: 0777
+
+  - name: unzip the uploads folder
+    unarchive:
+      src: ./static/files/uploads.zip
+      dest: "{{uploads_directory}}"
+      mode: 0775
+
+- hosts: localhost
+  tasks:
+
+  - name: restart wordpress
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 1
+    tags:
+    - start-ecs
+  
+
+
+  
+

@@ -18,6 +18,7 @@
     git_repo: git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git
     git_branch: release
     base_dir: .
+    static_files: "{{base_dir}}/static/files"
     package_dest: "{{base_dir}}/deployment"
     package_src: "{{base_dir}}/source"
     package_artifact: "{{base_dir}}/zip"
@@ -208,7 +209,6 @@
       dest: "{{package_dest}}/"
     with_items:
     - "{{package_src}}/wp-config/wp-config.php"
-    - ./wp_activate_theme.sh
     - "{{package_src}}/htaccess/.htaccess"
 
   - name: get the wordpress salts
@@ -275,7 +275,7 @@
 
   - name: copy the run sql script to the package
     copy:
-      src: "./run_sql.sh"
+      src: "{{static_files}}/run_sql.sh"
       dest: "{{package_dest}}/db-scripts/"
       mode: 0755
 

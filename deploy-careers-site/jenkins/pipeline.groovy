@@ -55,6 +55,18 @@ pipeline {
                 sh "ansible-playbook ./deploy-careers-site/ansible/deploy.yml --extra-vars \"env=demo\" --extra-vars \"db_user=root\" --extra-vars \"db_password=cshr2017\" --extra-vars \"zip_location=${WORKING_DIR}/zip/${zip_file_name}\""
             }
         }
+        
 
     }
 }
+
+//stage('deploy') {
+//    steps {
+//        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
+//                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+//            sh 'echo hello'
+//        }
+//    }
+//}
+
+
