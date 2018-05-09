@@ -30,19 +30,17 @@ pipeline {
             steps{
                 script {
                     withCredentials([usernamePassword(credentialsId: "${params.environment}_api_search", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                        
                         api_user = env.user
                         api_pass = env.pass
-                            
                     }
-                }    
-                //withCredentials([usernamePassword(credentialsId: "${params.environment}_ci_auth", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                 //    script {
-                   //      ci_user = ${user}
-                 //       ci_pass = ${pass}   
-                  //   }
                 }
-            
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_ci_auth", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        ci_user = env.user
+                        ci_pass = env.pass
+
+                }    
+            }   
         }
 
         stage('Update the task definition') {
