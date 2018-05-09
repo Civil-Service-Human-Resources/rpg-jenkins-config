@@ -1,5 +1,10 @@
 def update_retval = 'NA'
 
+def ci_user = null
+def ci_pass = null
+def api_user = null
+def api_pass = null
+
 pipeline {
     agent any
     environment {
@@ -21,10 +26,23 @@ pipeline {
             }
         }
 
+        stage('load the credentials in to variables'){
+            steps{
+                withCredentials([usernamePassword(credentialsId: "${params.environment}_api_search", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                     api_user = ${user}
+                     api_pass = ${pass}   
+                }
+                withCredentials([usernamePassword(credentialsId: "${params.environment}_ci_auth", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                     ci_user = ${user}
+                     ci_pass = ${pass}   
+                }
+            }
+        }
+
         stage('Update the task definition') {
             steps {
               script{
-                update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment}", returnStdout: true
+                update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${ci_user} ${ci_pass} ${api_user} ${api_pass}", returnStdout: true
               }
             }
         }
