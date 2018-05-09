@@ -42,7 +42,7 @@ pipeline {
                  //       ci_pass = ${pass}   
                   //   }
                 }
-            }
+            
         }
 
         stage('Update the task definition') {
