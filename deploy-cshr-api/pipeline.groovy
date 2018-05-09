@@ -14,7 +14,7 @@ pipeline {
       AWS_DEFAULT_REGION='eu-west-1'
     }
     parameters {
-      string(defaultValue: 'latest', description: 'The circle CI tag', name: 'dockerTag')
+      string(defaultValue: 'develop', description: 'The circle CI tag', name: 'dockerTag')
       string(defaultValue: 'dev', description: '', name: 'environment')
     }
 
