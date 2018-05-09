@@ -29,12 +29,17 @@ pipeline {
         stage('load the credentials in to variables'){
             steps{
                 withCredentials([usernamePassword(credentialsId: "${params.environment}_api_search", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                    script {
                      api_user = ${user}
                      api_pass = ${pass}   
+                    }
+                        
                 }
                 withCredentials([usernamePassword(credentialsId: "${params.environment}_ci_auth", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                     ci_user = ${user}
-                     ci_pass = ${pass}   
+                     script {
+                         ci_user = ${user}
+                        ci_pass = ${pass}   
+                     }
                 }
             }
         }
