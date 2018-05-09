@@ -38,7 +38,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: "${params.environment}_ci_auth", usernameVariable: 'user', passwordVariable: 'pass' )]){
                         ci_user = env.user
                         ci_pass = env.pass
-
+                    }
                 }    
             }   
         }
