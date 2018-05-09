@@ -5,6 +5,13 @@ DOCKER_TAG=${1}
 DEPLOY_ENV=${2}
 datasource_username=${3}
 datasource_password=${4}
+location_service_username=${5}
+location_service_password${6}
+search_username=${7}
+search_password=${8}
+crud_username=${9}
+crud_password=${10}
+
 
 if [[ "${DEPLOY_ENV}" == "dev" ]]; then
   spring_profiles_active=dev
@@ -46,6 +53,30 @@ CONTAINER_DEFINITION=$(cat <<EOF
       {
         "name" : "SPRING_PROFILES_ACTIVE",
         "value": "${spring_profiles_active}"
+      },
+      {
+        "name":"LOCATION_SERVICE_USERNAME",
+        "value":"${location_service_username}"
+      },
+      {
+         "name":"LOCATION_SERVICE_PASSWORD",
+         "value":"${location_service_password}"
+      },
+      {
+         "name":"SEARCH_USERNAME",
+         "value":"${search_username}"
+      },
+      {
+         "name":"SEARCH_PASSWORD",
+         "value":"${search_password}"
+      },
+      {
+         "name":"CRUD_USERNAME",
+         "value":"${crud_username}"
+      },
+      {
+         "name":"CRUD_PASSWORD",
+         "value":"${crud_password}"
       }
 
     ]

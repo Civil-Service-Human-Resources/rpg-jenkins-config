@@ -1,4 +1,10 @@
 def update_retval = 'NA'
+def location_user = null
+def location_pass = null
+def api_user = null
+def api_pass = null
+def crud_user = null
+def crud_pass = null
 
 pipeline {
     agent any
@@ -21,11 +27,36 @@ pipeline {
             }
         }
 
+
+        stage('load the credentials in to variables'){
+            steps{
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_location_user", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        location_user = env.user
+                        location_pass = env.pass
+                    }
+                } 
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_api_search", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        api_user = env.user
+                        api_pass = env.pass
+                    }
+                }
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_api_crud", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        crud_user = env.user
+                        crud_pass = env.pass
+                    }
+                }
+              
+            }   
+        }
+
         stage('Update the task definition') {
             steps {
               withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                 script{
-                  update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass}", returnStdout: true
+                  update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass} ${location_user} ${location_pass} ${search_user} ${search_pass} ${crud_user} ${crud_pass}", returnStdout: true
                 }
               }
             }
