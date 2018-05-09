@@ -6,7 +6,7 @@ DEPLOY_ENV=${2}
 datasource_username=${3}
 datasource_password=${4}
 location_service_username=${5}
-location_service_password${6}
+location_service_password=${6}
 search_username=${7}
 search_password=${8}
 crud_username=${9}
