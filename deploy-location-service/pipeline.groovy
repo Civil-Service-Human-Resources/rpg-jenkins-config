@@ -1,4 +1,8 @@
 def update_retval = 'NA'
+def location_user = null
+def location_pass = null
+def location_key = null
+def filebeat_hosts = null
 
 pipeline {
     agent any
@@ -21,10 +25,32 @@ pipeline {
             }
         }
 
+
+        stage('load the credentials in to variables'){
+            steps{
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_location_user", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        location_user = env.user
+                        location_pass = env.pass
+                    }
+                } 
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_location_key", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        location_key = env.pass
+                    }
+                } 
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_filebeat_hosts", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        filebeat_hosts = env.pass
+                    }
+                } 
+            }   
+        }
+
         stage('Update the task definition') {
             steps {
               script{
-                update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment}", returnStdout: true
+                update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${location_key} ${location_user} ${location_pass} ${filebeat_hosts}", returnStdout: true
               }
             }
         }
