@@ -15,7 +15,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
 {
    "name":"location-service",
    "image":"cshrrpg.azurecr.io/location-service:${DOCKER_TAG}",
-   "memory":768,
+   "memory":1024,
    "essential":true,
    "hostname":"location-service",
    "portMappings":[
