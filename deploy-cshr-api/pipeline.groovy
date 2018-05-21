@@ -48,6 +48,11 @@ pipeline {
                         crud_pass = env.pass
                     }
                 }
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_filebeat_hosts", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        filebeat_hosts = env.pass
+                    }
+                } 
               
             }   
         }
@@ -56,7 +61,7 @@ pipeline {
             steps {
               withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                 script{
-                  update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass} ${location_user} ${location_pass} ${api_user} ${api_pass} ${crud_user} ${crud_pass}", returnStdout: true
+                  update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass} ${location_user} ${location_pass} ${api_user} ${api_pass} ${crud_user} ${crud_pass} ${filebeat_hosts}", returnStdout: true
                 }
               }
             }

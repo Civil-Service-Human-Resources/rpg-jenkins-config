@@ -11,6 +11,7 @@ search_username=${7}
 search_password=${8}
 crud_username=${9}
 crud_password=${10}
+FILEBEAT_HOSTS=${11}
 
 
 if [[ "${DEPLOY_ENV}" == "dev" ]]; then
@@ -77,6 +78,22 @@ CONTAINER_DEFINITION=$(cat <<EOF
       {
          "name":"CRUD_PASSWORD",
          "value":"${crud_password}"
+      },
+      {
+          "name": "FILEBEAT_PLATFORM",
+          "value": "aws"
+      },
+      {
+          "name": "FILEBEAT_ENVIRONMENT",
+          "value": "${DEPLOY_ENV}"
+      },
+      {
+          "name": "FILEBEAT_COMPONENT",
+          "value": "cshr-api"
+      },
+      {
+          "name": "FILEBEAT_HOSTS",
+          "value": "${FILEBEAT_HOSTS}"
       }
 
     ]
