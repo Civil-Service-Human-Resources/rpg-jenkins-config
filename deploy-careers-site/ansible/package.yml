@@ -1,0 +1,343 @@
+# Given a release branch identifier, grab the contents and create a
+# release package.
+# TODO:
+# Feed in the git release branch identifier
+# Copy the result to bintray?
+# rename the zip appropriately
+# add details to release txt
+---
+- hosts: localhost
+
+  vars_prompt:
+  - name: "user"
+    prompt: "Enter user name"
+    private: no
+
+
+  vars:
+    git_repo: git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git
+    git_branch: release
+    base_dir: .
+    static_files: "{{base_dir}}/static/files"
+    package_dest: "{{base_dir}}/deployment"
+    package_src: "{{base_dir}}/source"
+    package_artifact: "{{base_dir}}/zip"
+    package_folders:
+    - mu-plugins
+    - themes
+    - plugins
+
+    path_wp_content: "{{package_dest}}/wp-content"
+    path_mu_plugins: "{{path_wp_content}}/mu-plugins"
+    path_plugins: "{{path_wp_content}}/plugins"
+    path_themes: "{{path_wp_content}}/themes"
+    path_sql: "{{package_dest}}/db-scripts"
+
+  tasks:
+
+
+#
+#   _____      _
+#  / ____|    | |
+# | (___   ___| |_ _   _ _ __
+#  \___ \ / _ \ __| | | | '_ \
+#  ____) |  __/ |_| |_| | |_) |
+# |_____/ \___|\__|\__,_| .__/
+#                       | |
+#                       |_|
+
+  - name: set var of todays date
+    shell: date +%Y-%m-%d_%H-%M-%S
+    register: shell_date
+    tags:
+    - setup
+    - date
+    - release_note
+
+  - name: set the date fact
+    set_fact:
+      sysdate: "{{shell_date.stdout}}"
+    tags:
+    - date
+    - release_note
+
+  - name: debug the date
+    debug:
+      msg: "{{sysdate}}"
+    tags:
+    - setup
+    - date
+
+
+  - name: create the source directory
+    file:
+      path: "{{package_src}}"
+      state: directory
+      mode: 0755
+    tags:
+    - setup
+
+  - name: remove everything from source directory
+    shell: cd {{package_src}} && rm -rf *
+    tags:
+    - setup
+
+  - name: create the source directory
+    file:
+      path: "{{package_dest}}"
+      state: directory
+      mode: 0755
+    tags:
+    - setup
+
+  - name: remove everything from dest directory
+    shell: cd {{package_dest}} && rm -rf *
+    tags:
+    - setup
+
+  - name: create the deployment directory
+    file:
+      path: "{{package_dest}}/wp-content/{{item}}"
+      state: directory
+      mode: 0755
+    with_items: "{{package_folders}}"
+    tags:
+    - setup
+
+
+  - name: create the zip directory
+    file:
+      path: "{{package_artifact}}/"
+      state: directory
+      mode: 0755
+    tags:
+    - setup
+
+  - name: checkout the release branch
+    git:
+      repo: "git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git"
+      dest: "{{package_src}}"
+      version: "{{git_branch}}"
+      force: yes
+    tags:
+    - setup
+    - git_checkout
+
+
+
+#  _____  _             _
+#|  __ \| |           (_)
+#| |__) | |_   _  __ _ _ _ __  ___
+#|  ___/| | | | |/ _` | | '_ \/ __|
+#| |    | | |_| | (_| | | | | \__ \
+#|_|    |_|\__,_|\__, |_|_| |_|___/
+#                 __/ |
+#                |___/
+
+
+  - name: move mu-plugins to package
+    copy:
+      src: "{{item}}"
+      dest: "{{path_mu_plugins}}"
+    with_fileglob:
+    - "{{package_src}}/mu-plugins/*.*"
+
+  - name: create forked plugins directories in package plugins directory
+    file:
+      path: "{{path_plugins}}/{{item.path}}"
+      state: directory
+    with_filetree:
+    - "{{package_src}}/third-party-plugins-forked/"
+    when: item.state == 'directory'
+
+  - name: copy forked plugin files to package directory
+    copy:
+      src: "{{item.src}}"
+      dest: "{{path_plugins}}/{{item.path}}"
+    with_filetree:
+    - "{{package_src}}/third-party-plugins-forked/"
+    when: item.state == 'file'
+
+  - name: create standard plugins directories in package plugins directory
+    file:
+      path: "{{path_plugins}}/{{item.path}}"
+      state: directory
+    with_filetree:
+    - "{{package_src}}/third-party-plugins/"
+    when: item.state == 'directory'
+
+  - name: copy plugin files to package directory
+    copy:
+      src: "{{item.src}}"
+      dest: "{{path_plugins}}/{{item.path}}"
+    with_filetree:
+    - "{{package_src}}/third-party-plugins/"
+    when: item.state == 'file'
+
+
+#  _______ _
+# |__   __| |
+#    | |  | |__   ___ _ __ ___   ___  ___
+#    | |  | '_ \ / _ \ '_ ` _ \ / _ \/ __|
+#    | |  | | | |  __/ | | | | |  __/\__ \
+#    |_|  |_| |_|\___|_| |_| |_|\___||___/
+#
+#
+#
+
+  - name: create themes directory in package
+    file:
+      path: "{{path_themes}}/{{item.path}}"
+      state: directory
+    with_filetree:
+    - "{{package_src}}/theme/"
+    when: item.state == 'directory'
+    no_log: true
+
+  - name: copy theme directory to package
+    copy:
+      src: "{{item.src}}"
+      dest: "{{path_themes}}/{{item.path}}"
+    with_filetree:
+    - "{{package_src}}/theme/"
+    when: item.state == 'file'
+    no_log: true
+
+  - name: copy files to root of directroy
+    copy:
+      src: "{{item}}"
+      dest: "{{package_dest}}/"
+    with_items:
+    - "{{package_src}}/wp-config/wp-config.php"
+    - "{{package_src}}/htaccess/.htaccess"
+
+  - name: get the wordpress salts
+    shell: curl -s https://api.wordpress.org/secret-key/1.1/salt/
+    register: shell_salts
+    tags:
+    - salts
+
+  - name: debug the wordpress salts
+    debug:
+      msg: "{{shell_salts.stdout}}"
+    tags:
+    - salts
+
+# TODO: something more elegant to manipulate this file.
+  - name: remove the salt values
+    lineinfile:
+      path:  "{{package_dest}}/wp-config.php"
+      state: absent
+      line: "{{item}}"
+    with_items:
+    - "define('AUTH_KEY',							$_SERVER['WORDPRESS_AUTH_KEY']);"
+    - "define('SECURE_AUTH_KEY',					$_SERVER['WORDPRESS_SECURE_AUTH_KEY']);"
+    - "define('LOGGED_IN_KEY',						$_SERVER['WORDPRESS_LOGGED_IN_KEY']);"
+    - "define('NONCE_KEY',							$_SERVER['WORDPRESS_NONCE_KEY']);"
+    - "define('AUTH_SALT',							$_SERVER['WORDPRESS_AUTH_SALT']);"
+    - "define('SECURE_AUTH_SALT',					$_SERVER['WORDPRESS_SECURE_AUTH_SALT']);"
+    - "define('LOGGED_IN_SALT',					$_SERVER['WORDPRESS_LOGGED_IN_SALT']);"
+    - "define('NONCE_SALT',						$_SERVER['WORDPRESS_NONCE_SALT']);"
+    tags:
+    - salts
+    - salts-remove
+
+  - name: replace the salts in the file
+    blockinfile:
+      path: "{{package_dest}}/wp-config.php"
+      insertafter: "//SALT"
+      content: "{{shell_salts.stdout}}"
+    tags:
+    - salts
+
+
+
+#   _____       _
+#  / ____|     | |
+# | (___   __ _| |
+#  \___ \ / _` | |
+#  ____) | (_| | |
+# |_____/ \__, |_|
+#            | |
+#            |_|
+
+  - name: create the db-scripts folder
+    file:
+      path: "{{path_sql}}/"
+      state: directory
+
+  - name: copy sql files to package
+    copy:
+      src: "{{item}}"
+      dest: "{{package_dest}}/db-scripts/"
+    with_fileglob:
+    - "{{package_src}}/db-scripts/*"
+
+  - name: copy the run sql script to the package
+    copy:
+      src: "{{static_files}}/run_sql.sh"
+      dest: "{{package_dest}}/db-scripts/"
+      mode: 0755
+
+
+
+
+#  _____      _                                   _
+# |  __ \    | |                                 | |
+# | |__) |___| | ___  __ _ ___  ___   _ __   ___ | |_ ___
+# |  _  // _ \ |/ _ \/ _` / __|/ _ \ | '_ \ / _ \| __/ _ \
+# | | \ \  __/ |  __/ (_| \__ \  __/ | | | | (_) | ||  __/
+# |_|  \_\___|_|\___|\__,_|___/\___| |_| |_|\___/ \__\___|
+#
+#
+
+  - name: get the current commit
+    shell: cd {{package_src}} && git rev-parse --verify HEAD
+    register: shell_git_commit
+    tags:
+    - release_note
+
+  - name: create a release note file
+    file:
+      path: "{{package_dest}}/release_note.txt"
+      state: touch
+    tags:
+    - release_note
+
+  - name: create a release note file
+    blockinfile:
+      path: "{{package_dest}}/release_note.txt"
+      block: |
+        Date          {{sysdate}}
+        Built by      {{user}}
+        Branch        {{git_branch}}
+        Git commit    {{shell_git_commit.stdout}}
+
+    tags:
+    - release_note
+
+
+
+#      _
+#     (_)
+#  _____ _ __
+# |_  / | '_ \
+#  / /| | |_) |
+# /___|_| .__/
+#       | |
+#       |_|
+
+
+  - name: create a zip
+    archive:
+      path: "{{package_dest}}/"
+      dest: "{{package_artifact}}/career-site_release_{{sysdate}}.zip"
+      format: zip
+    tags:
+    - zip
+
+  - name: output the location of the zip
+    debug:
+      msg: "{{package_artifact}}/career-site_release_{{sysdate}}.zip"
+    tags:
+    - zip

@@ -1,0 +1,106 @@
+##
+# Grab a tar of the content on the develop Wordpress
+# Dump the mysql and copy back locally
+# 
+---
+- hosts: localhost
+
+  vars_prompt:
+  - name: "env"
+    prompt: "Enter the environment"
+    private: no
+
+  - name: "db_user"
+    prompt: "Enter the DB username"
+    private: no
+
+  - name: "db_password"
+    prompt: "Enter the DB password"
+    private: yes
+
+  tasks:
+
+  - name: set fact for env
+    set_fact:
+      env: "{{env}}"
+    tags:
+    - setup
+
+
+
+  - name: set fact for user
+    set_fact:
+      db_user: "{{db_user}}"
+    tags:
+    - setup
+
+  - name: set fact for password
+    set_fact:
+      db_password: "{{db_password}}"
+    tags:
+    - setup
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+- hosts: efs_hosts
+
+
+  tasks:
+  - name: Tar the remote directory to tmp
+    shell: cd /data && tar cvfz /tmp/wpress.tgz .
+
+  - name: Copy the file from host to local
+    fetch:
+      src: /tmp/wpress.tgz
+      dest: ./download/{{hostvars['localhost']['env']}}-wpress.tgz
+      #flat: yes
+
+  - name: remove the tar from host
+    file:
+      path: /tmp/wpress.tgz
+      state: absent
+
+  - name: install mysql
+    yum:
+      name: mysql
+      state: latest
+    become: true
+    tags:
+    - db
+
+## Until we make RDS private, the security groups are a problem for trying to access from EFS jump.
+
+  - name: dump the mysql schema
+    shell: mysqldump -a -u {{hostvars['localhost']['db_user']}} -p{{hostvars['localhost']['db_password']}} -h careers-site-db.{{hostvars['localhost']['env']}}.cshr-gov.uk -B wordpress > /tmp/{{hostvars['localhost']['env']}}_dump.sql
+    tags:
+    - db
+
+  - name: copy the mysql dump back
+    fetch:
+      src: /tmp/{{hostvars['localhost']['env']}}_dump.sql
+      dest: ./download/{{hostvars['localhost']['env']}}_dump.sql
+    tags:
+    - db
