@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+
+  vars_prompt:
+  - name: "env"
+    prompt: "Enter the environment"
+    private: no
+
+  - name: "db_user"
+    prompt: "Enter the DB username"
+    private: no
+
+  - name: "db_password"
+    prompt: "Enter the DB password"
+    private: yes
+
+  tasks:
+  - name: set fact for env
+    set_fact:
+      env: "{{env}}"
+    tags:
+    - setup
+
+  - name: set fact for user
+    set_fact:
+      db_user: "{{db_user}}"
+    tags:
+    - setup
+
+  - name: set fact for password
+    set_fact:
+      db_password: "{{db_password}}"
+    tags:
+    - setup

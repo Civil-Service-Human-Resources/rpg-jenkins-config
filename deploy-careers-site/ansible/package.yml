@@ -11,12 +11,14 @@
   vars_prompt:
   - name: "user"
     prompt: "Enter user name"
+    private: no
 
 
   vars:
     git_repo: git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git
     git_branch: release
-    base_dir: ./
+    base_dir: .
+    static_files: "{{base_dir}}/static/files"
     package_dest: "{{base_dir}}/deployment"
     package_src: "{{base_dir}}/source"
     package_artifact: "{{base_dir}}/zip"
@@ -75,6 +77,24 @@
     tags:
     - setup
 
+  - name: remove everything from source directory
+    shell: cd {{package_src}} && rm -rf *
+    tags:
+    - setup
+
+  - name: create the source directory
+    file:
+      path: "{{package_dest}}"
+      state: directory
+      mode: 0755
+    tags:
+    - setup
+
+  - name: remove everything from dest directory
+    shell: cd {{package_dest}} && rm -rf *
+    tags:
+    - setup
+
   - name: create the deployment directory
     file:
       path: "{{package_dest}}/wp-content/{{item}}"
@@ -83,6 +103,7 @@
     with_items: "{{package_folders}}"
     tags:
     - setup
+
 
   - name: create the zip directory
     file:
@@ -97,6 +118,7 @@
       repo: "git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git"
       dest: "{{package_src}}"
       version: "{{git_branch}}"
+      force: yes
     tags:
     - setup
     - git_checkout
@@ -127,7 +149,6 @@
     with_filetree:
     - "{{package_src}}/third-party-plugins-forked/"
     when: item.state == 'directory'
-    no_log: true
 
   - name: copy forked plugin files to package directory
     copy:
@@ -136,7 +157,6 @@
     with_filetree:
     - "{{package_src}}/third-party-plugins-forked/"
     when: item.state == 'file'
-    no_log: true
 
   - name: create standard plugins directories in package plugins directory
     file:
@@ -145,7 +165,6 @@
     with_filetree:
     - "{{package_src}}/third-party-plugins/"
     when: item.state == 'directory'
-    no_log: true
 
   - name: copy plugin files to package directory
     copy:
@@ -154,7 +173,6 @@
     with_filetree:
     - "{{package_src}}/third-party-plugins/"
     when: item.state == 'file'
-    no_log: true
 
 
 #  _______ _
@@ -191,7 +209,6 @@
       dest: "{{package_dest}}/"
     with_items:
     - "{{package_src}}/wp-config/wp-config.php"
-    - ./wp_activate_theme.sh
     - "{{package_src}}/htaccess/.htaccess"
 
   - name: get the wordpress salts
@@ -258,7 +275,7 @@
 
   - name: copy the run sql script to the package
     copy:
-      src: "./run_sql.sh"
+      src: "{{static_files}}/run_sql.sh"
       dest: "{{package_dest}}/db-scripts/"
       mode: 0755
 

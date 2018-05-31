@@ -8,6 +8,9 @@
 # -  restart ECS service
 # ansible-playbook deploy.yml --extra-vars "env=test" --extra-vars "db_user=root" --extra-vars "db_password=password" --extra-vars "zip_location=./zip/career-site_release_2018-03-01_12-52-47.zip"
 ---
+
+- include: basic-install.yml db_user="{{db_user}}" db_password="{{db_password}}" env="{{env}}"
+
 - hosts: localhost
 
   vars_prompt:
@@ -126,31 +129,6 @@
     tags:
     - zip
 
-  - name: run the sql update script
-    shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
-    tags:
-    - db
-
-  - name: create a zip of the logs
-    archive:
-      path: /data/db-scripts
-      format: zip
-      dest: /tmp/db_logs.zip
-
-  - name: create a log folder
-    file:
-      path: "./download/logs/"
-      state: directory
-    tags:
-    - db
-
-  - name: copy the log files back locally
-    fetch:
-      src: "/tmp/db_logs.zip"
-      dest: "./download/logs/"
-    tags:
-    - db
-
 
 # We need to restart the container,
 # so that the wp-config is overwritten, before
@@ -175,14 +153,63 @@
 
   tasks:
 
-# TODO: change this to run a script, rather than a command from ansible.
-# Will we ever want to activate a different theme?
+  - name: install php
+    yum:
+      name: php
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install php-mysql
+    yum:
+      name: php-mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install mysql
+    yum:
+      name: mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install the wordpress cli
+    shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+  - name: check it works
+    shell: php wp-cli.phar --info
+
+  - name: move it and chmod
+    shell: chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    become: true
 
   - name: run the file to activate theme
     shell: cd /data && wp theme activate rpgcareers
     tags:
     - activate
     - activate-theme
+
+  - name: create a temporary mu-plugins directory
+    file:
+      path: ~/mu-plugins/
+      state: directory
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-dir
+
+  - name: copy the mu-plugins to temporary directory (plugins will not activate with mu plugins in place)
+    shell: mv /data/wp-content/mu-plugins/* ~/mu-plugins/
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-move-out
 
   - name: run script to activate inactive plugins
     shell: |
@@ -195,7 +222,59 @@
           wp plugin activate ${plugin}
         done
       fi
-
     tags:
     - activate
     - activate-plugins
+
+  - name: remove the "standard" plugins
+    shell: wp --path=/data plugin deactivate {{item}} && wp --path=/data plugin delete {{item}}
+    with_items:
+    - akismet
+    - hello
+
+  - name: copy the mu-plugins back to the mu directory
+    shell: mv ~/mu-plugins/* /data/wp-content/mu-plugins/
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-move-back
+
+  - name: update the home url
+    shell: wp --path=/data option update home 'https://careers-site."{{env}}".cshr-gov.uk'
+    tags:
+    - activate
+    - activate-url
+
+  - name: update the site url
+    shell:  wp --path=/data option update siteurl 'https://careers-site."{{env}}".cshr-gov.uk'
+    tags:
+    - activate
+    - activate-url
+
+  
+# run DB updates.  
+  - name: run the sql update script
+    shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
+    tags:
+    - db
+
+  - name: create a zip of the logs
+    archive:
+      path: /data/db-scripts
+      format: zip
+      dest: /tmp/db_logs.zip
+
+  - name: create a log folder
+    file:
+      path: "./download/logs/"
+      state: directory
+    tags:
+    - db
+
+  - name: copy the log files back locally
+    fetch:
+      src: "/tmp/db_logs.zip"
+      dest: "./download/logs/"
+    tags:
+    - db

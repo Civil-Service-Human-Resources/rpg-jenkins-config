@@ -1,5 +1,4 @@
 *.retry
-deployment/
 source/
 *.zip
 .DS_Store
