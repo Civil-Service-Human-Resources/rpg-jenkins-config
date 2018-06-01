@@ -44,11 +44,22 @@ pipeline {
                         sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${env.WORKING_DIR}/ansible\""
                     },
                     basic_install: {
-                        withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                            sshagent (credentials: ['efs_ssh_key']) {
-                                sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"base_dir=${env.WORKING_DIR}/ansible\" --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
+                        //withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        //    sshagent (credentials: ['efs_ssh_key']) {
+                        //        sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"base_dir=${env.WORKING_DIR}/ansible\" --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
+                        //    }
+                        //}
+                        ansiblePlaybook(
+                            playbook: ${env.WORKING_DIR} + '/ansible/basic-install.yml',
+                            credentialsId: 'efs_ssh_key',
+                            extraVars{
+                                 extraVar("base_dir", ${env.WORKING_DIR} + '/ansible', false)
+                                 extraVar("env", ${env.environment}, false)
+                                 extraVar("db_user", ${user}, false)
+                                 extraVar("db_password", ${pass}, true)
                             }
-                        }
+
+                        )
                     }
                 )
             }
