@@ -5,6 +5,7 @@ pipeline {
     environment {
       WORKING_DIR='${WORKSPACE}'+'/deploy-careers-site'
       AWS_DEFAULT_REGION='eu-west-1'
+      ANSIBLE_HOST_KEY_CHECKING=False
     }
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
