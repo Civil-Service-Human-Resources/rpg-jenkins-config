@@ -5,7 +5,7 @@ pipeline {
     environment {
       WORKING_DIR='${WORKSPACE}'+'/deploy-careers-site'
       AWS_DEFAULT_REGION='eu-west-1'
-      BASE_DIR='${WORKING_DIR}' + '/ansible'
+      BASE_DIR=${env.WORKING_DIR} + '/ansible'
     }
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
