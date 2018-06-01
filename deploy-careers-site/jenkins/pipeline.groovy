@@ -50,13 +50,13 @@ pipeline {
                         //    }
                         //}
                         ansiblePlaybook(
-                            playbook: ${env.WORKING_DIR} + '/ansible/basic-install.yml',
+                            playbook: "${env.WORKING_DIR}/ansible/basic-install.yml",
                             credentialsId: 'efs_ssh_key',
                             extraVars{
-                                 extraVar("base_dir", ${env.WORKING_DIR} + '/ansible', false)
-                                 extraVar("env", ${env.environment}, false)
-                                 extraVar("db_user", ${user}, false)
-                                 extraVar("db_password", ${pass}, true)
+                                 extraVar("base_dir", "${env.WORKING_DIR}/ansible", false)
+                                 extraVar("env", "${env.environment}", false)
+                                 extraVar("db_user", "${user}", false)
+                                 extraVar("db_password", "${pass}", true)
                             }
 
                         )
