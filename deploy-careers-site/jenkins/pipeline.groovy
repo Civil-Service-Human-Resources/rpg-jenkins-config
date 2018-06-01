@@ -35,21 +35,19 @@ pipeline {
           }
         }
 
-        parallel {
-            stage('build the zip') {
-                steps {
-                    sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
-                }
-            }
-            stage('run the base install') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                        script{
-                            sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
+        stage('package deployment and do basic install') {
+            parallel {
+                    package: {
+                        sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
+                    }
+                    basic_install: {
+                        withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                            script{
+                                sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
+                            }
                         }
                     }
-                }
-            }         
+            }
         }
 
         //stage('Build deployment zip') {
