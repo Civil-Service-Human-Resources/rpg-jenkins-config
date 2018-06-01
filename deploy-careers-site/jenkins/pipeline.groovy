@@ -5,12 +5,13 @@ pipeline {
     environment {
       WORKING_DIR='${WORKSPACE}'+'/deploy-careers-site'
       AWS_DEFAULT_REGION='eu-west-1'
+      BASE_DIR='${WORKING_DIR}/ansible'
     }
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
       string(defaultValue: '56b71375-4750-4c89-8851-a3ad4c52c5ab', description: '', name: 'credentials_id')
-      string(description: 'The environment to deploy the changes', name: 'environment')
+      string(defaultValue: 'demo', description: 'The environment to deploy the changes', name: 'environment')
     }
 
     stages {
@@ -40,12 +41,12 @@ pipeline {
             steps {
                 parallel(
                     package: {
-                        sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
+                        sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${BASE_DIR}\""
                     },
                     basic_install: {
                         withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                             script{
-                                sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
+                                sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"base_dir=${BASE_DIR}\" --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
                             }
                         }
                     }
