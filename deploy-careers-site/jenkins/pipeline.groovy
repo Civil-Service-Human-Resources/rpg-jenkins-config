@@ -45,7 +45,7 @@ pipeline {
                     },
                     basic_install: {
                         withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                            script{
+                            sshagent (credentials: ['efs_ssh_key']) {
                                 sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"base_dir=${BASE_DIR}\" --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
                             }
                         }
