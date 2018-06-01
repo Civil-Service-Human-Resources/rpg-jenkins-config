@@ -10,6 +10,7 @@ pipeline {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
       string(defaultValue: '56b71375-4750-4c89-8851-a3ad4c52c5ab', description: '', name: 'credentials_id')
+      string(description: 'The environment to deploy the changes', name: 'environment')
     }
 
     stages {
@@ -36,7 +37,8 @@ pipeline {
         }
 
         stage('package deployment and do basic install') {
-            parallel {
+            steps {
+                parallel(
                     package: {
                         sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
                     }
@@ -47,6 +49,7 @@ pipeline {
                             }
                         }
                     }
+                )
             }
         }
 
