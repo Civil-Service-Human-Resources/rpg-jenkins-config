@@ -11,7 +11,8 @@ pipeline {
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
-      string(defaultValue: 'demo', description: 'The environment to deploy the changes', name: 'environment')
+      choice(choices: 'demo\ntest', description: 'The environment to deploy the changes', name: 'environment')
+      
     }
 
     stages {
@@ -38,11 +39,7 @@ pipeline {
 
         stage('package deployment and do basic install') {
             steps {
-                //parallel(
-                  //  package: {
                         sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${env.WORKING_DIR}/ansible\""
-                    //},
-                    //basic_install: {
                         withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                           wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                             ansiblePlaybook(
@@ -56,10 +53,8 @@ pipeline {
                                 ]
                             )
                           }
-                      //  }
                     }
-              //  )
-            }
+           g }
         }
 
         stage('deploy the zip file') {

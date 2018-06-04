@@ -6,7 +6,14 @@
 - include: prompts.yml
 
 - hosts: localhost
+  vars:
+    base_dir: .
+
   tasks:
+
+  - name: set fact for base dir
+    set_fact:
+      base_dir: "{{base_dir}}"
   
   - name: Get the environment details
     ec2_instance_facts:
@@ -49,6 +56,7 @@
     - post-deploy-users.sql
     uploads_directory: /data/wp-content/uploads
     site_url: careers-site.{{env}}.cshr-gov.uk
+    base_dir: "{{hostvars['localhost']['base_dir']}}"
 
   tasks:
 
@@ -59,7 +67,7 @@
 
   - name: copy the sql files to the host
     copy:
-      src: ./static/sql/{{item}}
+      src: "{{base_dir}}/static/sql/{{item}}"
       dest: "{{sql_directory}}/{{item}}"
     with_items: "{{sql_files}}"
 
@@ -81,7 +89,7 @@
 
   - name: unzip the uploads folder
     unarchive:
-      src: ./static/files/uploads.zip
+      src: "{{base_dir}}/static/files/uploads.zip"
       dest: "{{uploads_directory}}"
       mode: 0775
 
