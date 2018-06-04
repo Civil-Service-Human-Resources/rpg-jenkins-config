@@ -38,11 +38,11 @@ pipeline {
 
         stage('package deployment and do basic install') {
             steps {
-                parallel(
-                    package: {
+                //parallel(
+                  //  package: {
                         sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${env.WORKING_DIR}/ansible\""
-                    },
-                    basic_install: {
+                    //},
+                    //basic_install: {
                         withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                           wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                             ansiblePlaybook(
@@ -56,7 +56,7 @@ pipeline {
                                 ]
                             )
                           }
-                        }
+                      //  }
                     }
                 )
             }
