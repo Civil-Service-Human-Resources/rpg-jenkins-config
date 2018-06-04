@@ -65,7 +65,7 @@ pipeline {
         stage('get the zip file name') {
             steps {
                 script{
-                  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1", returnStdout: true
+                  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1 | sed 's/\n//g'", returnStdout: true
                 }
             }
         }
