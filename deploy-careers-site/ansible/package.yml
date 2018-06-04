@@ -336,6 +336,14 @@
     tags:
     - zip
 
+  - name: remove any existing latest deployment files
+    file:
+      path: "{{package_artifact}}/latest_deployment.zip"
+      state: absent
+
+  - name: copy the latest built file to a standard file name
+    command: cp {{package_artifact}}/career-site_release_{{sysdate}}.zip {{package_artifact}}/latest_deployment.zip
+
   - name: output the location of the zip
     debug:
       msg: "{{package_artifact}}/career-site_release_{{sysdate}}.zip"
