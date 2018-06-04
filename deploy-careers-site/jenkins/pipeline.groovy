@@ -20,7 +20,7 @@ pipeline {
                 sh "echo deploy job started "
                 sh "echo dockerTag: ${params.branch_name}"
                 sh "echo environmentTag: ${params.built_by}"
-                sh "ls -lsR ${WORKING_DIR}"
+
             }
         }
 
@@ -65,7 +65,7 @@ pipeline {
         stage('get the zip file name') {
             steps {
                 script{
-                  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/zip | tail -1", returnStdout: true
+                  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1", returnStdout: true
                 }
             }
         }
@@ -82,7 +82,7 @@ pipeline {
                           env: "${env.environment}" ,
                           db_user: "${user}",
                           db_password: [ value: "${pass}", hidden: true ],
-                          zip_location: "${WORKING_DIR}/zip/${zip_file_name}"
+                          zip_location: "${WORKING_DIR}/ansible/zip/${zip_file_name}"
                       ]
                   )
                 }
