@@ -74,7 +74,7 @@ pipeline {
                           env: "${env.environment}" ,
                           db_user: "${user}",
                           db_password: [ value: "${pass}", hidden: true ],
-                          zip_location: "${env.WORKING_DIR}/ansible/zip/jenkins_deployment.zip"
+                          zip_location: "${env.WORKING_DIR}/ansible/zip/latest_deployment.zip"
                       ]
                   )
                 }
