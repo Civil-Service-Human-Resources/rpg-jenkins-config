@@ -10,7 +10,6 @@ pipeline {
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
-      string(defaultValue: '56b71375-4750-4c89-8851-a3ad4c52c5ab', description: '', name: 'credentials_id')
       string(defaultValue: 'demo', description: 'The environment to deploy the changes', name: 'environment')
     }
 
@@ -30,7 +29,6 @@ pipeline {
             dir("./deploy-careers-site/source") {
               git(
                 url: 'git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git',
-                credentialsId: "${params.credentials_id}",
                 branch: "${params.branch_name}"
                 )
             }
@@ -49,10 +47,10 @@ pipeline {
                                 playbook: "${env.WORKING_DIR}/ansible/basic-install.yml",
                                 credentialsId: 'efs_ssh_key',
                                 extraVars: [
-                                    base_dir: "${env.WORKING_DIR}/ansible'",
+                                    base_dir: "${env.WORKING_DIR}/ansible",
                                     env: "${env.environment}" ,
                                     db_user: "${user}",
-                                    db_password: [ value: "${pass}", hidden: true ] 
+                                    db_password: [ value: "${pass}", hidden: true ]
                                 ]
 
                             )
@@ -85,7 +83,7 @@ pipeline {
               }
             }
         }
-        
+
 
     }
 }
@@ -98,5 +96,3 @@ pipeline {
 //        }
 //    }
 //}
-
-
