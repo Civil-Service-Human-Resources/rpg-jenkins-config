@@ -54,7 +54,7 @@ pipeline {
                             )
                           }
                     }
-           g }
+            }
         }
 
         stage('deploy the zip file') {
