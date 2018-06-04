@@ -6,6 +6,7 @@ pipeline {
       WORKING_DIR='${WORKSPACE}'+'/deploy-careers-site'
       AWS_DEFAULT_REGION='eu-west-1'
       ANSIBLE_HOST_KEY_CHECKING='False'
+      ANSIBLE_FORCE_COLOUR='true'
     }
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
@@ -43,6 +44,7 @@ pipeline {
                     },
                     basic_install: {
                         withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                          wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                             ansiblePlaybook(
                                 playbook: "${env.WORKING_DIR}/ansible/basic-install.yml",
                                 credentialsId: 'efs_ssh_key',
@@ -54,6 +56,7 @@ pipeline {
                                 ]
 
                             )
+                          }
                         }
                     }
                 )
