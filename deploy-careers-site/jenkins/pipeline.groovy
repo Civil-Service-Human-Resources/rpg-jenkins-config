@@ -81,7 +81,7 @@ pipeline {
                           base_dir: "${env.WORKING_DIR}/ansible",
                           env: "${env.environment}" ,
                           db_user: "${user}",
-                          db_password: [ value: "${pass}", hidden: true ]
+                          db_password: [ value: "${pass}", hidden: true ],
                           zip_location: "${WORKING_DIR}/zip/${zip_file_name}"
                       ]
                   )
