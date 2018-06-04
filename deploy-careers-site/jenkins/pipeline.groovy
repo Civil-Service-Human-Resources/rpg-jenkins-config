@@ -64,8 +64,14 @@ pipeline {
 
         stage('deploy the zip file') {
             steps {
-              script{
-                zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1 | sed 's/\\n//g'", returnStdout: true
+              //script{
+              //  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1 | sed 's/\\n//g'", returnStdout: true
+              //}
+              script {
+                sh '''
+                  file_name=$(ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1)
+                  cp ${file_name} ${env.WORKING_DIR}/ansible/zip/jenkins_deployment.zip
+                '''
               }
               withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
@@ -77,7 +83,7 @@ pipeline {
                           env: "${env.environment}" ,
                           db_user: "${user}",
                           db_password: [ value: "${pass}", hidden: true ],
-                          zip_location: "${WORKING_DIR}/ansible/zip/${zip_file_name}"
+                          zip_location: "${env.WORKING_DIR}/ansible/zip/jenkins_deployment.zip"
                       ]
                   )
                 }
