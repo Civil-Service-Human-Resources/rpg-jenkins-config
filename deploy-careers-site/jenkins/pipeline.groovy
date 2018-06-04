@@ -6,7 +6,7 @@ pipeline {
       WORKING_DIR='${WORKSPACE}'+'/deploy-careers-site'
       AWS_DEFAULT_REGION='eu-west-1'
       ANSIBLE_HOST_KEY_CHECKING='False'
-      ANSIBLE_FORCE_COLOUR='true'
+      ANSIBLE_FORCE_COLOUR='True'
     }
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
@@ -54,7 +54,6 @@ pipeline {
                                     db_user: "${user}",
                                     db_password: [ value: "${pass}", hidden: true ]
                                 ]
-
                             )
                           }
                         }
@@ -63,25 +62,48 @@ pipeline {
             }
         }
 
-        //stage('Build deployment zip') {
-        //    steps {
-        //        sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
-        //    }
-        //}
-
         stage('get the zip file name') {
             steps {
                 script{
-                  zip_file_name = sh script:"ls -1rt ./deploy-careers-site/zip | tail -1", returnStdout: true
+                  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/zip | tail -1", returnStdout: true
                 }
             }
         }
 
         stage('deploy the zip file') {
             steps {
-            withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                script{
-                  update_retval = sh script:"ansible-playbook ${env.WORKING_DIR}/ansible/deploy.yml --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\" --extra-vars \"zip_location=${WORKING_DIR}/zip/${zip_file_name}\"", returnStdout: true
+              withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                  ansiblePlaybook(
+                      playbook: "${env.WORKING_DIR}/ansible/deploy.yml",
+                      credentialsId: 'efs_ssh_key',
+                      extraVars: [
+                          base_dir: "${env.WORKING_DIR}/ansible",
+                          env: "${env.environment}" ,
+                          db_user: "${user}",
+                          db_password: [ value: "${pass}", hidden: true ]
+                          zip_location: "${WORKING_DIR}/zip/${zip_file_name}"
+                      ]
+                  )
+                }
+              }
+            }
+        }
+
+        stage('run the post deploy script') {
+            steps {
+              withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                  ansiblePlaybook(
+                      playbook: "${env.WORKING_DIR}/ansible/post-deploy.yml",
+                      credentialsId: 'efs_ssh_key',
+                      extraVars: [
+                          base_dir: "${env.WORKING_DIR}/ansible",
+                          env: "${env.environment}" ,
+                          db_user: "${user}",
+                          db_password: [ value: "${pass}", hidden: true ]
+                      ]
+                  )
                 }
               }
             }
@@ -90,12 +112,3 @@ pipeline {
 
     }
 }
-
-//stage('deploy') {
-//    steps {
-//        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
-//                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-//            sh 'echo hello'
-//        }
-//    }
-//}
