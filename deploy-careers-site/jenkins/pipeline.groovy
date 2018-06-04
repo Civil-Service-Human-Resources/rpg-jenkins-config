@@ -62,16 +62,11 @@ pipeline {
             }
         }
 
-        stage('get the zip file name') {
-            steps {
-                script{
-                  zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1 | sed 's/\n//g'", returnStdout: true
-                }
-            }
-        }
-
         stage('deploy the zip file') {
             steps {
+              script{
+                zip_file_name = sh script:"ls -1rt ${env.WORKING_DIR}/ansible/zip | tail -1 | sed 's/\\n//g'", returnStdout: true
+              }
               withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                   ansiblePlaybook(
