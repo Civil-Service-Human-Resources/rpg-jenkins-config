@@ -52,6 +52,11 @@
       dest: "{{base_dir}}/download/rpg-one-time.php"
       mode: 0755
 
+  - name: ensure the uploads zip is readable
+    file:
+      path: "{{base_dir}}/static/files/uploads.zip"
+      mode: 0777
+
   - name: stop wordpress service
     shell: |
       aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
