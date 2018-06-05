@@ -8,12 +8,18 @@
 - hosts: localhost
   vars:
     base_dir: .
+    git_branch: release
 
   tasks:
 
   - name: set fact for base dir
     set_fact:
       base_dir: "{{base_dir}}"
+  
+  - name: set fact for branch
+    set_fact:
+      git_branch: "{{git_branch}}"
+      
   
   - name: Get the environment details
     ec2_instance_facts:
@@ -40,6 +46,12 @@
     - setup
     - search
 
+  - name: get the one time file and put in remote plugins directory
+    get_url:
+      url: "https://github.com/Civil-Service-Human-Resources/rpg-careers-wp/blob/{{git_branch}}/mu-plugins/rpg-one-time.php"
+      dest: "{{base_dir}}/download/rpg-one-time.php"
+      mode: 0755
+
   - name: stop wordpress service
     shell: |
       aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
@@ -55,8 +67,10 @@
     - post-deploy-rpg-careers-baseline-build.sql
     - post-deploy-users.sql
     uploads_directory: /data/wp-content/uploads
+    mu_plugins_directory: /data/wp-content/mu-plugins
     site_url: careers-site.{{env}}.cshr-gov.uk
     base_dir: "{{hostvars['localhost']['base_dir']}}"
+    git_branch: "{{hostvars['localhost']['git_branch']}}"
 
   tasks:
 
@@ -64,6 +78,8 @@
     file:
       path: "{{sql_directory}}"
       state: directory
+      mode: 0777
+    become: true
 
   - name: copy the sql files to the host
     copy:
@@ -92,6 +108,14 @@
       src: "{{base_dir}}/static/files/uploads.zip"
       dest: "{{uploads_directory}}"
       mode: 0775
+
+  - name: copy the mu plugins file to remote
+    copy:
+      src: "{{base_dir}}/download/rpg-one-time.php"
+      dest: "{{mu_plugins_directory}}/rpg-one-time.php"
+      mode: 0755
+
+
 
 - hosts: localhost
   tasks:
