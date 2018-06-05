@@ -48,7 +48,7 @@
 
   - name: get the one time file and put in remote plugins directory
     get_url:
-      url: "https://github.com/Civil-Service-Human-Resources/rpg-careers-wp/blob/{{git_branch}}/mu-plugins/rpg-one-time.php"
+      url: "https://raw.githubusercontent.com/Civil-Service-Human-Resources/rpg-careers-wp/{{git_branch}}/mu-plugins/rpg-one-time.php"
       dest: "{{base_dir}}/download/rpg-one-time.php"
       mode: 0755
 
