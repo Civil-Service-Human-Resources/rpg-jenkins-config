@@ -107,7 +107,7 @@
     unarchive:
       src: "{{base_dir}}/static/files/uploads.zip"
       dest: "{{uploads_directory}}"
-      mode: 0775
+      mode: 0777
 
   - name: copy the mu plugins file to remote
     copy:
