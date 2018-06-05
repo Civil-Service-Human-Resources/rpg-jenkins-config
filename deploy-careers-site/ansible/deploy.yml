@@ -144,9 +144,12 @@
     tags:
     - start-ecs
 
-  - name: pause for the container to start
-    pause:
-      seconds: 120
+  #- name: pause for the container to start
+  #  pause:
+  #    seconds: 120
+
+  - name: call check env script to pause until site back up
+    command: ./checkEnv.sh {{env}}
 
 
 - hosts: efs_hosts
