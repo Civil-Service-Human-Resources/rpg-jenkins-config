@@ -54,7 +54,7 @@ pipeline {
                             )
                           }
                         // Wait until the site is available before moving on.
-                        sh "${env.WORKING_DIR}/jenkins/checkEnv.sh ${params.environment}"
+                        sh "${env.WORKING_DIR}/ansible/checkEnv.sh ${params.environment}"
                     }
             }
         }
@@ -76,7 +76,7 @@ pipeline {
                   )
                 }
               }
-              sh "${env.WORKING_DIR}/jenkins/checkEnv.sh ${params.environment}"
+              sh "${env.WORKING_DIR}/ansible/checkEnv.sh ${params.environment}"
             }
         }
 
@@ -96,7 +96,7 @@ pipeline {
                   )
                 }
               }
-              sh "${env.WORKING_DIR}/jenkins/checkEnv.sh ${params.environment}"
+              sh "${env.WORKING_DIR}/ansible/checkEnv.sh ${params.environment}"
             } 
         }
 
