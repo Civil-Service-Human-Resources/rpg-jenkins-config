@@ -1,5 +1,5 @@
 *.retry
 source/
-*.zip
+career-site_release*.zip
 .DS_Store
 deployment/
