@@ -11,7 +11,7 @@ pipeline {
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
-      choice(choices: 'demo\ntest', description: 'The environment to deploy the changes', name: 'environment')
+      choice(choices: 'demo\ndev\ntest', description: 'The environment to deploy the changes', name: 'environment')
       
     }
 
