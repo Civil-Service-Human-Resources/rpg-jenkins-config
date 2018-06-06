@@ -166,15 +166,5 @@
     tags:
     - ecs-restart
   
-  - name: pause for the container to start
-    pause:
-      seconds: 120
-
-#- hosts: efs_hosts
-#  tasks:
-#
-#  - name: remove the "standard" plugins
-#    shell: wp --path=/data plugin delete {{item}}
-#    with_items:
-#    - akismet
-#    - hello
+  - name: call check env script to pause until site back up
+    command: ./checkEnv.sh {{env}}

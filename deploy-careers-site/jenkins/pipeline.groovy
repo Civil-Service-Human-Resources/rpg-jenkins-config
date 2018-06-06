@@ -5,11 +5,14 @@ pipeline {
     environment {
       WORKING_DIR='${WORKSPACE}'+'/deploy-careers-site'
       AWS_DEFAULT_REGION='eu-west-1'
+      ANSIBLE_HOST_KEY_CHECKING='False'
+      ANSIBLE_FORCE_COLOUR='True'
     }
     parameters {
       string(defaultValue: 'release', description: '', name: 'branch_name')
       string(defaultValue: 'jenkins', description: '', name: 'built_by')
-      string(defaultValue: '56b71375-4750-4c89-8851-a3ad4c52c5ab', description: '', name: 'credentials_id')
+      choice(choices: 'demo\ntest', description: 'The environment to deploy the changes', name: 'environment')
+      
     }
 
     stages {
@@ -18,7 +21,7 @@ pipeline {
                 sh "echo deploy job started "
                 sh "echo dockerTag: ${params.branch_name}"
                 sh "echo environmentTag: ${params.built_by}"
-                sh "ls -lsR ${WORKING_DIR}"
+
             }
         }
 
@@ -28,65 +31,75 @@ pipeline {
             dir("./deploy-careers-site/source") {
               git(
                 url: 'git@github.com:Civil-Service-Human-Resources/rpg-careers-wp.git',
-                credentialsId: "${params.credentials_id}",
                 branch: "${params.branch_name}"
                 )
             }
           }
         }
 
-        parallel {
-            stage('build the zip') {
-                steps {
-                    sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
-                }
-            }
-            stage('run the base install') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                        script{
-                            sh "ansible-playbook ${env.WORKING_DIR}/ansible/basic-install.yml --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\""
-                        }
-                    }
-                }
-            }         
-        }
-
-        //stage('Build deployment zip') {
-        //    steps {
-        //        sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${WORKING_DIR}\""
-        //    }
-        //}
-
-        stage('get the zip file name') {
+        stage('package deployment and do basic install') {
             steps {
-                script{
-                  zip_file_name = sh script:"ls -1rt ./deploy-careers-site/zip | tail -1", returnStdout: true
-                }
+                        sh "ansible-playbook ./deploy-careers-site/ansible/package.yml --extra-vars \"user=${params.built_by}\" --extra-vars \"base_dir=${env.WORKING_DIR}/ansible\""
+                        withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                          wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                            ansiblePlaybook(
+                                playbook: "${env.WORKING_DIR}/ansible/basic-install.yml",
+                                credentialsId: 'efs_ssh_key',
+                                extraVars: [
+                                    base_dir: "${env.WORKING_DIR}/ansible",
+                                    env: "${env.environment}" ,
+                                    db_user: "${user}",
+                                    db_password: [ value: "${pass}", hidden: true ]
+                                ]
+                            )
+                          }
+                        // Wait until the site is available before moving on.
+                        sh "${env.WORKING_DIR}/ansible/checkEnv.sh ${params.environment}"
+                    }
             }
         }
 
         stage('deploy the zip file') {
             steps {
-            withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
-                script{
-                  update_retval = sh script:"ansible-playbook ${env.WORKING_DIR}/ansible/deploy.yml --extra-vars \"env=${params.environment}\" --extra-vars \"db_user=${user}\" --extra-vars \"db_password=${pass}\" --extra-vars \"zip_location=${WORKING_DIR}/zip/${zip_file_name}\"", returnStdout: true
+              withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                  ansiblePlaybook(
+                      playbook: "${env.WORKING_DIR}/ansible/deploy.yml",
+                      credentialsId: 'efs_ssh_key',
+                      extraVars: [
+                          base_dir: "${env.WORKING_DIR}/ansible",
+                          env: "${env.environment}" ,
+                          db_user: "${user}",
+                          db_password: [ value: "${pass}", hidden: true ],
+                          zip_location: "${env.WORKING_DIR}/ansible/zip/latest_deployment.zip"
+                      ]
+                  )
                 }
               }
+              sh "${env.WORKING_DIR}/ansible/checkEnv.sh ${params.environment}"
             }
         }
-        
+
+        stage('run the post deploy script') {
+            steps {
+              withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                  ansiblePlaybook(
+                      playbook: "${env.WORKING_DIR}/ansible/post-deploy.yml",
+                      credentialsId: 'efs_ssh_key',
+                      extraVars: [
+                          base_dir: "${env.WORKING_DIR}/ansible",
+                          env: "${env.environment}" ,
+                          db_user: "${user}",
+                          db_password: [ value: "${pass}", hidden: true ]
+                      ]
+                  )
+                }
+              }
+              sh "${env.WORKING_DIR}/ansible/checkEnv.sh ${params.environment}"
+            } 
+        }
+
 
     }
 }
-
-//stage('deploy') {
-//    steps {
-//        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
-//                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-//            sh 'echo hello'
-//        }
-//    }
-//}
-
-
