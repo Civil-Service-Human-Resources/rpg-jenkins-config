@@ -162,6 +162,10 @@
     shell: |
       aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
       --service {{env}}-careers-site \
+      --desired-count 0 &&
+      sleep 20s &&
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
       --desired-count 1
     tags:
     - ecs-restart
