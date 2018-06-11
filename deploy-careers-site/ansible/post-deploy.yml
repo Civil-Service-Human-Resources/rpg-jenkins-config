@@ -115,6 +115,9 @@
       dest: "{{mu_plugins_directory}}/rpg-one-time.php"
       mode: 0755
 
+  - name: chmod the wp-content folder to allow ec2-user group write on everything
+    command: chmod -R g+w /data/wp-content
+    become: true
 
 
 - hosts: localhost
