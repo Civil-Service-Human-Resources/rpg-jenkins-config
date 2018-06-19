@@ -53,6 +53,12 @@ pipeline {
                         filebeat_hosts = env.pass
                     }
                 } 
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${params.environment}_notify_service", usernameVariable: 'user', passwordVariable: 'pass' )]){
+                        notify_template_id = env.user
+                        notify_api_key = env.pass
+                    }
+                } 
               
             }   
         }
@@ -61,7 +67,7 @@ pipeline {
             steps {
               withCredentials([usernamePassword(credentialsId: "${params.environment}_db_root", usernameVariable: 'user', passwordVariable: 'pass' )]){
                 script{
-                  update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass} ${location_user} ${location_pass} ${api_user} ${api_pass} ${crud_user} ${crud_pass} ${filebeat_hosts}", returnStdout: true
+                  update_retval = sh script:"${env.WORKING_DIR}/update-task-def.sh ${params.dockerTag} ${params.environment} ${user} ${pass} ${location_user} ${location_pass} ${api_user} ${api_pass} ${crud_user} ${crud_pass} ${filebeat_hosts} ${notify_template_id} ${notify_api_key}", returnStdout: true
                 }
               }
             }

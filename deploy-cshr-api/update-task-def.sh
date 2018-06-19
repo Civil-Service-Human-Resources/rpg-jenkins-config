@@ -12,6 +12,9 @@ search_password=${8}
 crud_username=${9}
 crud_password=${10}
 FILEBEAT_HOSTS=${11}
+NOTIFY_SERVICE_TEMPLATE_ID=${12}
+NOTIFY_SERVICE_NOTIFY_API_KEY=${13}
+
 
 
 if [[ "${DEPLOY_ENV}" == "dev" ]]; then
@@ -94,6 +97,14 @@ CONTAINER_DEFINITION=$(cat <<EOF
       {
           "name": "FILEBEAT_HOSTS",
           "value": "${FILEBEAT_HOSTS}"
+      },
+      {
+          "name": "NOTIFY_SERVICE_TEMPLATE_ID",
+          "value": "${NOTIFY_SERVICE_TEMPLATE_ID}"
+      },
+      {
+          "name": "NOTIFY_SERVICE_NOTIFY_API_KEY",
+          "value": "${NOTIFY_SERVICE_NOTIFY_API_KEY}"
       }
 
     ]
