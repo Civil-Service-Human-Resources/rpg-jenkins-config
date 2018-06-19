@@ -28,7 +28,7 @@ CONTAINER_DEFINITION=$(cat <<EOF
   {
     "name": "cshr-api",
     "image": "cshrrpg.azurecr.io/cshr-api:${DOCKER_TAG}",
-    "memory": 512,
+    "memory": 1024,
     "essential": true,
     "hostname": "api",
     "portMappings": [
