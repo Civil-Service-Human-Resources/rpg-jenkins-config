@@ -14,7 +14,7 @@ pipeline {
 
     stages {
         
-        stage('package deployment and do basic install') {
+        stage('toggle the value') {
             steps {
                         wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                             ansiblePlaybook(
