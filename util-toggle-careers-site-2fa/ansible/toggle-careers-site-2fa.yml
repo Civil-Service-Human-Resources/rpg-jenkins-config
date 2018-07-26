@@ -44,12 +44,12 @@
     replace:
       path: "{{wp_config_file}}"
       regexp: "^.*AUTH_EXTEND_ON'.*$"
-      replace: define('AUTH_EXTEND_ON', true)
+      replace: define('AUTH_EXTEND_ON', true);
     when: hostvars['localhost']['enabled_value']=='true'
 
   - name: replace with false
     replace:
       path: "{{wp_config_file}}"
       regexp: "^.*AUTH_EXTEND_ON'.*$"
-      replace: define('AUTH_EXTEND_ON', false)
+      replace: define('AUTH_EXTEND_ON', false);
     when: hostvars['localhost']['enabled_value']=='false'
