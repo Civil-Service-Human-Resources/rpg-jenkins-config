@@ -1,2 +1,2 @@
-# cshr-parent
-A repo that holds the parent pom for all cshr java projects.
+# rpg-jenkins-config
+A place to store Jenkins config and pipelines.
