@@ -1,0 +1,55 @@
+##
+# Ansible script that, given an environment (dev or test) looks up the EFS connector
+# and sets 2FA as true or false.
+#
+---
+- hosts: localhost
+
+  vars_prompt:
+
+  - name: "env"
+    prompt: "Enter the environment"
+    private: no
+  
+  - name: "enabled_value"
+    prompt: "Enter enabled (true or false)"
+    private: no
+
+  tasks:
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+
+  - name: Debug the ec2_remote_facts
+    debug: 
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+
+- hosts: efs_hosts
+
+  vars:
+    wp_config_file: /data/wp-config.php
+  
+  tasks:
+
+  - name: replace with true
+    replace:
+      path: "{{wp_config_file}}"
+      regexp: "^.*AUTH_EXTEND_ON'.*$"
+      replace: define('AUTH_EXTEND_ON', true);
+    when: hostvars['localhost']['enabled_value']=='true'
+
+  - name: replace with false
+    replace:
+      path: "{{wp_config_file}}"
+      regexp: "^.*AUTH_EXTEND_ON'.*$"
+      replace: define('AUTH_EXTEND_ON', false);
+    when: hostvars['localhost']['enabled_value']=='false'

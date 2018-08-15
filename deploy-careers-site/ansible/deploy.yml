@@ -1,0 +1,283 @@
+##
+# deploy.yml
+##
+# This script:
+# - deploys the zip and unzips it
+# - activates plugins and theme
+# - runs any sql scripts and downloads the resulting log files
+# -  restart ECS service
+# ansible-playbook deploy.yml --extra-vars "env=test" --extra-vars "db_user=root" --extra-vars "db_password=password" --extra-vars "zip_location=./zip/career-site_release_2018-03-01_12-52-47.zip"
+---
+
+#- include: basic-install.yml db_user="{{db_user}}" db_password="{{db_password}}" env="{{env}}"
+
+- hosts: localhost
+
+  vars_prompt:
+  - name: "env"
+    prompt: "Enter the environment"
+    private: no
+
+  - name: "db_user"
+    prompt: "Enter the DB username"
+    private: no
+
+  - name: "db_password"
+    prompt: "Enter the DB password"
+    private: yes
+
+  - name: "zip_location"
+    prompt: "Enter the location of the deployable zip"
+    private: no
+
+
+  tasks:
+
+  - name: stop wordpress service
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 0
+    tags:
+    - stop-ecs
+
+  - name: set fact for env
+    set_fact:
+      env: "{{env}}"
+    tags:
+    - setup
+
+
+
+  - name: set fact for user
+    set_fact:
+      db_user: "{{db_user}}"
+    tags:
+    - setup
+
+  - name: set fact for password
+    set_fact:
+      db_password: "{{db_password}}"
+    tags:
+    - setup
+
+  - name: set fact for zip location
+    set_fact:
+      zip_location: "{{zip_location}}"
+    tags:
+    - setup
+
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
+
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+
+- hosts: efs_hosts
+
+  tasks:
+
+  - name: unzip the archive on the host
+    unarchive:
+      src: "{{zip_location}}"
+      dest: /data
+    become: true
+    tags:
+    - zip
+
+  - name: change ownership to ec2-user
+    shell: chown -R ec2-user:ec2-user /data
+    become: true
+    tags:
+    - zip
+
+  - name: change wp-config so container can rewrite
+    shell: chmod 777 /data/wp-config.php
+    become: true
+    tags:
+    - zip
+
+  - name: change the wp-contant folder to be writable
+    shell: chmod 777 /data/wp-content
+    become: true
+    tags:
+    - zip
+
+  - name: change the mu-plugins folder to be writable
+    shell: chmod 777 /data/wp-content/mu-plugins
+    become: true
+    tags:
+    - zip
+
+
+# We need to restart the container,
+# so that the wp-config is overwritten, before
+# running the activation scripts.
+- hosts: localhost
+  tasks:
+
+  - name: restart wordpress
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 0 &&
+      sleep 20s &&
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 1
+    tags:
+    - start-ecs
+
+  - name: call check env script to pause until site back up
+    command: ./checkEnv.sh {{env}}
+
+
+- hosts: efs_hosts
+
+  tasks:
+
+  - name: install php
+    yum:
+      name: php
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install php-mysql
+    yum:
+      name: php-mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install mysql
+    yum:
+      name: mysql
+      state: latest
+    become: true
+    tags:
+    - install-tools
+
+  - name: install the wordpress cli
+    shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+  # - name: check it works
+  #   shell: php wp-cli.phar --info
+
+  - name: move it and chmod
+    shell: chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    become: true
+
+  - name: run the file to activate theme
+    shell: cd /data && wp theme activate rpgcareers
+    tags:
+    - activate
+    - activate-theme
+
+  - name: create a temporary mu-plugins directory
+    file:
+      path: ~/mu-plugins/
+      state: directory
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-dir
+
+  - name: copy the mu-plugins to temporary directory (plugins will not activate with mu plugins in place)
+    shell: mv /data/wp-content/mu-plugins/* ~/mu-plugins/
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-move-out
+
+  - name: run script to activate inactive plugins
+    shell: |
+      cd /data
+      inactive_plugins=$(wp plugin list 2>&1 | grep inactive | cut -d '|' -f 2)
+      if [ -z "${inactive_plugins}" ]; then
+        echo "No plugins to activate"
+      else
+        for plugin in "${inactive_plugins}"; do
+          wp plugin activate ${plugin}
+        done
+      fi
+    tags:
+    - activate
+    - activate-plugins
+
+  - name: remove the "standard" plugins
+    shell: wp --path=/data plugin deactivate {{item}} && wp --path=/data plugin delete {{item}}
+    with_items:
+    - akismet
+    - hello
+
+  - name: copy the mu-plugins back to the mu directory
+    shell: mv ~/mu-plugins/* /data/wp-content/mu-plugins/
+    tags:
+    - activate
+    - activate-plugins
+    - mu-plugins
+    - mu-plugins-move-back
+
+  - name: update the home url
+    shell: wp --path=/data option update home 'https://careers-site."{{env}}".cshr-gov.uk'
+    tags:
+    - activate
+    - activate-url
+
+  - name: update the site url
+    shell:  wp --path=/data option update siteurl 'https://careers-site."{{env}}".cshr-gov.uk'
+    tags:
+    - activate
+    - activate-url
+
+  
+# run DB updates.  
+  - name: run the sql update script
+    shell: cd /data/db-scripts && ./run_sql.sh {{db_user}} {{db_password}} {{env}}
+    tags:
+    - db
+
+  - name: create a zip of the logs
+    archive:
+      path: /data/db-scripts
+      format: zip
+      dest: /tmp/db_logs.zip
+
+  - name: create a log folder
+    file:
+      path: "./download/logs/"
+      state: directory
+    tags:
+    - db
+
+  - name: copy the log files back locally
+    fetch:
+      src: "/tmp/db_logs.zip"
+      dest: "./download/logs/"
+    tags:
+    - db
