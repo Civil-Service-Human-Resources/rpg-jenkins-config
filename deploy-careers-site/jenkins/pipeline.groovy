@@ -45,6 +45,7 @@ pipeline {
                             ansiblePlaybook(
                                 playbook: "${env.WORKING_DIR}/ansible/basic-install.yml",
                                 credentialsId: 'efs_ssh_key',
+                                extras: "--flush-cache"
                                 extraVars: [
                                     base_dir: "${env.WORKING_DIR}/ansible",
                                     env: "${env.environment}" ,
@@ -66,6 +67,7 @@ pipeline {
                   ansiblePlaybook(
                       playbook: "${env.WORKING_DIR}/ansible/deploy.yml",
                       credentialsId: 'efs_ssh_key',
+                      extras: "--flush-cache"
                       extraVars: [
                           base_dir: "${env.WORKING_DIR}/ansible",
                           env: "${env.environment}" ,
@@ -87,6 +89,7 @@ pipeline {
                   ansiblePlaybook(
                       playbook: "${env.WORKING_DIR}/ansible/post-deploy.yml",
                       credentialsId: 'efs_ssh_key',
+                      extras: "--flush-cache"
                       extraVars: [
                           base_dir: "${env.WORKING_DIR}/ansible",
                           env: "${env.environment}" ,
