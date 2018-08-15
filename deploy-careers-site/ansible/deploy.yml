@@ -183,8 +183,8 @@
   - name: install the wordpress cli
     shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
-  - name: check it works
-    shell: php wp-cli.phar --info
+  # - name: check it works
+  #   shell: php wp-cli.phar --info
 
   - name: move it and chmod
     shell: chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
