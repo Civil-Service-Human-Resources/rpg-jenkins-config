@@ -18,6 +18,7 @@ pipeline {
     stages {
         stage('Check parameters') {
             steps {
+                deleteDir()
                 sh "echo deploy job started "
                 sh "echo dockerTag: ${params.branch_name}"
                 sh "echo environmentTag: ${params.built_by}"
