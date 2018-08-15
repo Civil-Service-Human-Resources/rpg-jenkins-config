@@ -108,10 +108,10 @@
     tags:
     - install-tools
 
-  - name: check it works
-    shell: php wp-cli.phar --info
-    tags:
-    - install-tools
+  # - name: check it works
+  #   shell: php wp-cli.phar --info
+  #   tags:
+  #   - install-tools
 
   - name: move it and chmod
     shell: chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
