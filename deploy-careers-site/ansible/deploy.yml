@@ -191,7 +191,7 @@
     become: true
 
   - name: run the file to activate theme
-    shell: cd /data && wp theme activate rpgcareers
+    shell: cd /data && wp theme activate rpgcareers --debug
     tags:
     - activate
     - activate-theme
