@@ -103,7 +103,7 @@
   #     dest: "{{base_dir}}/download/rpg-one-time.php"
   #     mode: 0755
   
-    - name: make sure the uploads folder exists
+  - name: make sure the uploads folder exists
     file:
       path: "{{uploads_directory}}"
       state: directory
@@ -127,8 +127,50 @@
 
 
 - hosts: localhost
-  tasks:
+  
+  vars:
+    base_dir: .
+    git_branch: release
+  tasks:  
+  - name: set fact for base dir
+    set_fact:
+      base_dir: "{{base_dir}}"
+  
+  - name: set fact for branch
+    set_fact:
+      git_branch: "{{git_branch}}"
+      
+  
+  - name: Get the environment details
+    ec2_instance_facts:
+      filters:
+        "tag:Name": "{{env}}-efs-connector-stack"
+        "tag:Environment": "{{env}}"
+    register: ec2_remote_facts_output
+    tags:
+    - setup
+    - search
 
+  - name: Debug the ec2_remote_facts
+    debug:
+      msg: "{{env}}: {{ec2_remote_facts_output.instances[0].public_ip_address}}"
+    tags:
+    - setup
+    - search
+
+  - name: Register the host
+    add_host:
+      hostname: "{{ec2_remote_facts_output.instances[0].public_ip_address}}"
+      groupname: efs_hosts
+    tags:
+    - setup
+    - search
+
+  - name: get the one time file and put in remote plugins directory post sql changes
+    get_url:
+      url: "https://raw.githubusercontent.com/Civil-Service-Human-Resources/rpg-careers-wp/{{git_branch}}/mu-plugins/rpg-one-time.php"
+      dest: "{{base_dir}}/download/rpg-one-time.php"
+      mode: 0755
   - name: restart wordpress
     shell: |
       aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
@@ -136,7 +178,6 @@
       --desired-count 1
     tags:
     - start-ecs
-  
 
 
   

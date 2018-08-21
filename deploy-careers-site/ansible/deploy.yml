@@ -180,18 +180,26 @@
     tags:
     - install-tools
 
-  - name: install the wordpress cli
-    shell: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  - name: Install wget
+    yum:
+      name: wget
+      state: present
+    become: true
+    tags:
+    - install-tools
 
-  # - name: check it works
-  #   shell: php wp-cli.phar --info
+  - name: install the wordpress cli
+    shell: wget https://github.com/wp-cli/wp-cli/releases/download/v1.5.1/wp-cli-1.5.1.phar
+
+  - name: check it works
+    shell: php wp-cli-1.5.1.phar --info
 
   - name: move it and chmod
-    shell: chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    shell: chmod 755 wp-cli-1.5.1.phar && mv wp-cli-1.5.1.phar /usr/local/bin/wp
     become: true
 
   - name: run the file to activate theme
-    shell: cd /data && wp theme activate rpgcareers --debug
+    shell: cd /data && wp theme activate rpgcareers
     tags:
     - activate
     - activate-theme
