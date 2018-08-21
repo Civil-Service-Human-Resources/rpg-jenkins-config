@@ -97,11 +97,11 @@
     shell: mysql -u {{db_user}} --password={{db_password}} -h careers-site-db.{{env}}.cshr-gov.uk --database wordpress < {{sql_directory}}/{{item}} 2>&1 > {{sql_directory}}/{{item}}.log 
     with_items: "{{sql_files}}"
 
-  # - name: get the one time file and put in remote plugins directory post sql
-  #   get_url:
-  #     url: "https://raw.githubusercontent.com/Civil-Service-Human-Resources/rpg-careers-wp/{{git_branch}}/mu-plugins/rpg-one-time.php"
-  #     dest: "{{base_dir}}/download/rpg-one-time.php"
-  #     mode: 0755
+  - name: get the one time file and put in remote plugins directory post sql
+    get_url:
+      url: "https://raw.githubusercontent.com/Civil-Service-Human-Resources/rpg-careers-wp/{{git_branch}}/mu-plugins/rpg-one-time.php"
+      dest: "{{base_dir}}/download/rpg-one-time.php"
+      mode: 0755
   
   - name: make sure the uploads folder exists
     file:
