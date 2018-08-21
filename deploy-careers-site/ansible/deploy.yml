@@ -180,8 +180,16 @@
     tags:
     - install-tools
 
+  - name: Install wget
+    yum:
+      name: wget
+      state: present
+    become: true
+    tags:
+    - install-tools
+
   - name: install the wordpress cli
-    shell: curl -O https://github.com/wp-cli/wp-cli/releases/download/v1.5.1/wp-cli-1.5.1.phar
+    shell: wget https://github.com/wp-cli/wp-cli/releases/download/v1.5.1/wp-cli-1.5.1.phar
 
   - name: check it works
     shell: php wp-cli-1.5.1.phar --info
