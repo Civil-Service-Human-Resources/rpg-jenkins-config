@@ -131,15 +131,7 @@
   vars:
     base_dir: .
     git_branch: release
-  tasks:
-  - name: restart wordpress
-    shell: |
-      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
-      --service {{env}}-careers-site \
-      --desired-count 1
-    tags:
-    - start-ecs
-  
+  tasks:  
   - name: set fact for base dir
     set_fact:
       base_dir: "{{base_dir}}"
@@ -179,6 +171,13 @@
       url: "https://raw.githubusercontent.com/Civil-Service-Human-Resources/rpg-careers-wp/{{git_branch}}/mu-plugins/rpg-one-time.php"
       dest: "{{base_dir}}/download/rpg-one-time.php"
       mode: 0755
+  - name: restart wordpress
+    shell: |
+      aws ecs update-service --cluster {{env}}-cshr-ecs-cluster \
+      --service {{env}}-careers-site \
+      --desired-count 1
+    tags:
+    - start-ecs
 
 
   
