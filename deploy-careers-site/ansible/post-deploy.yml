@@ -103,7 +103,7 @@
   #     dest: "{{base_dir}}/download/rpg-one-time.php"
   #     mode: 0755
   
-    - name: make sure the uploads folder exists
+  - name: make sure the uploads folder exists
     file:
       path: "{{uploads_directory}}"
       state: directory
